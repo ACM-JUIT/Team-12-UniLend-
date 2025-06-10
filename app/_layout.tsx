@@ -1,6 +1,10 @@
-import { Text } from "react-native";
+import { Stack } from 'expo-router';
 import "../global.css";
 
 export default function RootLayout() {
-  return <Text className="text-blue-600 text-3xl text-center">Hello Unilend!</Text>;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+    </Stack>
+  );
 }
