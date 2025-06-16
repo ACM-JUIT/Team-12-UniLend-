@@ -1,0 +1,55 @@
+import { ConfigContext, ExpoConfig } from "expo/config";
+
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
+  name: "UniLend",
+  slug: "UniLend",
+  version: "1.0.0",
+  orientation: "portrait",
+  icon: "./assets/images/splash-icon.jpg",
+  scheme: "unilend",
+  userInterfaceStyle: "automatic",
+  newArchEnabled: true,
+  ios: {
+    supportsTablet: true,
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: "./assets/images/splash-icon.jpg",
+      backgroundColor: "#ffffff",
+    },
+    edgeToEdgeEnabled: true,
+    package: "com.team12.UniLend",
+    googleServicesFile:
+      process.env.GOOGLE_SERVICES_JSON ?? "./google-services.json",
+  },
+  web: {
+    bundler: "metro",
+    output: "static",
+    favicon: "./assets/images/splash-icon.jpg",
+  },
+  plugins: [
+    "expo-router",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/images/splash-icon.jpg",
+        imageWidth: 200,
+        resizeMode: "contain",
+        backgroundColor: "#ffffff",
+      },
+    ],
+    "@react-native-firebase/app",
+    "@react-native-firebase/auth",
+    "@react-native-firebase/crashlytics",
+  ],
+  experiments: {
+    typedRoutes: true,
+  },
+  extra: {
+    router: {},
+    eas: {
+      projectId: "e6238532-3597-4849-8de9-f0b891a43de8",
+    },
+  },
+});
