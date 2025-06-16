@@ -11,13 +11,13 @@ export default function RootLayout() {
       </View>
       <View className="w-96 h-96 p-5 border-[0.25em] border-blue-200 rounded-lg">
         <Image
-          className="w-full flex-1 rounded-lg mb-4 hover:scale-[1.025] transition-transform duration-[250ms]"
+          className="w-full flex-1 rounded-lg mb-4"
           source={{
         uri: "https://images.pexels.com/photos/57416/cat-sweet-kitty-animals-57416.jpeg?cs=srgb&dl=pexels-pixabay-57416.jpg&fm=jpg",
           }}
         />
         <Pressable className="bg-blue-500 px-6 py-3 rounded-md active:bg-blue-800">
-          <Text className="text-white font-bold text-center">Click Me</Text>
+          <Text className="text-white font-bold text-center">Click to Login</Text>
         </Pressable>
       </View>
     </View>
