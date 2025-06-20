@@ -4,7 +4,14 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'amiri': ['Amiri-Regular'],
+        'amiri-bold': ['Amiri-Bold'],
+        'amiri-italic': ['Amiri-Italic'],
+        'amiri-bolditalic': ['Amiri-BoldItalic']
+      }
+    },
   },
   plugins: [],
 }

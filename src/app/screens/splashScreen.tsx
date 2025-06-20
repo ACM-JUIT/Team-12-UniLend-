@@ -26,9 +26,10 @@ const styles=StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         fontSize: 48,
-        fontFamily: "Amiri-Regular",
+        fontFamily: "Amiri",
         fontWeight: "bold",
         textAlign: "center",
+        color: "white"
         
     }
 })

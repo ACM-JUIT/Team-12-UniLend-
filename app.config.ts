@@ -42,6 +42,54 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "@react-native-firebase/app",
     "@react-native-firebase/auth",
     "@react-native-firebase/crashlytics",
+    [
+      "expo-font",
+      {
+        fonts: [
+          "./assets/fonts/Amiri-Bold.ttf",
+          "./assets/fonts/Amiri-BoldItalic.ttf",
+          "./assets/fonts/Amiri-Italic.ttf",
+          "./assets/fonts/Amiri-Regular.ttf",
+          "./assets/fonts/SpaceMono-Regular.ttf",
+        ],
+        android: {
+          fonts: [
+            {
+              fontFamily: "Amiri",
+              fontDefinitions: [
+                {
+                  path: "./assets/fonts/Amiri-Regular.ttf",
+                  weight: 500
+                },
+                {
+                  path: "./assets/fonts/Amiri-Bold.ttf",
+                  weight: 700,
+                },
+                {
+                  path: "./assets/fonts/Amiri-Italic.ttf",
+                  style: "italic",
+                  weight: 500
+                },
+                {
+                  path: "./assets/fonts/Amiri-BoldItalic.ttf",
+                  weight: 700,
+                  style: "italic",
+                },
+              ],
+            },
+            {
+              fontFamily: "SpaceMono",
+              fontDefinitions: [
+                { 
+                  path: "./assets/fonts/SpaceMono-Regular.ttf",
+                  weight: 500
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,
