@@ -26,7 +26,7 @@ const styles=StyleSheet.create({
         alignSelf: "center",
         justifyContent: "center",
         fontSize: 48,
-        fontFamily: 'Amiri-Bold.ttf',
+        fontFamily: "Amiri-Regular",
         fontWeight: "bold",
         textAlign: "center",
         
