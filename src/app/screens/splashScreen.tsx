@@ -1,15 +1,18 @@
+import { Link } from "expo-router";
 import React from "react";
-import { ImageBackground, StyleSheet, Text } from "react-native";
+import { Image, ImageBackground, StyleSheet } from "react-native";
+
 
 export default function SplashScreen() {
     return(
-        <ImageBackground source={{uri: "https://drive.google.com/uc?export=view&id=1mrJ_KZrZBTLFk0gkrgvQwhxqOLg2r-DK"}} resizeMode="cover" style={styles.container}>
-            <Text style={styles.text1}>
-                UniLend
-            </Text>
+        <ImageBackground source={{uri: "https://drive.google.com/uc?export=view&id=1mrJ_KZrZBTLFk0gkrgvQwhxqOLg2r-DK"}} resizeMode="cover" style={styles.container} >
+                <Image source={{uri:'https://drive.google.com/uc?export=view&id=1-Tq4DJJsWaWX-cLx92MF-b_WHegtch1d'}} style={{resizeMode: "contain", width:256,height:256}}/>
+                <Image source={require("/assets/images/logo.png")}/>
+                <Link href="/screens/splashScreen" style={styles.text1}>
+                    UniLend
+                </Link>
         </ImageBackground> 
      )
-
 }
 
 const styles=StyleSheet.create({
@@ -29,7 +32,9 @@ const styles=StyleSheet.create({
         fontFamily: "Amiri",
         fontWeight: "bold",
         textAlign: "center",
-        color: "white"
-        
+        color: "#F5F5DC"            
+    },
+    image1:{
+
     }
 })
