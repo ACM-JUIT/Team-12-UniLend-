@@ -1,10 +1,8 @@
-import { Link, useRouter} from 'expo-router';
-
+import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
 export default function Login() {
   const [isWrong, setIsWrong] = useState(true);
-  const router =useRouter();
   return (
     <ImageBackground source={require("../../../assets/images/SignUp.png")} style={styles.container} resizeMode="cover">
       <Link href={"/screens/splashScreen"}style={styles.image1}>
@@ -50,7 +48,8 @@ export default function Login() {
 
       <View style={{height: 15}}></View>
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.push('/(auth)/signup_page')} style={styles.button2}>
+
+      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button2}>
         <View>
             <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
               New reader? Sign Up! 
