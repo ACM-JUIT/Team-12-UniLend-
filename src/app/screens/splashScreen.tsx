@@ -6,9 +6,10 @@ import { Image, ImageBackground, StyleSheet } from "react-native";
 export default function SplashScreen() {
     return(
         <ImageBackground source={{uri: "https://drive.google.com/uc?export=view&id=1mrJ_KZrZBTLFk0gkrgvQwhxqOLg2r-DK"}} resizeMode="cover" style={styles.container} >
-                <Image source={{uri:'https://drive.google.com/uc?export=view&id=1-Tq4DJJsWaWX-cLx92MF-b_WHegtch1d'}} style={{resizeMode: "contain", width:256,height:256}}/>
-                <Image source={require("/assets/images/logo.png")}/>
-                <Link href="/screens/splashScreen" style={styles.text1}>
+                <Link href="/(auth)/login_page" style={styles.text1}>
+                <Image source={require("../../../assets/images/logo.png")}/>
+                </Link>
+                <Link href="/(auth)/login_page" style={styles.text1}>
                     UniLend
                 </Link>
         </ImageBackground> 
