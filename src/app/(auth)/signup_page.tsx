@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
@@ -17,6 +17,12 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
 } from "@react-native-firebase/auth";
+import {
+  doc,
+  getFirestore,
+  serverTimestamp,
+  setDoc,
+} from "@react-native-firebase/firestore";
 import { z } from "zod";
 
 const LoginSchema = z.object({
@@ -28,57 +34,103 @@ const LoginSchema = z.object({
   }),
 });
 
+type ValidationResult = { failed: true; error: string } | { failed: false };
+function formValidation({
+  username,
+  email,
+  password,
+  privacyPolicy,
+}: {
+  username: string;
+  email: string;
+  password: string;
+  privacyPolicy: boolean;
+}): ValidationResult {
+  const result = LoginSchema.safeParse({
+    username,
+    email,
+    password,
+    privacyPolicy,
+  });
+
+  if (!result.success) {
+    const error = result.error.format();
+    console.log(error);
+    const firstError =
+      error.username?._errors[0] ||
+      error.email?._errors[0] ||
+      error.password?._errors[0] ||
+      error.privacyPolicy?._errors[0] ||
+      "Invalid Input";
+
+    return { failed: true, error: firstError };
+  }
+  return { failed: false };
+}
+
+async function creatUserInFirestore(
+  uid: string,
+  {
+    username,
+    email,
+    privacyPolicy,
+  }: { username: string; email: string; privacyPolicy: boolean }
+) {
+  const db = getFirestore();
+  const userRef = doc(db, "Users", uid);
+
+  await setDoc(userRef, {
+    email,
+    username,
+    createdAt: serverTimestamp(),
+    lastLoggedIn: serverTimestamp(),
+    privacyPolicy,
+  });
+}
+
 export default function SignUp() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
-  // const [isWrong, setIsWrong] = useState(true);
-  // const router = useRouter();
 
   const signUp = async () => {
-    // form validation
-    console.log("username", userName)
-    const result = LoginSchema.safeParse({
+    const validate = formValidation({
       username: userName,
       email,
       password,
       privacyPolicy,
     });
-
-    if (!result.success) {
-      const error = result.error.format();
-      console.log(error)
-      const firstError =
-        error.username?._errors[0] ||
-        error.email?._errors[0] ||
-        error.password?._errors[0] ||
-        error.privacyPolicy?._errors[0] ||
-        "Invalid Input";
-
-        Alert.alert("Error", firstError);
-      return;
+    if (validate.failed) {
+      Alert.alert(validate.error);
     }
-
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const account = await createUserWithEmailAndPassword(
         getAuth(),
         email,
         password
       );
+
+      const uid = account.user.uid;
+      await creatUserInFirestore(uid, {
+        username: userName,
+        email,
+        privacyPolicy,
+      });
       console.log("User account created & signed in!");
+      Alert.alert("Account created", "Account successfully created");
+      // reset the login page
       setEmail("");
       setPassword("");
       setUserName("");
       setPrivacyPolicy(false);
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
-        Alert.alert("Error","That email address is already in use!");
+        Alert.alert("Error", "That email address is already in use!");
       }
 
       if (error.code === "auth/invalid-email") {
-        Alert.alert("Error","That email address is invalid!");
+        Alert.alert("Error", "That email address is invalid!");
       }
 
       console.error(error);
@@ -138,7 +190,6 @@ export default function SignUp() {
       <View style={{ height: 10 }}></View>
 
       <TouchableWithoutFeedback
-        onPress={() => alert(false)}
         style={{
           padding: 1,
           height: 13,
@@ -154,7 +205,6 @@ export default function SignUp() {
             onPress={(checked) => setPrivacyPolicy(checked)}
             isChecked={privacyPolicy}
             style={{ alignSelf: "center" }}
-            
           ></BouncyCheckbox>
 
           <Text style={styles.textSmallest}>
