@@ -52,7 +52,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           "./assets/fonts/Amiri-Regular.ttf",
           "./assets/fonts/SpaceMono-Regular.ttf",
           "./assets/fonts/Rosarivo-Regular.ttf",
-          "./assets\fonts\Rosarivo-Italic.ttf"
+          "./assets/fonts/Rosarivo-Italic.ttf"
         ],
         android: {
           fonts: [
@@ -86,7 +86,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
                   weight: 500
                 },
                 {
-                  path: "./assets/fonts/Rosarivo-Italix.ttf",
+                  path: "./assets/fonts/Rosarivo-Italic.ttf",
                   style: "italic",
                   weight: 500
                 },

@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { Checkbox, CheckboxGroup } from '@/components/ui/checkbox';
 
 import {
   createUserWithEmailAndPassword,
@@ -198,15 +198,17 @@ export default function SignUp() {
         }}
       >
         <View style={styles.policySection}>
-          <BouncyCheckbox
+          {/* <BouncyCheckbox
             bounceEffect={1}
             size={13}
             disableText
             onPress={(checked) => setPrivacyPolicy(checked)}
             isChecked={privacyPolicy}
             style={{ alignSelf: "center" }}
-          ></BouncyCheckbox>
-
+          ></BouncyCheckbox> */}
+          
+          <Checkbox value=" ">
+          </Checkbox>
           <Text style={styles.textSmallest}>
             I agree to your Privacy Policy
           </Text>

@@ -1,6 +1,5 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 const CatScrollText = () => {
     const categories = [
   { id: "1", name: "Books" },
@@ -12,18 +11,18 @@ const CatScrollText = () => {
   { id: "7", name: "Stationery" },
   { id: "8", name: "Apparel" },
   { id: "9", name: "Misc" }
-];
-
+    ];
   return (
     <ScrollView horizontal>
     <View style={styles.container}>
         {categories.map((category)=>{
+            const [Clicked, setClicked] = useState(false)
             return(
-                <View style={styles.box}>
-                    <Text style={styles.font1}> 
-                        HI {category.name}
-                    </Text>
-                </View>
+            <TouchableWithoutFeedback onPress={()=>setClicked(!Clicked)}>
+                <Text key={category.id} style={Clicked?styles.boxClicked:styles.boxUnClick}>
+                        {category.name}
+                </Text>
+            </TouchableWithoutFeedback>
             )
         })}
     </View>
@@ -37,7 +36,7 @@ const styles=StyleSheet.create({
     container:{
         flexDirection:"row",
     },
-    box:{
+    boxClicked:{
         padding:3,
         paddingLeft:10,
         paddingRight:10,
@@ -45,9 +44,16 @@ const styles=StyleSheet.create({
         borderWidth: 2,
         margin: 5,
         borderRadius: 10,
+        backgroundColor: "#F5F5DC"
     },
-    font1:{
-        fontFamily:"Roboto",
-        
-    }
+    boxUnClick:{
+        padding:3,
+        paddingLeft:10,
+        paddingRight:10,
+        borderColor:"#F5F5DC",
+        borderWidth: 2,
+        margin: 5,
+        borderRadius: 10,
+        color:"#F5F5DC"
+    },
 })
