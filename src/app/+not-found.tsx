@@ -9,7 +9,7 @@ export default function NotFoundScreen() {
           Page Not Found
         </Text>
         <Text className="text-gray-500 text-center mb-8">
-          The page your are looking for does not exist.
+          Probably lakshya did something wrong.
         </Text>
       </View>
     </>
