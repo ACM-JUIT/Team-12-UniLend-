@@ -1,17 +1,19 @@
-import { Link, useRouter} from 'expo-router';
-
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
+
 export default function Login() {
   const [isWrong, setIsWrong] = useState(true);
   const router =useRouter();
   return (
     <ImageBackground source={require("../../../assets/images/SignUp.png")} style={styles.container} resizeMode="cover">
-      <Link href={"/screens/splashScreen"}style={styles.image1}>
-      <Image source={require("../../../assets/images/backArrow.png")}/>
-      </Link>
-      <Text style={styles.text1}>
-        Sign In 
+      
+      <TouchableWithoutFeedback onPress={router.back}>
+        <Image source={require("../../../assets/images/backArrow.png")} style={styles.image1}/>
+      </TouchableWithoutFeedback>
+
+      <Text style={styles.text1} >
+        Log In 
       </Text>
 
       <Text style={styles.text2}>
@@ -19,7 +21,7 @@ export default function Login() {
       </Text>
 
       <View style={{height: 10}}></View>
-      <TextInput style={styles.input1} placeholder="email@unilend.com"/>
+      <TextInput autoComplete="email" style={styles.input1} placeholder="email@unilend.com"/>
       <View style={{height: 25}}></View>
 
       <Text style={styles.text2}>
@@ -27,10 +29,10 @@ export default function Login() {
       </Text>
 
       <View style={{height:10 }}></View>
-      <TextInput style={styles.input1} placeholder="lakshya<3cats1000" />
+      <TextInput secureTextEntry autoComplete="password" style={styles.input1} placeholder="lakshya<3cats1000" />
       <View style={{height:10 }}></View>
 
-      <TouchableWithoutFeedback  onPress={()=> alert(false)} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
+      <TouchableWithoutFeedback  onPress={()=> alert("Lakshya Is the Coolest Human")} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
       <Text style={styles.textSmallest}>
           Forgot Password? 
         </Text>
@@ -53,7 +55,7 @@ export default function Login() {
       <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.push('/(auth)/signup_page')} style={styles.button2}>
         <View>
             <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
-              New reader? Sign Up! 
+              New here? Sign Up! 
             </Text>
         </View>
       </TouchableHighlight>

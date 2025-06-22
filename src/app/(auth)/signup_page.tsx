@@ -1,15 +1,19 @@
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 export default function Login() {
   const [isWrong, setIsWrong] = useState(true);
+  const router =useRouter();
+  const [privacyPolicy,setprivacyPolicy]=useState(false)
   return (
     <ImageBackground source={require("../../../assets/images/SignUp.png")} style={styles.container} resizeMode="cover">
-      <Link href={"/screens/splashScreen"}style={styles.image1}>
-      <Image source={require("../../../assets/images/backArrow.png")}/>
-      </Link>
+      <TouchableWithoutFeedback onPress={router.back}>
+        <Image source={require("../../../assets/images/backArrow.png")} style={styles.image1}/>
+      </TouchableWithoutFeedback>
+
       <Text style={styles.text1}>
-        Sign In 
+        Sign Up 
       </Text>
 
       <Text style={styles.text2}>
@@ -18,30 +22,40 @@ export default function Login() {
 
       <View style={{height: 10}}></View>
       <TextInput style={styles.input1} placeholder="email@unilend.com"/>
-      <View style={{height: 25}}></View>
+      <View style={{height: 10}}></View>
 
       <Text style={styles.text2}>
         Password 
       </Text>
 
       <View style={{height:10 }}></View>
-      <TextInput style={styles.input1} placeholder="lakshya<3cats1000" />
+      <TextInput secureTextEntry style={styles.input1} placeholder="lakshya<3cats1000" />
+      <View style={{height:10 }}></View>
+      <Text style={styles.text2}>
+        Password 
+      </Text>
+
+      <View style={{height:10 }}></View>
+      <TextInput secureTextEntry style={styles.input1} placeholder="lakshya<3cats1000" />
       <View style={{height:10 }}></View>
 
       <TouchableWithoutFeedback  onPress={()=> alert(false)} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
-      <Text style={styles.textSmallest}>
-          Forgot Password? 
-        </Text>
-      {/* <Text style={styles.textSmallestAlert}>
-          Forgot Password? 
-        </Text> */}
+      
+      <View style={styles.policySection}>
+        <BouncyCheckbox bounceEffect={1} size={13} disableText onPress={()=>(alert("Works!"))} style={{alignSelf: "center"}}></BouncyCheckbox>
+         
+         <Text style={styles.textSmallest}>
+          I agree to your Privacy Policy
+         </Text>
+      </View>
+
       </TouchableWithoutFeedback>
-      <View style={{height: 15}}></View>
+      <View style={{height: 10}}></View>
 
       <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button1}>
           <View>
-            <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
-              Log in 
+            <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center" }}>
+              Sign Up
             </Text>
           </View>
       </TouchableHighlight>
@@ -49,10 +63,10 @@ export default function Login() {
       <View style={{height: 15}}></View>
 
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button2}>
+      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.push("/(auth)/login_page")} style={styles.button2}>
         <View>
-            <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
-              New reader? Sign Up! 
+            <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center"}}>
+              Been here before? Log In! 
             </Text>
         </View>
       </TouchableHighlight>
@@ -92,16 +106,15 @@ const styles=StyleSheet.create({
   textSmallest:{
     fontSize: 12,
     color: "#F5F5DC",
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    textAlign:"center"
+    flexDirection:"row",
+    marginLeft: 5,
   },
-    textSmallestAlert:{
+    policySection:{
     fontSize: 12,
     color: "#F5F5DC",
-    fontWeight: "bold",
-    textDecorationLine: "underline",
-    textAlign:"center"
+    flexDirection:"row",
+    alignItems: "flex-start",
+    alignContent: "space-evenly"
   },
   button1: {
     borderColor:"#EFE3C8",
