@@ -11,11 +11,12 @@ export default function HomePage(){
 const styles=StyleSheet.create({
     container:{
         flex:1,
-        flexDirection: "row",
+        flexDirection: "column",
         backgroundColor: "#1C161E",
         height: "100%",
         width: "100%",
-        borderColor:"orange",
-        borderWidth:2,
+        padding:10,
+        
+        
     }}
 )
