@@ -21,8 +21,8 @@ export default function Login() {
       </Text>
 
       <View style={{height: 10}}></View>
-      <TextInput style={styles.input1} placeholder="email@unilend.com"/>
-      <View style={{height: 10}}></View>
+      <TextInput style={styles.input1} placeholder="Email"/>
+      <View style={{height: 25}}></View>
 
       <Text style={styles.text2}>
         Password 
@@ -52,10 +52,10 @@ export default function Login() {
       </TouchableWithoutFeedback>
       <View style={{height: 10}}></View>
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button1}>
+      <TouchableHighlight underlayColor="#cfc7b5" style={styles.button1}>
           <View>
-            <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center" }}>
-              Sign Up
+              <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
+              Log in 
             </Text>
           </View>
       </TouchableHighlight>
@@ -63,10 +63,10 @@ export default function Login() {
       <View style={{height: 15}}></View>
 
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.push("/(auth)/login_page")} style={styles.button2}>
+      <TouchableHighlight underlayColor="#cfc7b5" style={styles.button2}>
         <View>
-            <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center"}}>
-              Been here before? Log In! 
+            <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
+              <Link href="/signup">New reader? Sign Up!</Link>
             </Text>
         </View>
       </TouchableHighlight>

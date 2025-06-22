@@ -21,7 +21,7 @@ export default function Login() {
       </Text>
 
       <View style={{height: 10}}></View>
-      <TextInput autoComplete="email" style={styles.input1} placeholder="email@unilend.com"/>
+      <TextInput autoComplete="email" style={styles.input1} placeholder="Email"/>
       <View style={{height: 25}}></View>
 
       <Text style={styles.text2}>
@@ -29,7 +29,7 @@ export default function Login() {
       </Text>
 
       <View style={{height:10 }}></View>
-      <TextInput secureTextEntry autoComplete="password" style={styles.input1} placeholder="lakshya<3cats1000" />
+      <TextInput style={styles.input1} placeholder="Password" />
       <View style={{height:10 }}></View>
 
       <TouchableWithoutFeedback  onPress={()=> alert("Lakshya Is the Coolest Human")} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
