@@ -63,10 +63,10 @@ export default function Login() {
       <View style={{height: 15}}></View>
 
 
-      <TouchableHighlight underlayColor="#cfc7b5" style={styles.button2}>
+      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button2}>
         <View>
             <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
-              <Link href="/signup">New reader? Sign Up!</Link>
+              New reader? Sign Up! 
             </Text>
         </View>
       </TouchableHighlight>
