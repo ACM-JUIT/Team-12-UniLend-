@@ -63,7 +63,7 @@ export default function Login() {
       <View style={{height: 15}}></View>
 
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.push("/(auth)/login_page")} style={styles.button2}>
+      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.replace("/(auth)/login_page")} style={styles.button2}>
         <View>
             <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center"}}>
               Been here before? Log In! 
