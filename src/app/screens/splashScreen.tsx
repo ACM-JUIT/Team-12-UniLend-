@@ -7,14 +7,14 @@ export default function SplashScreen() {
     return(
         <ImageBackground source={{uri: "https://drive.google.com/uc?export=view&id=1mrJ_KZrZBTLFk0gkrgvQwhxqOLg2r-DK"}} resizeMode="cover" style={styles.container} >
                 <Link href="/(auth)/login_page" style={styles.text1}>
-                <Image source={require("../../../assets/images/logo.png")}/>
+                    <Image source={require("../../../assets/images/logo.png")}/>
                 </Link>
                 <Link href="/(auth)/login_page" style={styles.text1}>
                     UniLend
                 </Link>
         </ImageBackground> 
      )
-}
+}   
 
 const styles=StyleSheet.create({
     container:{
