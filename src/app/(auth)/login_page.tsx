@@ -1,10 +1,112 @@
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
+import { Alert,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View } from "react-native";
+import { getAuth,signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import {
+  doc,
+  getFirestore,
+  serverTimestamp,
+  getDoc,
+} from "@react-native-firebase/firestore";
+import {z} from "zod";
+
+const LoginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+type ValidationResult = { failed: true; error: string } | { failed: false };
+
+function formValidation({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): ValidationResult {
+  const result = LoginSchema.safeParse({email,password});
+
+  if(!result.success) {
+    const error = result.error.format();
+    console.log(error);
+    const firstError =
+      error.email?._errors[0] ||
+      error.password?._errors[0] ||
+      "Invalid Input";
+      return { failed: true, error: firstError };
+  }
+  return {failed:false};
+}
+
+const fetchUserData = async (uid: string) => {
+  try{
+    const db = getFirestore();
+    const userRef = doc(db,"Users",uid);
+    const userSnapshot = await getDoc(userRef);
+
+    if(userSnapshot.exists()) {
+      console.log("User Data:", userSnapshot.data());
+    return userSnapshot.data();
+  }
+     else{
+    console.log("No such user!");
+    return null;
+   }
+  } catch (error) {
+    console.error("Error fetching user data:",error);
+    return null;
+  }
+};
 
 export default function Login() {
-  const [isWrong, setIsWrong] = useState(true);
-  const router =useRouter();
+   const[email, setEmail] = useState<string>("");
+    const[password,setPassword] = useState<string>("");
+    const[loading,setLoading] = useState<boolean>(false);
+
+  const Login = async () => {
+    const validation = formValidation({email,password});
+
+    if(validation.failed) {
+      Alert.alert("validation error", validation.error);
+      return;
+    }
+
+    try{
+      setLoading(true);
+
+    const userCredential = await signInWithEmailAndPassword(
+      getAuth(),
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+
+    const userData = await fetchUserData(user.uid);
+
+    if(userData) {
+      Alert.alert("Welcome",`Hello, ${userData.userName || "User"}!`);
+      console.log("Fetched User Data:", userData);
+    }
+    else{
+        Alert.alert("Notice","No additional user data found");
+    }
+    setLoading(false);
+  } catch(error) {
+    setLoading(false);
+    Alert.alert("Login Error", "An error occured");
+  }
+};
+
+
   return (
     <ImageBackground source={require("../../../assets/images/SignUp.png")} style={styles.container} resizeMode="cover">
       
@@ -21,7 +123,13 @@ export default function Login() {
       </Text>
 
       <View style={{height: 10}}></View>
-      <TextInput autoComplete="email" style={styles.input1} placeholder="email@unilend.com"/>
+      <TextInput
+        style = {styles.input1}
+        placeholder="email@unilend.com"
+        placeholderTextColor="#efe3c87a"
+        defaultValue = {email}
+        onChangeText={setEmail}
+        />
       <View style={{height: 25}}></View>
 
       <Text style={styles.text2}>
@@ -29,7 +137,14 @@ export default function Login() {
       </Text>
 
       <View style={{height:10 }}></View>
-      <TextInput secureTextEntry autoComplete="password" style={styles.input1} placeholder="lakshya<3cats1000" />
+      <TextInput 
+        secureTextEntry
+        style={styles.input1}
+        placeholder="lakshya<3cats1000"
+        placeholderTextColor="#efe3c87a"
+        defaultValue={password}
+        onChangeText={setPassword}
+        />
       <View style={{height:10 }}></View>
 
       <TouchableWithoutFeedback  onPress={()=> alert("Lakshya Is the Coolest Human")} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
@@ -61,7 +176,7 @@ export default function Login() {
       </TouchableHighlight>
 
     </ImageBackground>
-  )
+  );
 }
 
 const styles=StyleSheet.create({
@@ -123,6 +238,5 @@ const styles=StyleSheet.create({
     backgroundColor: "#efe3c800",
     alignContent:"center",
     justifyContent:"center",
-  }
-}
-)
+  },
+});
