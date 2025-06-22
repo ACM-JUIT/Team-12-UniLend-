@@ -2,6 +2,7 @@ import { Link, useRouter} from 'expo-router';
 
 import { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, TouchableHighlight, TouchableWithoutFeedback, View } from "react-native";
+
 export default function Login() {
   const [isWrong, setIsWrong] = useState(true);
   const router =useRouter();
@@ -19,7 +20,7 @@ export default function Login() {
       </Text>
 
       <View style={{height: 10}}></View>
-      <TextInput style={styles.input1} placeholder="email@unilend.com"/>
+      <TextInput style={styles.input1} placeholder="Email"/>
       <View style={{height: 25}}></View>
 
       <Text style={styles.text2}>
@@ -27,7 +28,7 @@ export default function Login() {
       </Text>
 
       <View style={{height:10 }}></View>
-      <TextInput style={styles.input1} placeholder="lakshya<3cats1000" />
+      <TextInput style={styles.input1} placeholder="Password" />
       <View style={{height:10 }}></View>
 
       <TouchableWithoutFeedback  onPress={()=> alert(false)} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>

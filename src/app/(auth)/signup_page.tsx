@@ -17,7 +17,7 @@ export default function Login() {
       </Text>
 
       <View style={{height: 10}}></View>
-      <TextInput style={styles.input1} placeholder="email@unilend.com"/>
+      <TextInput style={styles.input1} placeholder="Email"/>
       <View style={{height: 25}}></View>
 
       <Text style={styles.text2}>
@@ -25,7 +25,7 @@ export default function Login() {
       </Text>
 
       <View style={{height:10 }}></View>
-      <TextInput style={styles.input1} placeholder="lakshya<3cats1000" />
+      <TextInput style={styles.input1} placeholder="Password"/>
       <View style={{height:10 }}></View>
 
       <TouchableWithoutFeedback  onPress={()=> alert(false)} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
@@ -38,10 +38,10 @@ export default function Login() {
       </TouchableWithoutFeedback>
       <View style={{height: 15}}></View>
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button1}>
+      <TouchableHighlight underlayColor="#cfc7b5" style={styles.button1}>
           <View>
             <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
-              Log in 
+            <Link href="/login">Log in</Link>
             </Text>
           </View>
       </TouchableHighlight>
@@ -49,10 +49,10 @@ export default function Login() {
       <View style={{height: 15}}></View>
 
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>alert("Hello")} style={styles.button2}>
+      <TouchableHighlight underlayColor="#cfc7b5" style={styles.button2}>
         <View>
             <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
-              New reader? Sign Up! 
+              <Link href="/signup">New reader? Sign Up!</Link>
             </Text>
         </View>
       </TouchableHighlight>
