@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text,Image } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import NavBar from "../../components/ui/Navbar";
 export default function HomePage(){
     return(
@@ -13,8 +13,9 @@ const styles=StyleSheet.create({
         flex:1,
         flexDirection: "row",
         backgroundColor: "#1C161E",
-        height: "auto",
-        width: "auto",
-
+        height: "100%",
+        width: "100%",
+        borderColor:"orange",
+        borderWidth:2,
     }}
 )
