@@ -22,7 +22,7 @@ export default function Login() {
 
       <View style={{height: 10}}></View>
       <TextInput style={styles.input1} placeholder="Email"/>
-      <View style={{height: 25}}></View>
+      <View style={{height: 10}}></View>
 
       <Text style={styles.text2}>
         Password 
@@ -32,7 +32,7 @@ export default function Login() {
       <TextInput secureTextEntry style={styles.input1} placeholder="lakshya<3cats1000" />
       <View style={{height:10 }}></View>
       <Text style={styles.text2}>
-        Password 
+        Confirm Password 
       </Text>
 
       <View style={{height:10 }}></View>
