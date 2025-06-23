@@ -116,6 +116,8 @@ export default function Login() {
       console.log("Fetched User Data:", userData);
     }
 
+    router.replace("/screens/homeScreen");
+
     const db = getFirestore();
     const userDocRef = doc(db,"users",user.uid);
 
@@ -180,12 +182,8 @@ export default function Login() {
       </TouchableWithoutFeedback>
       <View style={{height: 15}}></View>
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.replace("/screens/homeScreen")} style={styles.button1}>
+      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>Login()} style={styles.button1}>
           <View>
-            <button
-            title={loading ? "loggin in..." : "Login"}
-            disabled = {loading}
-            />
             <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
               Log in 
             </Text>
