@@ -9,12 +9,13 @@ import { Alert,
   TouchableHighlight,
   TouchableWithoutFeedback,
   View } from "react-native";
-import { getAuth,signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import { getAuth,sendPasswordResetEmail,signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import {
   doc,
   getFirestore,
   serverTimestamp,
-  getDoc,
+  updateDoc,
+  getDoc
 } from "@react-native-firebase/firestore";
 import {z} from "zod";
 
@@ -71,6 +72,24 @@ export default function Login() {
     const[password,setPassword] = useState<string>("");
     const[loading,setLoading] = useState<boolean>(false);
 
+    const handleForgetPassword = async () => {
+      if(!email) {
+        Alert.alert("Error", "Please enter your email address first!");
+        return;
+      }
+
+      try{
+        await sendPasswordResetEmail(
+          getAuth(),
+          email
+        )
+        Alert.alert("Success", "password reset email sent! Please check your inbox.");
+      }catch(error) {
+        console.error("password reset error:",error);
+        Alert.alert("error","an error occured while sending reset email");
+      }
+    };
+
   const Login = async () => {
     const validation = formValidation({email,password});
 
@@ -96,9 +115,13 @@ export default function Login() {
       Alert.alert("Welcome",`Hello, ${userData.userName || "User"}!`);
       console.log("Fetched User Data:", userData);
     }
-    else{
-        Alert.alert("Notice","No additional user data found");
-    }
+
+    const db = getFirestore();
+    const userDocRef = doc(db,"users",user.uid);
+
+    await updateDoc(userDocRef,{
+      lastLoggedIn: serverTimestamp(),
+    })
     setLoading(false);
   } catch(error) {
     setLoading(false);
@@ -147,7 +170,7 @@ export default function Login() {
         />
       <View style={{height:10 }}></View>
 
-      <TouchableWithoutFeedback  onPress={()=> alert("Lakshya Is the Coolest Human")} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
+      <TouchableWithoutFeedback  onPress={handleForgetPassword} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
       <Text style={styles.textSmallest}>
           Forgot Password? 
         </Text>
@@ -159,6 +182,10 @@ export default function Login() {
 
       <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.replace("/screens/homeScreen")} style={styles.button1}>
           <View>
+            <button
+            title={loading ? "loggin in..." : "Login"}
+            disabled = {loading}
+            />
             <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
               Log in 
             </Text>
