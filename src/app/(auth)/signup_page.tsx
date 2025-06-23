@@ -1,3 +1,4 @@
+import { Checkbox } from "@futurejj/react-native-checkbox";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -11,7 +12,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Checkbox, CheckboxGroup } from '@/components/ui/checkbox';
 
 import {
   createUserWithEmailAndPassword,
@@ -136,7 +136,6 @@ export default function SignUp() {
       console.error(error);
     }
   };
-
   return (
     <ImageBackground
       source={require("../../../assets/images/SignUp.png")}
@@ -198,20 +197,23 @@ export default function SignUp() {
         }}
       >
         <View style={styles.policySection}>
-          {/* <BouncyCheckbox
-            bounceEffect={1}
-            size={13}
-            disableText
-            onPress={(checked) => setPrivacyPolicy(checked)}
-            isChecked={privacyPolicy}
-            style={{ alignSelf: "center" }}
-          ></BouncyCheckbox> */}
-          
-          <Checkbox value=" ">
-          </Checkbox>
-          <Text style={styles.textSmallest}>
-            I agree to your Privacy Policy
-          </Text>
+          <Checkbox
+            color="#F5F5DC"
+            uncheckedColor="#F5F5DC"
+            status={privacyPolicy ? "checked" : "unchecked"}
+            onPress={() => setPrivacyPolicy(!privacyPolicy)}
+          />
+          <TouchableWithoutFeedback
+            onPress={() =>
+              alert(
+                "Privacy is not your first priority, it is sending us cat pictures"
+              )
+            }
+          >
+            <Text style={styles.textSmallest}>
+              I agree to your Privacy Policy
+            </Text>
+          </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
       <View style={{ height: 10 }}></View>
@@ -277,8 +279,10 @@ const styles = StyleSheet.create({
   textSmallest: {
     fontSize: 12,
     color: "#F5F5DC",
-    flexDirection: "row",
+    marginTop: 10,
     marginLeft: 5,
+    justifyContent: "center",
+    fontFamily: "Rosarivo",
   },
   policySection: {
     fontSize: 12,
@@ -286,6 +290,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     alignContent: "space-evenly",
+    textAlign: "center",
   },
   button1: {
     borderColor: "#EFE3C8",

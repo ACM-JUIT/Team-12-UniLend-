@@ -1,3 +1,4 @@
+import CatScrollImage from "@/src/components/ui/CatScrollImages";
 import CatScrollText from "@/src/components/ui/CatScrollText";
 import { ScrollView, StyleSheet } from "react-native";
 import NavBar from "../../components/ui/Navbar";
@@ -7,6 +8,7 @@ export default function HomePage(){
     <ScrollView style={styles.container}>
         <NavBar/>
         <CatScrollText/>
+        <CatScrollImage/>
     </ScrollView>
     )
 }
@@ -19,5 +21,6 @@ const styles=StyleSheet.create({
         height: "100%",
         width: "100%",
         padding:10,    
-    }}
+    }
+}
 )

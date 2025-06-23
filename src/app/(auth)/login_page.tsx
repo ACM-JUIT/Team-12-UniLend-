@@ -1,6 +1,15 @@
+import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  serverTimestamp,
+  updateDoc
+} from "@react-native-firebase/firestore";
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert,
+import {
+  Alert,
   Image,
   ImageBackground,
   StyleSheet,
@@ -8,16 +17,9 @@ import { Alert,
   TextInput,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  View } from "react-native";
-import { getAuth,sendPasswordResetEmail,signInWithEmailAndPassword } from '@react-native-firebase/auth';
-import {
-  doc,
-  getFirestore,
-  serverTimestamp,
-  updateDoc,
-  getDoc
-} from "@react-native-firebase/firestore";
-import {z} from "zod";
+  View
+} from "react-native";
+import { z } from "zod";
 
 const LoginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -182,10 +184,10 @@ export default function Login() {
       </TouchableWithoutFeedback>
       <View style={{height: 15}}></View>
 
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>Login()} style={styles.button1}>
+      <TouchableHighlight disabled={loading} underlayColor="#cfc7b5" onPress={()=> Login()} style={styles.button1}>
           <View>
             <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
-              Log in 
+              {loading ? "Logging in" : "Log in"}
             </Text>
           </View>
       </TouchableHighlight>
