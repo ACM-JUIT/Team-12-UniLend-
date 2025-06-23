@@ -1,3 +1,4 @@
+import { Checkbox } from '@futurejj/react-native-checkbox';
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -11,7 +12,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Checkbox, CheckboxGroup } from '@/components/ui/checkbox';
 
 import {
   createUserWithEmailAndPassword,
@@ -136,6 +136,7 @@ export default function SignUp() {
       console.error(error);
     }
   };
+      const [checked, setChecked] = useState(false);
 
   return (
     <ImageBackground
@@ -196,22 +197,15 @@ export default function SignUp() {
           justifyContent: "center",
           alignContent: "center",
         }}
-      >
+      >  
+
         <View style={styles.policySection}>
-          {/* <BouncyCheckbox
-            bounceEffect={1}
-            size={13}
-            disableText
-            onPress={(checked) => setPrivacyPolicy(checked)}
-            isChecked={privacyPolicy}
-            style={{ alignSelf: "center" }}
-          ></BouncyCheckbox> */}
-          
-          <Checkbox value=" ">
-          </Checkbox>
+          <Checkbox   color="#F5F5DC" uncheckedColor="#F5F5DC" status={checked ? 'checked' : 'unchecked' }onPress={()=>setChecked(!checked)}/>
+          <TouchableWithoutFeedback onPress={()=>alert("Privacy is not your first priority, it is sending us cat pictures")}>
           <Text style={styles.textSmallest}>
             I agree to your Privacy Policy
           </Text>
+          </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
       <View style={{ height: 10 }}></View>
@@ -219,8 +213,7 @@ export default function SignUp() {
       <TouchableHighlight
         underlayColor="#cfc7b5"
         onPress={signUp}
-        style={styles.button1}
-      >
+        style={styles.button1}>
         <View>
           <Text style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}>
             Sign Up
@@ -277,8 +270,10 @@ const styles = StyleSheet.create({
   textSmallest: {
     fontSize: 12,
     color: "#F5F5DC",
-    flexDirection: "row",
+    marginTop: 10,
     marginLeft: 5,
+    justifyContent: "center",
+    fontFamily:"Rosarivo"
   },
   policySection: {
     fontSize: 12,
@@ -286,6 +281,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     alignContent: "space-evenly",
+    textAlign:"center"
   },
   button1: {
     borderColor: "#EFE3C8",
