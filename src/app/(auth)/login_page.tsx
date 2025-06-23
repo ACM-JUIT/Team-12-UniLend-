@@ -58,10 +58,10 @@ const fetchUserData = async (uid: string) => {
     const userSnapshot = await getDoc(userRef);
 
     if (userSnapshot.exists()) {
-      console.log("User Data:", userSnapshot.data());
+      // console.log("User Data:", userSnapshot.data());
       return userSnapshot.data();
     } else {
-      console.log("No such user!");
+      // console.log("No such user!");
       return null;
     }
   } catch (error) {
@@ -116,7 +116,7 @@ export default function Login() {
 
       if (userData) {
         Alert.alert("Welcome", `Hello, ${userData.userName || "User"}!`);
-        console.log("Fetched User Data:", userData);
+        // console.log("Fetched User Data:", userData);
       }
 
       const db = getFirestore();
