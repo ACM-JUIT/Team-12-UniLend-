@@ -1,15 +1,5 @@
-import {
-  getAuth,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "@react-native-firebase/auth";
-import {
-  doc,
-  getDoc,
-  getFirestore,
-  serverTimestamp,
-  updateDoc,
-} from "@react-native-firebase/firestore";
+import forgetPassword from "@/src/api/auth/forgetPassword";
+import logIn from "@/src/api/auth/login";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -51,24 +41,7 @@ function formValidation({
   return { failed: false };
 }
 
-const fetchUserData = async (uid: string) => {
-  try {
-    const db = getFirestore();
-    const userRef = doc(db, "Users", uid);
-    const userSnapshot = await getDoc(userRef);
 
-    if (userSnapshot.exists()) {
-      // console.log("User Data:", userSnapshot.data());
-      return userSnapshot.data();
-    } else {
-      // console.log("No such user!");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    return null;
-  }
-};
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -82,7 +55,7 @@ export default function Login() {
     }
 
     try {
-      await sendPasswordResetEmail(getAuth(), email);
+      await forgetPassword(email);
       Alert.alert(
         "Success",
         "password reset email sent! Please check your inbox."
@@ -93,7 +66,7 @@ export default function Login() {
     }
   };
 
-  const Login = async () => {
+  const handleLogin = async () => {
     const validation = formValidation({ email, password });
 
     if (validation.failed) {
@@ -102,29 +75,16 @@ export default function Login() {
     }
 
     try {
+      await logIn({email, password});
       setLoading(true);
 
-      const userCredential = await signInWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
-      );
+      // const userData = await fetchUserData(user.uid);
 
-      const user = userCredential.user;
-
-      const userData = await fetchUserData(user.uid);
-
-      if (userData) {
-        Alert.alert("Welcome", `Hello, ${userData.userName || "User"}!`);
+      // if (userData) {
+        // Alert.alert("Welcome", `Hello, ${userData.userName || "User"}!`);
         // console.log("Fetched User Data:", userData);
-      }
+      // }
 
-      const db = getFirestore();
-      const userDocRef = doc(db, "Users", user.uid);
-
-      await updateDoc(userDocRef, {
-        lastLoggedIn: serverTimestamp(),
-      })
       router.replace("/screens/homeScreen");
       setLoading(false);
     } catch (error) {
@@ -192,7 +152,7 @@ export default function Login() {
       <TouchableHighlight
         disabled={loading}
         underlayColor="#cfc7b5"
-        onPress={() => Login()}
+        onPress={handleLogin}
         style={styles.button1}
       >
         <View>

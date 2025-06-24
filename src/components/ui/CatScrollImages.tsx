@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+
+
 const CatScrollImage = () => {
     const categories = [
   { id: 1, name: "Books" },
@@ -12,6 +14,7 @@ const CatScrollImage = () => {
   { id: 8, name: "Apparel" },
   { id: 9, name: "Misc" }
     ];
+    
   return (
     <ScrollView horizontal>
     <View style={styles.container}>
