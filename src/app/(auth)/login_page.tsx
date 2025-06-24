@@ -129,7 +129,7 @@ export default function Login() {
     setLoading(false);
   } catch(error) {
     setLoading(false);
-    Alert.alert("Login Error", "An error occured");
+    Alert.alert("Login Error","An error occured");
   }
 };
 
