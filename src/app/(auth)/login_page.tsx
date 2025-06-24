@@ -1,7 +1,7 @@
 import forgetPassword from "@/src/api/auth/forgetPassword";
 import logIn from "@/src/api/auth/login";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -41,12 +41,12 @@ function formValidation({
   return { failed: false };
 }
 
-
-
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  const input2Ref = useRef<TextInput>(null);
 
   const handleForgetPassword = async () => {
     if (!email) {
@@ -75,21 +75,13 @@ export default function Login() {
     }
 
     try {
-      await logIn({email, password});
       setLoading(true);
-
-      // const userData = await fetchUserData(user.uid);
-
-      // if (userData) {
-        // Alert.alert("Welcome", `Hello, ${userData.userName || "User"}!`);
-        // console.log("Fetched User Data:", userData);
-      // }
-
+      await logIn({ email, password });
       router.replace("/screens/homeScreen");
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.error(error)
+      console.error(error);
       Alert.alert("Login Error", "An error occured");
     }
   };
@@ -114,10 +106,13 @@ export default function Login() {
       <View style={{ height: 10 }}></View>
       <TextInput
         style={styles.input1}
+        autoCapitalize="none"
         placeholder="email@unilend.com"
         placeholderTextColor="#efe3c87a"
         defaultValue={email}
         onChangeText={setEmail}
+        onSubmitEditing={() => input2Ref.current?.focus()}
+        returnKeyType="next"
       />
       <View style={{ height: 25 }}></View>
 
@@ -125,12 +120,16 @@ export default function Login() {
 
       <View style={{ height: 10 }}></View>
       <TextInput
+        ref={input2Ref}
+        autoCapitalize="none"
         secureTextEntry
         style={styles.input1}
         placeholder="lakshya<3cats1000"
         placeholderTextColor="#efe3c87a"
         defaultValue={password}
         onChangeText={setPassword}
+        returnKeyType="done"
+        onSubmitEditing={handleLogin}
       />
       <View style={{ height: 10 }}></View>
 
@@ -158,7 +157,7 @@ export default function Login() {
       >
         <View>
           <Text style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}>
-            {loading ? "Logging in" : "Log in"}
+            {loading ? "Logging in..." : "Log in"}
           </Text>
         </View>
       </TouchableHighlight>
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(245, 245, 220, 0.2)",
-    color: "#efe3c8"
+    color: "#efe3c8",
   },
   textSmallest: {
     fontSize: 12,

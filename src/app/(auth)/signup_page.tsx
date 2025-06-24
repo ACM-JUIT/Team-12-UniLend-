@@ -1,7 +1,7 @@
 import signUp from "@/src/api/auth/signup";
 import { Checkbox } from "@futurejj/react-native-checkbox";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -63,6 +63,9 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
 
+  const input2Ref = useRef<TextInput>(null);
+  const input3Ref = useRef<TextInput>(null);
+
   const handleSignUp = async () => {
     const validate = formValidation({
       username: userName,
@@ -120,6 +123,9 @@ export default function SignUp() {
         placeholderTextColor="#efe3c87a"
         defaultValue={userName}
         onChangeText={(username) => setUserName(username)}
+        onSubmitEditing={() => input2Ref.current?.focus()}
+        returnKeyType="next"
+        submitBehavior="newline"
       />
       <View style={{ height: 10 }}></View>
 
@@ -127,11 +133,15 @@ export default function SignUp() {
 
       <View style={{ height: 10 }}></View>
       <TextInput
+        ref={input2Ref}
         style={styles.input1}
+        autoCapitalize="none"
         placeholder="email@unilend.com"
         placeholderTextColor="#efe3c87a"
         onChangeText={(newEmail) => setEmail(newEmail)}
         defaultValue={email}
+        onSubmitEditing={() => input3Ref.current?.focus()}
+        returnKeyType="next"
       />
       <View style={{ height: 10 }}></View>
 
@@ -139,12 +149,15 @@ export default function SignUp() {
 
       <View style={{ height: 10 }}></View>
       <TextInput
+        ref={input3Ref}
         secureTextEntry
+        autoCapitalize="none"
         style={styles.input1}
         placeholder="lakshya<3cats1000"
         placeholderTextColor="#efe3c87a"
         defaultValue={password}
         onChangeText={(newPassword) => setPassword(newPassword)}
+        returnKeyType="done"
       />
       <View style={{ height: 10 }}></View>
 
