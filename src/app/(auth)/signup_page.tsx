@@ -78,7 +78,7 @@ export default function SignUp() {
       return;
     }
     try {
-      await signUp({ username: userName, email, password, privacyPolicy });
+      await signUp({ username: userName, email: email.toLowerCase(), password, privacyPolicy });
 
       Alert.alert("Account created", "Account successfully created");
       // reset the login page
