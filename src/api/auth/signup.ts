@@ -30,7 +30,7 @@ async function creatUserInFirestore(
 }
 
 export default async function signUp({
-  username,
+  username, 
   email,
   password,
   privacyPolicy,
