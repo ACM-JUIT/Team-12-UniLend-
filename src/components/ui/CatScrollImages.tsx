@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 const CatScrollImage = () => {
     const categories = [
-  { id: "1", name: "Books" },
-  { id: "2", name: "Calculators" },
-  { id: "3", name: "Electronics" },
-  { id: "4", name: "Accessories" },
-  { id: "5", name: "Lab Equipment" },
-  { id: "6", name: "Room Essentials" },
-  { id: "7", name: "Stationery" },
-  { id: "8", name: "Apparel" },
-  { id: "9", name: "Misc" }
+  { id: 1, name: "Books" },
+  { id: 2, name: "Calculators" },
+  { id: 3, name: "Electronics" },
+  { id: 4, name: "Accessories" },
+  { id: 5, name: "Lab Equipment" },
+  { id: 6, name: "Room Essentials" },
+  { id: 7, name: "Stationery" },
+  { id: 8, name: "Apparel" },
+  { id: 9, name: "Misc" }
     ];
   return (
     <ScrollView horizontal>
@@ -18,8 +18,8 @@ const CatScrollImage = () => {
         {categories.map((category)=>{
             const [Clicked, setClicked] = useState(false)
             return(
-            <TouchableWithoutFeedback onPress={()=>setClicked(!Clicked)}>
-                <Text key={category.id} style={Clicked?styles.boxClicked:styles.boxUnClick}>
+            <TouchableWithoutFeedback onPress={()=>setClicked(!Clicked)} key={category.id}>
+                <Text style={Clicked?styles.boxClicked:styles.boxUnClick}>
                         {category.name}
                 </Text>
             </TouchableWithoutFeedback>

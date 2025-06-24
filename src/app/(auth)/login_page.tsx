@@ -1,13 +1,17 @@
-import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "@react-native-firebase/auth";
 import {
   doc,
   getDoc,
   getFirestore,
   serverTimestamp,
-  updateDoc
+  updateDoc,
 } from "@react-native-firebase/firestore";
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router } from "expo-router";
+import { useState } from "react";
 import {
   Alert,
   Image,
@@ -17,7 +21,7 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
 import { z } from "zod";
 
@@ -35,235 +39,245 @@ function formValidation({
   email: string;
   password: string;
 }): ValidationResult {
-  const result = LoginSchema.safeParse({email,password});
+  const result = LoginSchema.safeParse({ email, password });
 
-  if(!result.success) {
+  if (!result.success) {
     const error = result.error.format();
     console.log(error);
     const firstError =
-      error.email?._errors[0] ||
-      error.password?._errors[0] ||
-      "Invalid Input";
-      return { failed: true, error: firstError };
+      error.email?._errors[0] || error.password?._errors[0] || "Invalid Input";
+    return { failed: true, error: firstError };
   }
-  return {failed:false};
+  return { failed: false };
 }
 
 const fetchUserData = async (uid: string) => {
-  try{
+  try {
     const db = getFirestore();
-    const userRef = doc(db,"Users",uid);
+    const userRef = doc(db, "Users", uid);
     const userSnapshot = await getDoc(userRef);
 
-    if(userSnapshot.exists()) {
-      console.log("User Data:", userSnapshot.data());
-    return userSnapshot.data();
-  }
-     else{
-    console.log("No such user!");
-    return null;
-   }
+    if (userSnapshot.exists()) {
+      // console.log("User Data:", userSnapshot.data());
+      return userSnapshot.data();
+    } else {
+      // console.log("No such user!");
+      return null;
+    }
   } catch (error) {
-    console.error("Error fetching user data:",error);
+    console.error("Error fetching user data:", error);
     return null;
   }
 };
 
 export default function Login() {
-   const[email, setEmail] = useState<string>("");
-    const[password,setPassword] = useState<string>("");
-    const[loading,setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-    const handleForgetPassword = async () => {
-      if(!email) {
-        Alert.alert("Error", "Please enter your email address first!");
-        return;
-      }
+  const handleForgetPassword = async () => {
+    if (!email) {
+      Alert.alert("Error", "Please enter your email address first!");
+      return;
+    }
 
-      try{
-        await sendPasswordResetEmail(
-          getAuth(),
-          email
-        )
-        Alert.alert("Success", "password reset email sent! Please check your inbox.");
-      }catch(error) {
-        console.error("password reset error:",error);
-        Alert.alert("error","an error occured while sending reset email");
-      }
-    };
+    try {
+      await sendPasswordResetEmail(getAuth(), email);
+      Alert.alert(
+        "Success",
+        "password reset email sent! Please check your inbox."
+      );
+    } catch (error) {
+      console.error("password reset error:", error);
+      Alert.alert("error", "an error occured while sending reset email");
+    }
+  };
 
   const Login = async () => {
-    const validation = formValidation({email,password});
+    const validation = formValidation({ email, password });
 
-    if(validation.failed) {
+    if (validation.failed) {
       Alert.alert("validation error", validation.error);
       return;
     }
 
-    try{
+    try {
       setLoading(true);
 
-    const userCredential = await signInWithEmailAndPassword(
-      getAuth(),
-      email,
-      password
-    );
+      const userCredential = await signInWithEmailAndPassword(
+        getAuth(),
+        email,
+        password
+      );
 
-    const user = userCredential.user;
+      const user = userCredential.user;
 
-    const userData = await fetchUserData(user.uid);
+      const userData = await fetchUserData(user.uid);
 
-    if(userData) {
-      Alert.alert("Welcome",`Hello, ${userData.userName || "User"}!`);
-      console.log("Fetched User Data:", userData);
+      if (userData) {
+        Alert.alert("Welcome", `Hello, ${userData.userName || "User"}!`);
+        // console.log("Fetched User Data:", userData);
+      }
+
+      const db = getFirestore();
+      const userDocRef = doc(db, "Users", user.uid);
+
+      await updateDoc(userDocRef, {
+        lastLoggedIn: serverTimestamp(),
+      })
+      router.replace("/screens/homeScreen");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Login Error", "An error occured");
     }
-
-    router.replace("/screens/homeScreen");
-
-    const db = getFirestore();
-    const userDocRef = doc(db,"users",user.uid);
-
-    await updateDoc(userDocRef,{
-      lastLoggedIn: serverTimestamp(),
-    })
-    setLoading(false);
-  } catch(error) {
-    setLoading(false);
-    Alert.alert("Login Error","An error occured");
-  }
-};
-
+  };
 
   return (
-    <ImageBackground source={require("../../../assets/images/SignUp.png")} style={styles.container} resizeMode="cover">
-      
+    <ImageBackground
+      source={require("../../../assets/images/SignUp.png")}
+      style={styles.container}
+      resizeMode="cover"
+    >
       <TouchableWithoutFeedback onPress={router.back}>
-        <Image source={require("../../../assets/images/backArrow.png")} style={styles.image1}/>
+        <Image
+          source={require("../../../assets/images/backArrow.png")}
+          style={styles.image1}
+        />
       </TouchableWithoutFeedback>
 
-      <Text style={styles.text1} >
-        Log In 
-      </Text>
+      <Text style={styles.text1}>Log In</Text>
 
-      <Text style={styles.text2}>
-        Email 
-      </Text>
+      <Text style={styles.text2}>Email</Text>
 
-      <View style={{height: 10}}></View>
+      <View style={{ height: 10 }}></View>
       <TextInput
-        style = {styles.input1}
+        style={styles.input1}
         placeholder="email@unilend.com"
         placeholderTextColor="#efe3c87a"
-        defaultValue = {email}
+        defaultValue={email}
         onChangeText={setEmail}
-        />
-      <View style={{height: 25}}></View>
+      />
+      <View style={{ height: 25 }}></View>
 
-      <Text style={styles.text2}>
-        Password 
-      </Text>
+      <Text style={styles.text2}>Password</Text>
 
-      <View style={{height:10 }}></View>
-      <TextInput 
+      <View style={{ height: 10 }}></View>
+      <TextInput
         secureTextEntry
         style={styles.input1}
         placeholder="lakshya<3cats1000"
         placeholderTextColor="#efe3c87a"
         defaultValue={password}
         onChangeText={setPassword}
-        />
-      <View style={{height:10 }}></View>
+      />
+      <View style={{ height: 10 }}></View>
 
-      <TouchableWithoutFeedback  onPress={handleForgetPassword} style={{padding:1, height:13,justifyContent:"center", alignContent:"center"}}>
-      <Text style={styles.textSmallest}>
-          Forgot Password? 
-        </Text>
-      {/* <Text style={styles.textSmallestAlert}>
+      <TouchableWithoutFeedback
+        onPress={handleForgetPassword}
+        style={{
+          padding: 1,
+          height: 13,
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <Text style={styles.textSmallest}>Forgot Password?</Text>
+        {/* <Text style={styles.textSmallestAlert}>
           Forgot Password? 
         </Text> */}
       </TouchableWithoutFeedback>
-      <View style={{height: 15}}></View>
+      <View style={{ height: 15 }}></View>
 
-      <TouchableHighlight disabled={loading} underlayColor="#cfc7b5" onPress={()=> Login()} style={styles.button1}>
-          <View>
-            <Text style={{color: "#4A2B29", fontSize: 16, textAlign: "center", }}>
-              {loading ? "Logging in" : "Log in"}
-            </Text>
-          </View>
-      </TouchableHighlight>
-
-      <View style={{height: 15}}></View>
-
-      <TouchableHighlight underlayColor="#cfc7b5" onPress={()=>router.replace('/(auth)/signup_page')} style={styles.button2}>
+      <TouchableHighlight
+        disabled={loading}
+        underlayColor="#cfc7b5"
+        onPress={() => Login()}
+        style={styles.button1}
+      >
         <View>
-            <Text style={{color: "#EFE3C8", fontSize: 16, textAlign: "center", }}>
-              New here? Sign Up! 
-            </Text>
+          <Text style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}>
+            {loading ? "Logging in" : "Log in"}
+          </Text>
         </View>
       </TouchableHighlight>
 
+      <View style={{ height: 15 }}></View>
+
+      <TouchableHighlight
+        underlayColor="#cfc7b5"
+        onPress={() => router.replace("/(auth)/signup_page")}
+        style={styles.button2}
+      >
+        <View>
+          <Text style={{ color: "#EFE3C8", fontSize: 16, textAlign: "center" }}>
+            New here? Sign Up!
+          </Text>
+        </View>
+      </TouchableHighlight>
     </ImageBackground>
   );
 }
 
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     width: "auto",
     height: "auto",
-    padding:35,
+    padding: 35,
   },
-  text1:{
-    fontSize:48,
+  text1: {
+    fontSize: 48,
     fontFamily: "Amiri",
     fontWeight: "bold",
     color: "#EFE3C8",
   },
-  image1:{
+  image1: {
     marginTop: 77,
   },
-  text2:{
+  text2: {
     fontSize: 16,
     color: "#F5F5DC",
     fontWeight: "bold",
   },
-  input1:{
-    borderColor:"#EFE3C8",
-    padding:10,
+  input1: {
+    borderColor: "#EFE3C8",
+    padding: 10,
     borderWidth: 1,
-    borderRadius:10,
+    borderRadius: 10,
     backgroundColor: "rgba(245, 245, 220, 0.2)",
+    color: "#efe3c8"
   },
-  textSmallest:{
+  textSmallest: {
     fontSize: 12,
     color: "#F5F5DC",
     fontWeight: "bold",
     textDecorationLine: "underline",
-    textAlign:"center"
+    textAlign: "center",
   },
-    textSmallestAlert:{
+  textSmallestAlert: {
     fontSize: 12,
     color: "#F5F5DC",
     fontWeight: "bold",
     textDecorationLine: "underline",
-    textAlign:"center"
+    textAlign: "center",
   },
   button1: {
-    borderColor:"#EFE3C8",
-    padding:10,
+    borderColor: "#EFE3C8",
+    padding: 10,
     borderWidth: 1,
-    borderRadius:10,
+    borderRadius: 10,
     backgroundColor: "#EFE3C8",
-    alignContent:"center",
-    justifyContent:"center",
+    alignContent: "center",
+    justifyContent: "center",
   },
-    button2: {
-    borderColor:"#EFE3C8",
-    padding:10,
+  button2: {
+    borderColor: "#EFE3C8",
+    padding: 10,
     borderWidth: 1,
-    borderRadius:10,
+    borderRadius: 10,
     backgroundColor: "#efe3c800",
-    alignContent:"center",
-    justifyContent:"center",
+    alignContent: "center",
+    justifyContent: "center",
   },
 });
