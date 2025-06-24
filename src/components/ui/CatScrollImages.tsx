@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+
 const CatScrollImage = () => {
     const categories = [
-  { id: 1, name: "Books" },
-  { id: 2, name: "Calculators" },
-  { id: 3, name: "Electronics" },
-  { id: 4, name: "Accessories" },
-  { id: 5, name: "Lab Equipment" },
-  { id: 6, name: "Room Essentials" },
-  { id: 7, name: "Stationery" },
-  { id: 8, name: "Apparel" },
-  { id: 9, name: "Misc" }
-    ];
+  { id: 1, img: "../../../assets/images/cat-electronics.png" },
+  { id: 2, img: "../../../assets/images/cat-electronics.png" },
+  { id: 3, img: "../../../assets/images/cat-electronics.png" },
+  { id: 4, img: "../../../assets/images/cat-electronics.png" },
+  { id: 5, img: "../../../assets/images/cat-electronics.png" },
+  { id: 6, img: "../../../assets/images/cat-electronics.png" },
+  { id: 7, img: "../../../assets/images/cat-electronics.png" },
+  { id: 8, img: "../../../assets/images/cat-electronics.png" },
+  { id: 9, img: "../../../assets/images/cat-electronics.png" }
+];
+
   return (
     <ScrollView horizontal>
     <View style={styles.container}>
         {categories.map((category)=>{
             const [Clicked, setClicked] = useState(false)
             return(
-            <TouchableWithoutFeedback onPress={()=>setClicked(!Clicked)} key={category.id}>
-                <Text style={Clicked?styles.boxClicked:styles.boxUnClick}>
-                        {category.name}
-                </Text>
+            <TouchableWithoutFeedback onPress={()=>setClicked(!Clicked)} key={category.id} style={styles.container}>
+                <Image source={require("../../../assets/images/cat-electronic.png")} style={styles.box}/>
             </TouchableWithoutFeedback>
             )
         })}
@@ -34,26 +34,18 @@ export default CatScrollImage
 
 const styles=StyleSheet.create({
     container:{
+        padding:10,
         flexDirection:"row",
+        width: 309,
+        height: 150,
     },
-    boxClicked:{
-        padding:3,
-        paddingLeft:10,
-        paddingRight:10,
+    box:{
         borderColor:"#F5F5DC",
-        borderWidth: 2,
+        borderWidth: 1,
         margin: 5,
         borderRadius: 10,
-        backgroundColor: "#F5F5DC"
-    },
-    boxUnClick:{
-        padding:3,
-        paddingLeft:10,
-        paddingRight:10,
-        borderColor:"#F5F5DC",
-        borderWidth: 2,
-        margin: 5,
-        borderRadius: 10,
-        color:"#F5F5DC"
+        color:"#F5F5DC",
+        width:"100%",
+        height:"100%"
     },
 })
