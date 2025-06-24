@@ -1,17 +1,7 @@
-import {
-  getAuth,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "@react-native-firebase/auth";
-import {
-  doc,
-  getDoc,
-  getFirestore,
-  serverTimestamp,
-  updateDoc,
-} from "@react-native-firebase/firestore";
+import forgetPassword from "@/src/api/auth/forgetPassword";
+import logIn from "@/src/api/auth/login";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -51,29 +41,12 @@ function formValidation({
   return { failed: false };
 }
 
-const fetchUserData = async (uid: string) => {
-  try {
-    const db = getFirestore();
-    const userRef = doc(db, "Users", uid);
-    const userSnapshot = await getDoc(userRef);
-
-    if (userSnapshot.exists()) {
-      // console.log("User Data:", userSnapshot.data());
-      return userSnapshot.data();
-    } else {
-      // console.log("No such user!");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    return null;
-  }
-};
-
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  const input2Ref = useRef<TextInput>(null);
 
   const handleForgetPassword = async () => {
     if (!email) {
@@ -82,7 +55,7 @@ export default function Login() {
     }
 
     try {
-      await sendPasswordResetEmail(getAuth(), email);
+      await forgetPassword(email);
       Alert.alert(
         "Success",
         "password reset email sent! Please check your inbox."
@@ -93,7 +66,7 @@ export default function Login() {
     }
   };
 
-  const Login = async () => {
+  const handleLogin = async () => {
     const validation = formValidation({ email, password });
 
     if (validation.failed) {
@@ -103,33 +76,12 @@ export default function Login() {
 
     try {
       setLoading(true);
-
-      const userCredential = await signInWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
-      );
-
-      const user = userCredential.user;
-
-      const userData = await fetchUserData(user.uid);
-
-      if (userData) {
-        Alert.alert("Welcome", `Hello, ${userData.userName || "User"}!`);
-        // console.log("Fetched User Data:", userData);
-      }
-
-      const db = getFirestore();
-      const userDocRef = doc(db, "Users", user.uid);
-
-      await updateDoc(userDocRef, {
-        lastLoggedIn: serverTimestamp(),
-      });
+      await logIn({ email, password });
       router.replace("/screens/homeScreen");
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.error(error)
+      console.error(error);
       Alert.alert("Login Error", "An error occured");
     }
   };
@@ -154,10 +106,13 @@ export default function Login() {
       <View style={{ height: 10 }}></View>
       <TextInput
         style={styles.input1}
+        autoCapitalize="none"
         placeholder="email@unilend.com"
         placeholderTextColor="#efe3c87a"
         defaultValue={email}
         onChangeText={setEmail}
+        onSubmitEditing={() => input2Ref.current?.focus()}
+        returnKeyType="next"
       />
       <View style={{ height: 25 }}></View>
 
@@ -165,12 +120,16 @@ export default function Login() {
 
       <View style={{ height: 10 }}></View>
       <TextInput
+        ref={input2Ref}
+        autoCapitalize="none"
         secureTextEntry
         style={styles.input1}
         placeholder="lakshya<3cats1000"
         placeholderTextColor="#efe3c87a"
         defaultValue={password}
         onChangeText={setPassword}
+        returnKeyType="done"
+        onSubmitEditing={handleLogin}
       />
       <View style={{ height: 10 }}></View>
 
@@ -193,12 +152,12 @@ export default function Login() {
       <TouchableHighlight
         disabled={loading}
         underlayColor="#cfc7b5"
-        onPress={() => Login()}
+        onPress={handleLogin}
         style={styles.button1}
       >
         <View>
           <Text style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}>
-            {loading ? "Logging in" : "Log in"}
+            {loading ? "Logging in..." : "Log in"}
           </Text>
         </View>
       </TouchableHighlight>
@@ -247,7 +206,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: "rgba(245, 245, 220, 0.2)",
-    color: "#efe3c8"
+    color: "#efe3c8",
   },
   textSmallest: {
     fontSize: 12,

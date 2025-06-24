@@ -1,6 +1,7 @@
+import signUp from "@/src/api/auth/signup";
 import { Checkbox } from "@futurejj/react-native-checkbox";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -12,17 +13,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-} from "@react-native-firebase/auth";
-import {
-  doc,
-  getFirestore,
-  serverTimestamp,
-  setDoc,
-} from "@react-native-firebase/firestore";
 import { z } from "zod";
 
 const LoginSchema = z.object({
@@ -67,34 +57,16 @@ function formValidation({
   }
   return { failed: false };
 }
-
-async function creatUserInFirestore(
-  uid: string,
-  {
-    username,
-    email,
-    privacyPolicy,
-  }: { username: string; email: string; privacyPolicy: boolean }
-) {
-  const db = getFirestore();
-  const userRef = doc(db, "Users", uid);
-
-  await setDoc(userRef, {
-    email,
-    username,
-    createdAt: serverTimestamp(),
-    lastLoggedIn: serverTimestamp(),
-    privacyPolicy,
-  });
-}
-
 export default function SignUp() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
 
-  const signUp = async () => {
+  const input2Ref = useRef<TextInput>(null);
+  const input3Ref = useRef<TextInput>(null);
+
+  const handleSignUp = async () => {
     const validate = formValidation({
       username: userName,
       email,
@@ -102,22 +74,12 @@ export default function SignUp() {
       privacyPolicy,
     });
     if (validate.failed) {
-      Alert.alert(validate.error);
+      Alert.alert("Error", validate.error);
+      return;
     }
     try {
-      const account = await createUserWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
-      );
+      await signUp({ username: userName, email: email.toLowerCase(), password, privacyPolicy });
 
-      const uid = account.user.uid;
-      await creatUserInFirestore(uid, {
-        username: userName,
-        email,
-        privacyPolicy,
-      });
-      console.log("User account created & signed in!");
       Alert.alert("Account created", "Account successfully created");
       // reset the login page
       setEmail("");
@@ -136,6 +98,7 @@ export default function SignUp() {
       console.error(error);
     }
   };
+
   return (
     <ImageBackground
       source={require("../../../assets/images/SignUp.png")}
@@ -160,6 +123,9 @@ export default function SignUp() {
         placeholderTextColor="#efe3c87a"
         defaultValue={userName}
         onChangeText={(username) => setUserName(username)}
+        onSubmitEditing={() => input2Ref.current?.focus()}
+        returnKeyType="next"
+        submitBehavior="newline"
       />
       <View style={{ height: 10 }}></View>
 
@@ -167,11 +133,15 @@ export default function SignUp() {
 
       <View style={{ height: 10 }}></View>
       <TextInput
+        ref={input2Ref}
         style={styles.input1}
+        autoCapitalize="none"
         placeholder="email@unilend.com"
         placeholderTextColor="#efe3c87a"
         onChangeText={(newEmail) => setEmail(newEmail)}
         defaultValue={email}
+        onSubmitEditing={() => input3Ref.current?.focus()}
+        returnKeyType="next"
       />
       <View style={{ height: 10 }}></View>
 
@@ -179,12 +149,15 @@ export default function SignUp() {
 
       <View style={{ height: 10 }}></View>
       <TextInput
+        ref={input3Ref}
         secureTextEntry
+        autoCapitalize="none"
         style={styles.input1}
         placeholder="lakshya<3cats1000"
         placeholderTextColor="#efe3c87a"
         defaultValue={password}
         onChangeText={(newPassword) => setPassword(newPassword)}
+        returnKeyType="done"
       />
       <View style={{ height: 10 }}></View>
 
@@ -220,7 +193,7 @@ export default function SignUp() {
 
       <TouchableHighlight
         underlayColor="#cfc7b5"
-        onPress={signUp}
+        onPress={handleSignUp}
         style={styles.button1}
       >
         <View>

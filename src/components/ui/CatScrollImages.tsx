@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useEffect,useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View,Image } from 'react-native';
+import { getActiveTags,tag } from '@/src/api/firestore/tags';
 
 const CatScrollImage = () => {
-    const categories = [
-  { id: 1, img: "../../../assets/images/cat-electronics.png" },
-  { id: 2, img: "../../../assets/images/cat-electronics.png" },
-  { id: 3, img: "../../../assets/images/cat-electronics.png" },
-  { id: 4, img: "../../../assets/images/cat-electronics.png" },
-  { id: 5, img: "../../../assets/images/cat-electronics.png" },
-  { id: 6, img: "../../../assets/images/cat-electronics.png" },
-  { id: 7, img: "../../../assets/images/cat-electronics.png" },
-  { id: 8, img: "../../../assets/images/cat-electronics.png" },
-  { id: 9, img: "../../../assets/images/cat-electronics.png" }
-];
+  const [categories, setCategories] = useState<tag[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const tags = await getActiveTags();
+        setCategories(tags);
+      } catch (err) {
+        console.error('Error fetching tags:', err);
+      }
+    };
+
+    fetchTags();
+  }, []);
+    
   return (
-    <ScrollView horizontal>
-    <View style={styles.container}>
-        {categories.map((category)=>{
-            const [Clicked, setClicked] = useState(false)
-            return(
-            <TouchableWithoutFeedback onPress={()=>setClicked(!Clicked)} key={category.id} style={styles.container}>
-                <Image source={require("../../../assets/images/cat-electronic.png")} style={styles.box}/>
-            </TouchableWithoutFeedback>
-            )
-        })}
-    </View>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <View style={styles.container}>
+        {categories.map((category) => (
+          <TouchableWithoutFeedback
+            key={category.id}
+            onPress={() => setSelectedId(category.id)}
+          >
+            <View
+              style={
+                selectedId === category.id
+                  ? styles.boxClicked
+                  : styles.boxUnClick
+              }
+            >
+              {category.imageUrl ? (
+                <Image
+                  source={{ uri: category.imageUrl }}
+                />
+              ) : null}
+
+              <Text>{category.name}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        ))}
+      </View>
     </ScrollView>
-  )
-}
+  );
+};
 
 export default CatScrollImage
 
