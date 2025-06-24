@@ -28,18 +28,13 @@ const CatScrollImage = () => {
             onPress={() => setSelectedId(category.id)}
           >
             <View
-              style={
-                selectedId === category.id
-                  ? styles.boxClicked
-                  : styles.boxUnClick
-              }
+              style={styles.box}
             >
               {category.imageUrl ? (
                 <Image
                   source={{ uri: category.imageUrl }}
                 />
               ) : null}
-
               <Text>{category.name}</Text>
             </View>
           </TouchableWithoutFeedback>

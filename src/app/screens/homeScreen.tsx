@@ -1,7 +1,7 @@
-import CatScrollImage from "@/src/components/ui/CatScrollImages";
-import CatScrollText from "@/src/components/ui/CatScrollText";
+import CatScrollImage from "@/src/components/ui/mainpage/CatScrollImages";
+import CatScrollText from "@/src/components/ui/mainpage/CatScrollText";
 import { ScrollView, StyleSheet } from "react-native";
-import NavBar from "../../components/ui/Navbar";
+import NavBar from "../../components/ui/mainpage/Navbar";
 
 export default function HomePage(){
     return(
