@@ -10,9 +10,18 @@
     "rootDir": "./src",
     "strict": true,
     "moduleDetection": "force",
-    "typeRoots": ["./src/types"]
+    "typeRoots": [
+      "./src/types"
+    ]
   },
   "ts-node": {
     "esm": true
-  }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
