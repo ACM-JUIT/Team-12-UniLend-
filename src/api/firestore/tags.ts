@@ -14,7 +14,7 @@ export type tag = {
 export const getActiveTags = async (): Promise<tag[]> => {
   const db = getFirestore()
   const snapshot = await db
-  .collection('tags')
+  .collection('Tags')
   .where('isActive', '==',true) 
   .orderBy('order')
   .get();
