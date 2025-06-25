@@ -1,4 +1,4 @@
-import cloudinary from "./cloudinary";
+import cloudinary from "./cloudinary.js";
 export default function generateUploadSignature(): {
   signature: string;
   timestamp: number;

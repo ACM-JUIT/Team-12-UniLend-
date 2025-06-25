@@ -1,7 +1,7 @@
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
-import generateUploadSignature from "./cloudinary/generateUploadSignature";
-import verifyFirebaseToken from "./firebase/auth";
+import generateUploadSignature from "./cloudinary/generateUploadSignature.js";
+import verifyFirebaseToken from "./firebase/auth.js";
 
 import dotenv from "dotenv";
 dotenv.config();

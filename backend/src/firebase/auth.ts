@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
-import admin from "./init";
+import admin from "./init.js";
 
 export default async function verifyFirebaseToken(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
