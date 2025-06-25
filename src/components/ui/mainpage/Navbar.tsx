@@ -4,14 +4,14 @@ export default function NavBar(){
     return(
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={()=>alert("wow")}>
-                <Image source={require('../../../assets/images/hamburger.png')} style={{height:25,width:25,marginTop:8}}/>
+                <Image source={require('../../../../assets/images/hamburger.png')} style={{height:25,width:25,marginTop:8}}/>
             </TouchableWithoutFeedback>
             <Text style={styles.text} >
                 UniLend
             </Text>
             <View style={{width:"45%",marginTop:12}}>
             <TouchableWithoutFeedback onPress={()=>alert("wow")}>
-                <Image source={require("../../../assets/images/search.png")} style={{height: 25,width: 25,alignSelf:"flex-end"}}/>
+                <Image source={require("../../../../assets/images/search.png")} style={{height: 25,width: 25,alignSelf:"flex-end"}}/>
             </TouchableWithoutFeedback>            
             </View>
         </View>
