@@ -9,11 +9,11 @@ export default function AuthLayout() {
 
   return (
     <>
-    <Stack.Screen options={{headerShown: false}}></Stack.Screen>
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="login_page"/>
-      <Stack.Screen name="signup_page"/>
-    </Stack>
+      <Stack.Screen options={{ headerShown: false }}></Stack.Screen>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="login_page" />
+        <Stack.Screen name="signup_page" />
+      </Stack>
     </>
   );
 }

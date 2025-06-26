@@ -54,22 +54,27 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     padding: 5,
+    alignItems: "flex-start",
+    gap: 10,
   },
   box: {
     height: 105,
     width: 95,
     backgroundColor: "rgba(112, 67, 65, 0.3)",
-    marginLeft: 10,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
+    gap: 3,
+    borderColor: "beige",
+    borderWidth: 0.1,
   },
   img: {
     height: 24,
     width: 24,
     resizeMode: "contain",
-    margin: 5,
+    shadowRadius: 20,
+    shadowColor: "black",
   },
   txt: {
     fontFamily: "Rosarivo",
@@ -77,5 +82,7 @@ const styles = StyleSheet.create({
     color: "#EFE3C8",
     textAlign: "center",
     margin: 5,
+    textShadowColor: "black",
+    textShadowRadius: 20,
   },
 });

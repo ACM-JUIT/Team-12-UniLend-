@@ -1,3 +1,4 @@
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   Image,
   StyleSheet,
@@ -5,6 +6,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+
+const Drawer = createDrawerNavigator();
 
 export default function NavBar() {
   return (
