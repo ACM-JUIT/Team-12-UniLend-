@@ -5,10 +5,15 @@ export interface CloudinaryUploadResult {
   signature: string;
 }
 
-export async function uploadImage(file: File): Promise<CloudinaryUploadResult> {
+export async function uploadImage(file: File, authToken: string): Promise<CloudinaryUploadResult> {
   try {
     // the signatureResponse contains other things apart from signature necessary for image upload, so change the parameters in backend
-    const signatureResponse = await fetch("https://localhost:5000//get-signature");
+    const signatureResponse = await fetch("https://localhost:5000/get-signature", {
+      method: "POST", 
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
     const { signature, timestamp, eager, folder, cloudname, apikey } = await signatureResponse.json()
 
     const formData = new FormData();
