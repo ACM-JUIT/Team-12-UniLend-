@@ -1,9 +1,9 @@
-import admin, { ServiceAccount } from "firebase-admin";
+import admin from "firebase-admin";
 
 admin.initializeApp({
   credential: admin.credential.cert(
     process.env.NODE_ENV === "production"
-      ? (process.env.SERVICE_ACCOUNT_KEY as ServiceAccount)
+      ? "/etc/secrets/serviceAccountKey.json"
       : ("./backend/serviceAccountKey.json" as string)
   ),
 });
