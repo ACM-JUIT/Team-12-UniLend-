@@ -1,28 +1,120 @@
 # Team-12-UniLend
 
-## Welcome to our project app 👋
+## Welcome to our UniLend app
 
-This is an [Expo](https://expo.dev) project
+A peer-to-peer items lending platform for universities
 
-## Get started
+## Tech Stack
 
-1. Install dependencies
+**Frontend (Mobile)**
 
-   ```bash
-   npm install
-   ```
+- React Native with Expo framework
+- `react-native-firebase` for connecting with firebase
+- `nativewind` for tailwind style classes
+- `gluestack-ui` based on nativewind for components (most components are self made though)
+- Typescript
 
-2. Start the app
+(**NOTE:** We are using firebase-auth for authentication and firestore for storing user data)
 
-   ```bash
-   npx expo start
-   ```
+**Backend (For signing signatures for cloudinary):**
 
-In the output, you'll find options to open the app in a
+- Node.js
+- Express.js
+- Typescript
+- `firebase` admin sdk
+- Cloudinary Admin API
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+**Role:** The backend is used for signing signatures for frontend, to upload images in cloudinary
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Prerequisites
+
+- Node.js (Latest version)
+- npm
+- Firebase account (if using Firebase)
+- Expo account (required if using eas builds)
+- Cloudinary account (required for image storage)
+
+## Installation
+
+### Clone the repo
+
+```bash 
+git clone https://github.com/Manik2375/Team-12-UniLend
+cd Team-12-UniLend
+```
+
+
+### Frontend setup
+
+There are 2 ways to run the app. You can either run it in emulator like *Android Studio* or use expo *development build*.
+
+**NOTE:** We can't run the application in expo go, because `react-native-firebase` uses native modules, which are not present in expo go
+
+Learn more about development build: [https://docs.expo.dev/develop/development-builds/introduction/](https://docs.expo.dev/develop/development-builds/introduction/)
+
+To install packages:
+ ```bash
+ # run at root directory
+npm install
+```
+
+Now, you have to create a build to run the app. You can either:
+
+- Build locally: [https://docs.expo.dev/guides/local-app-development/](https://docs.expo.dev/guides/local-app-development/)
+
+- Build using EAS build: [http://docs.expo.dev/tutorial/eas/configure-development-build/](http://docs.expo.dev/tutorial/eas/configure-development-build/) (We are focusing on eas build for development in your smartphone)
+
+When using EAS build, install the development app in your mobile.
+
+
+After build is done, run
+```bash
+# Start expo 
+npm run start
+``` 
+
+**NOTE:** If using eas build, you can use your mobile native scanner app to scan the QR code to start development.
+
+
+### Backend Setup
+
+If expo is currently running, then open a new terminal and
+
+1. Go the backend directory
+```bash
+cd backend
+```
+2. Install required dependencies
+```bash
+npm install
+```
+3. Go back to root directory
+```bash
+cd ../
+```
+
+4. Use `npm run serverStart` to start backend server
+
+**NOTE:** If you are using EAS build for developing (in your mobile), we need to change the ip address used in fetch calls. If you are using windows run `ipconfig` to get your local IP address and paste it in [src/api/cloudinary/upload.ts](src/api/cloudinary/upload.ts) `signatureResponse` call. (In Linux you can use `ip addr` command)
+
+
+## Required secret files
+
+For firebase in our frontend application, we require `google-services.json`. 
+
+In backend, for firebase-admin-sdk we need `service-account-key` JSON file. 
+
+And for rest, the structure of `.env` file 
+
+```env
+CLOUDINARY_CLOUD_NAME=""
+CLOUDINARY_API_KEY=""
+CLOUDINARY_API_SECRET=""
+
+NODE_ENV="development"
+```
+
+### Endpoints in backend 
+
+- `GET /` - Home page, nothing special other than greeting
+- `GET /get-signature` - Get cloudinary upload signature
