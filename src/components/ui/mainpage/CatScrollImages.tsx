@@ -1,11 +1,11 @@
-import React, { useEffect,useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View,Image } from 'react-native';
-import { getActiveTags,tag } from '@/src/api/firestore/tags';
+import { getActiveTags, tag } from '@/src/api/firestore/tags';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
 const CatScrollImage = () => {
   const [categories, setCategories] = useState<tag[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
+  const test=require("../../../../assets/images/cat-electronics.png")
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -27,15 +27,16 @@ const CatScrollImage = () => {
             key={category.id}
             onPress={() => setSelectedId(category.id)}
           >
-            <View
-              style={styles.box}
-            >
+            <View>
               {category.imageUrl ? (
                 <Image
                   source={{ uri: category.imageUrl }}
+                  style={styles.box}
                 />
-              ) : null}
-              <Text>{category.name}</Text>
+              ) : <Image
+                  source={test}
+                  style={styles.box}
+                />}
             </View>
           </TouchableWithoutFeedback>
         ))}
@@ -48,18 +49,19 @@ export default CatScrollImage
 
 const styles=StyleSheet.create({
     container:{
-        padding:10,
+        padding:5,
         flexDirection:"row",
-        width: 309,
-        height: 150,
+        width: "100%",
+        height: "auto",
     },
     box:{
-        borderColor:"#F5F5DC",
+        borderColor:"#f5f5dc53",
         borderWidth: 1,
-        margin: 5,
         borderRadius: 10,
         color:"#F5F5DC",
-        width:"100%",
-        height:"100%"
+        width:270,
+        height: 140,
+        resizeMode: 'cover',
+        marginRight: 10,
     },
 })

@@ -89,20 +89,24 @@ const styles=StyleSheet.create({
         padding:3,
         paddingLeft:10,
         paddingRight:10,
+        paddingTop:5,
         borderColor:"#F5F5DC",
-        borderWidth: 2,
+        borderWidth: 1,
         margin: 5,
         borderRadius: 10,
-        backgroundColor: "#F5F5DC"
+        backgroundColor: "#F5F5DC",
+        fontFamily:"Rosarivo"
     },
     boxUnClick:{
         padding:3,
         paddingLeft:10,
         paddingRight:10,
+        paddingTop:5,
         borderColor:"#F5F5DC",
-        borderWidth: 2,
+        borderWidth: 1,
         margin: 5,
         borderRadius: 10,
-        color:"#F5F5DC"
+        color:"#F5F5DC",
+        fontFamily:"Rosarivo"
     },
 })
