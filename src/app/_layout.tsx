@@ -15,6 +15,10 @@ export default function RootLayout() {
           name="screens/homeScreen"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="screens/CreateListing"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </AuthProvider>
   );

@@ -1,12 +1,12 @@
 import {
-    createUserWithEmailAndPassword,
-    getAuth,
+  createUserWithEmailAndPassword,
+  getAuth,
 } from "@react-native-firebase/auth";
 import {
-    doc,
-    getFirestore,
-    serverTimestamp,
-    setDoc,
+  doc,
+  getFirestore,
+  serverTimestamp,
+  setDoc,
 } from "@react-native-firebase/firestore";
 
 async function creatUserInFirestore(

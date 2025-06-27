@@ -7,7 +7,7 @@ import NavBar from "../../components/ui/mainpage/Navbar";
 export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
-      <NavBar />
+      <NavBar name="UniLend" />
       <CatScrollText />
       <CatScrollImage />
       <Text style={styles.heading1}>Library</Text>

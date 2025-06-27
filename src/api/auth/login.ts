@@ -1,13 +1,13 @@
 import {
-    getAuth,
-    signInWithEmailAndPassword
+  getAuth,
+  signInWithEmailAndPassword
 } from "@react-native-firebase/auth";
 
 import {
-    doc,
-    getFirestore,
-    serverTimestamp,
-    updateDoc
+  doc,
+  getFirestore,
+  serverTimestamp,
+  updateDoc
 } from "@react-native-firebase/firestore";
 
 // const fetchUserData = async (uid: string) => {
