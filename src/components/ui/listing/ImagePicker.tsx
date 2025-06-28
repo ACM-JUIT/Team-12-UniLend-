@@ -1,15 +1,15 @@
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { Button, Image, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function PickImage() {
   const [image, setImage] = useState<string | null>(null);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images", "videos"],
+      mediaTypes: ["images"],
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [9, 16],
       quality: 1,
     });
 
@@ -22,20 +22,38 @@ export default function PickImage() {
 
   return (
     <View style={styles.container}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+      <Pressable
+        style={styles.box}
+        onPress={pickImage}
+        pressRetentionOffset={10}
+      >
+        <Text style={styles.text1}> upload a file </Text>
+        {image && <Image source={{ uri: image }} style={styles.image} />}
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    height: "auto",
+    width: "auto",
+    padding: 5,
+    alignItems: "flex-start",
+  },
+  box: {
+    borderColor: "#F5F5DC",
+    borderWidth: 1,
+    borderRadius: 20,
+    color: "#F5F5DC",
+    fontFamily: "Rosarivo",
+    backgroundColor: "rgba(245, 245, 220, 0.2)",
+    padding: 10,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 1080 / 6,
+    height: 1920 / 6,
+    borderRadius: 10,
   },
+  text1: { fontFamily: "Rosarivo", color: "#cecdca" },
 });
