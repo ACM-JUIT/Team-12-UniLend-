@@ -54,15 +54,15 @@ import {
 } from "react-native";
 const CatScrollText = () => {
   const categories = [
-    { id: 1, name: "Books" },
-    { id: 2, name: "Calculators" },
-    { id: 3, name: "Electronics" },
-    { id: 4, name: "Accessories" },
-    { id: 5, name: "Lab Equipment" },
-    { id: 6, name: "Room Essentials" },
-    { id: 7, name: "Stationery" },
-    { id: 8, name: "Apparel" },
-    { id: 9, name: "Misc" },
+    { id: 1, name: "Books", fun: alert("hi") },
+    { id: 2, name: "Calculators", fun: alert("hi") },
+    { id: 3, name: "Electronics", fun: alert("hi") },
+    { id: 4, name: "Accessories", fun: alert("hi") },
+    { id: 5, name: "Lab Equipment", fun: alert("hi") },
+    { id: 6, name: "Room Essentials", fun: alert("hi") },
+    { id: 7, name: "Stationery", fun: alert("hi") },
+    { id: 8, name: "Apparel", fun: alert("hi") },
+    { id: 9, name: "Misc", fun: alert("hi") },
   ];
   return (
     <ScrollView horizontal>

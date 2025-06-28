@@ -1,3 +1,6 @@
+import PickImage from "@/src/components/ui/listing/ImagePicker";
+import TradeType from "@/src/components/ui/listing/TradeType";
+import CatTextSelector from "@/src/components/ui/listing/TypeDropDown";
 import NavBar from "@/src/components/ui/mainpage/Navbar";
 import React from "react";
 import {
@@ -8,18 +11,6 @@ import {
   TextInput,
 } from "react-native";
 
-import {
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
-  
-} from "@/components/ui/select";
 const CreateListing = () => {
   return (
     <KeyboardAvoidingView enabled behavior="padding" style={styles.container}>
@@ -31,39 +22,25 @@ const CreateListing = () => {
 
         <Text style={styles.heading1}>Model/Edition*</Text>
         <TextInput style={styles.input1} placeholder="eg. Manik Edition" />
-        <Select>
-          <SelectTrigger>
-            <SelectInput />
-          </SelectTrigger>
-          <SelectPortal>
-            <SelectBackdrop />
-            <SelectContent>
-              <SelectDragIndicatorWrapper>
-                <SelectDragIndicator />
-              </SelectDragIndicatorWrapper>
-              <SelectItem />
-            </SelectContent>
-          </SelectPortal>
-        </Select>
 
         <Text style={styles.heading1}>Company/Publication*</Text>
         <TextInput style={styles.input1} placeholder="eg. Jaypee Cement" />
 
-        <Text style={styles.heading1}>Item Type</Text>
-        <TextInput style={styles.input1} placeholder="eg. Gun" />
+        <Text style={styles.heading1}>Item Type*</Text>
+        <CatTextSelector />
 
-        <Text style={styles.heading1}>Item Discription</Text>
+        <Text style={styles.heading1}>Item Discription*</Text>
         <TextInput
           multiline={true}
           style={styles.input1}
-          placeholder="eg. A platform to sell books that is created by three people oh five people"
+          placeholder="(Min 10 words.) eg. A platform to sell books that is created by three people oh five people"
         />
 
-        <Text style={styles.heading1}>Trade Type</Text>
-        <TextInput
-          style={styles.input1}
-          placeholder="eg. Engineering Mathematics"
-        />
+        <Text style={styles.heading1}>Trade Type*</Text>
+        <TradeType />
+
+        <Text style={styles.heading1}>Product Image*</Text>
+        <PickImage />
       </ScrollView>
     </KeyboardAvoidingView>
   );
