@@ -1,8 +1,4 @@
-import { Link } from "expo-router";
-import { View } from "react-native";
-import SplashScreen from "./screens/splashScreen";
+import SplashScreen from "./(frontend)/screens/splashScreen";
 export default function RootLayout() {
-  return (
-    SplashScreen()
-  );
+  return SplashScreen();
 }

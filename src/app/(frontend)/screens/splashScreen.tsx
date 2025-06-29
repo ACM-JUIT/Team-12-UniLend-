@@ -11,8 +11,8 @@ export default function SplashScreen() {
       resizeMode="cover"
       style={styles.container}
     >
-      <Link href="/screens/CreateListing" style={styles.text1}>
-        <Image source={require("../../../assets/images/logo.png")} />
+      <Link href="/screens/homeScreen" style={styles.text1}>
+        <Image source={require("../../../../assets/images/logo.png")} />
       </Link>
       <Link href="/(auth)/login_page" style={styles.text1}>
         UniLend

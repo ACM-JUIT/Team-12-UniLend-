@@ -17,7 +17,7 @@ export default function NavBar(props: NavBarProps) {
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={() => alert("wow")}>
         <Image
-          source={require("../../../../assets/images/hamburger.png")}
+          source={require("../../../../../../assets/images/hamburger.png")}
           style={{ height: 25, width: 25, marginTop: 8 }}
         />
       </TouchableWithoutFeedback>
@@ -32,7 +32,7 @@ export default function NavBar(props: NavBarProps) {
         onPress={() => alert("wow")}
       >
         <Image
-          source={require("../../../../assets/images/search.png")}
+          source={require("../../../../../../assets/images/search.png")}
           style={{
             height: 25,
             width: 25,

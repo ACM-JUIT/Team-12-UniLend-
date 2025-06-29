@@ -1,7 +1,7 @@
-import PickImage from "@/src/components/ui/listing/ImagePicker";
-import TradeType from "@/src/components/ui/listing/TradeType";
-import CatTextSelector from "@/src/components/ui/listing/TypeDropDown";
-import NavBar from "@/src/components/ui/mainpage/Navbar";
+import PickImage from "@/src/app/(frontend)/components/ui/listing/ImagePicker";
+import TradeType from "@/src/app/(frontend)/components/ui/listing/TradeType";
+import CatTextSelector from "@/src/app/(frontend)/components/ui/listing/TypeDropDown";
+import NavBar from "@/src/app/(frontend)/components/ui/mainpage/Navbar";
 import React from "react";
 import {
   KeyboardAvoidingView,

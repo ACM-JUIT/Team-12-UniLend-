@@ -7,8 +7,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import libHistory from "../../../../assets/images/lib-history.png";
-import libStar from "../../../../assets/images/lib-star.png";
+import libHistory from "../../../../../../assets/images/lib-history.png";
+import libStar from "../../../../../../assets/images/lib-star.png";
 
 const icons = [libStar, libHistory];
 const UserInteractables = () => {
