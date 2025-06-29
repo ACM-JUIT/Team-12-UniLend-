@@ -2,6 +2,7 @@ import CatScrollImage from "@/src/app/(frontend)/components/ui/mainpage/CatScrol
 import CatScrollText from "@/src/app/(frontend)/components/ui/mainpage/CatScrollText";
 import UserInteractables from "@/src/app/(frontend)/components/ui/mainpage/UserInteractables";
 import { ScrollView, StyleSheet, Text } from "react-native";
+import BrowseItems from "../components/ui/mainpage/BrowseItems";
 import NavBar from "../components/ui/mainpage/Navbar";
 
 export default function HomePage() {
@@ -12,6 +13,12 @@ export default function HomePage() {
       <CatScrollImage />
       <Text style={styles.heading1}>Library</Text>
       <UserInteractables />
+
+      <Text style={styles.heading1}>Browse</Text>
+      <BrowseItems />
+
+      <Text style={styles.heading1}>Novels</Text>
+      <BrowseItems />
     </ScrollView>
   );
 }
@@ -30,8 +37,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: "#ffffff",
     fontFamily: "Rosarivo",
-    fontSize: 16,
-    marginTop: 10,
+    fontSize: 20,
+    marginTop: 25,
     textShadowRadius: 20,
     textShadowColor: "#11111192",
   },
