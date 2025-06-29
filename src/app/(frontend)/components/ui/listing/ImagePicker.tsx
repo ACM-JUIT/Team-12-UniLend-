@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
+import React,{ useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function PickImage() {
