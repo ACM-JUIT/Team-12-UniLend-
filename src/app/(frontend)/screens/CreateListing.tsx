@@ -21,7 +21,11 @@ const CreateListing = () => {
       <ScrollView style={styles.ScrollContainer}>
         <Text style={styles.heading1}>Item Name*</Text>
 
-        <TextInput style={styles.input1} placeholder="eg. Lakshya" />
+        <TextInput
+          style={styles.input1}
+          placeholder="eg. Lakshya"
+          placeholderTextColor="#efe3c87a"
+        />
         <Text style={styles.heading1}>Product Image*</Text>
         <PickImage />
 
@@ -29,16 +33,25 @@ const CreateListing = () => {
         <CatTextSelector />
 
         <Text style={styles.heading1}>Model/Edition*</Text>
-        <TextInput style={styles.input1} placeholder="eg. Manik Edition" />
+        <TextInput
+          style={styles.input1}
+          placeholder="eg. Manik Edition"
+          placeholderTextColor="#efe3c87a"
+        />
 
         <Text style={styles.heading1}>Company/Publication*</Text>
-        <TextInput style={styles.input1} placeholder="eg. Jaypee Cement" />
+        <TextInput
+          style={styles.input1}
+          placeholder="eg. Jaypee Cement"
+          placeholderTextColor="#efe3c87a"
+        />
 
         <Text style={styles.heading1}>Item Discription*</Text>
         <TextInput
           multiline={true}
           style={styles.input1}
           placeholder="(Min 10 words.) eg. A platform to sell books that is created by three people oh five people"
+          placeholderTextColor="#efe3c87a"
         />
         <Text style={styles.heading1}>Trade Type*</Text>
         <TradeType />
