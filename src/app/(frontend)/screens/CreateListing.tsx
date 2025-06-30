@@ -1,8 +1,9 @@
+import { createBookPost } from "@/src/api/firestore/post";
 import PickImage from "@/src/app/(frontend)/components/ui/listing/ImagePicker";
-import TradeType from "@/src/app/(frontend)/components/ui/listing/TradeType";
 import CatTextSelector from "@/src/app/(frontend)/components/ui/listing/TypeDropDown";
 import NavBar from "@/src/app/(frontend)/components/ui/mainpage/Navbar";
-import React, {useState} from "react";
+import { getAuth } from "@react-native-firebase/auth";
+import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   ScrollView,
@@ -12,8 +13,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { createBookPost } from "@/src/api/firestore/post";
-import { getAuth } from "@react-native-firebase/auth";
 
 const [title,setTitle] = useState("");
 const [price,setPrice] = useState("");

@@ -1,9 +1,11 @@
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 import React from "react";
 import { Image, ImageBackground, StyleSheet } from "react-native";
 
 export default function SplashScreen() {
   return (
+   <>
+    <Stack.Screen options={{ headerShown: false }} />
     <ImageBackground
       source={{
         uri: "https://drive.google.com/uc?export=view&id=1mrJ_KZrZBTLFk0gkrgvQwhxqOLg2r-DK",
@@ -18,6 +20,7 @@ export default function SplashScreen() {
         UniLend
       </Link>
     </ImageBackground>
+   </>
   );
 }
 
