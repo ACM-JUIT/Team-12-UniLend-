@@ -58,11 +58,8 @@ const CatScrollText = () => {
     { id: 2, name: "Calculators" },
     { id: 3, name: "Electronics" },
     { id: 4, name: "Accessories" },
-    { id: 5, name: "Lab Equipment" },
-    { id: 6, name: "Room Essentials" },
-    { id: 7, name: "Stationery" },
-    { id: 8, name: "Apparel" },
-    { id: 9, name: "Misc" },
+    { id: 5, name: "Apparel" },
+    { id: 6, name: "Misc" },
   ];
   return (
     <ScrollView horizontal>
