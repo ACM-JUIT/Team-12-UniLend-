@@ -3,7 +3,6 @@ import {
   FlatList,
   Image,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -33,11 +32,7 @@ const BrowseItems = () => {
   ];
 
   return (
-    <ScrollView
-      horizontal
-      style={styles.container}
-      showsHorizontalScrollIndicator={false}
-    >
+    <View style={styles.container} showsHorizontalScrollIndicator={false}>
       <FlatList
         style={styles.list}
         horizontal
@@ -66,7 +61,7 @@ const BrowseItems = () => {
           </View>
         )}
       />
-    </ScrollView>
+    </View>
   );
 };
 
