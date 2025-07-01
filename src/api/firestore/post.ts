@@ -1,4 +1,3 @@
-import { addDoc, collection, getFirestore } from "@react-native-firebase/firestore";
 import { CloudinaryUploadResult, uploadImage } from "../cloudinary/upload";
 
 type Location = {
@@ -30,18 +29,19 @@ export async function createBookPost(postData: BookPostInput): Promise<void> {
     const uploadedResults: CloudinaryUploadResult[] = await Promise.all(
       images.map((file) => uploadImage(file, ownerId))
     );
+    console.log("IMAGES:" + JSON.stringify(uploadedResults))
 
-    const imageIds = uploadedResults.map((res) => res.public_id);
+    // const imageIds = uploadedResults.map((res) => res.public_id);
 
-    const bookPost = {
-      ...otherData,
-      images: imageIds,
-      viewcount: otherData.viewcount ?? 0,
-      createdAt: otherData.createdAt ?? new Date().toISOString(),
-    };
+    // const bookPost = {
+    //   ...otherData,
+    //   images: imageIds,
+    //   viewcount: otherData.viewcount ?? 0,
+    //   createdAt: otherData.createdAt ?? new Date().toISOString(),
+    // };
 
-    const firestore = getFirestore();
-    await addDoc(collection(firestore, "bookPosts"), bookPost);
+    // const firestore = getFirestore();
+    // await addDoc(collection(firestore, "bookPosts"), bookPost);
   } catch (error) {
     throw new Error(`Error while creating book post: ${(error as Error).message}`);
   }

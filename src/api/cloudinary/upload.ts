@@ -9,7 +9,7 @@ export async function uploadImage(file: File, authToken: string): Promise<Cloudi
   try {
     // the signatureResponse contains other things apart from signature necessary for image upload, so change the parameters in backend
     const signatureResponse = await fetch("https://localhost:5000/get-signature", {
-      method: "POST", 
+      method: "GET", 
       headers: {
         Authorization: `Bearer ${authToken}`
       }
@@ -23,7 +23,7 @@ export async function uploadImage(file: File, authToken: string): Promise<Cloudi
     formData.append("timestamp", timestamp);
     formData.append("signature", signature);
     formData.append("folder", folder);
-    formData.append("eager", JSON.stringify(eager));
+    // formData.append("eager", JSON.stringify(eager));
 
     const uploadResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudname}/image/upload`, 
         {
