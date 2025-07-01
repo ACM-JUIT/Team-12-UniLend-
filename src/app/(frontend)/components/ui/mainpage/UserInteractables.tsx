@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -11,24 +11,23 @@ import {
 import libHistory from "../../../../../../assets/images/lib-history.png";
 import libAdd from "../../../../../../assets/images/lib-listing.png";
 import libStar from "../../../../../../assets/images/lib-star.png";
-
 const icons = [libStar, libHistory, libAdd];
 const UserInteractables = ({ setSelection }: { setSelection: any }) => {
   const cards = [
     {
-      id: 2,
+      id: 1,
       title: "Item Watchlist",
       icon: icons[0],
       press: "",
     },
     {
-      id: 3,
+      id: 2,
       title: "Trade History",
       icon: icons[1],
       press: "",
     },
     {
-      id: 4,
+      id: 3,
       title: "Add Listing!",
       icon: icons[2],
       press: "",
@@ -43,14 +42,13 @@ const UserInteractables = ({ setSelection }: { setSelection: any }) => {
               onPress={() => {
                 alert("Hi");
                 setSelection(cards);
+                router.replace("/screens/CreateListing");
               }}
               key={props.id}
             >
               <View style={styles.box}>
-                <Link href="../../../screens/CreateListing">
-                  <Text style={styles.txt}>{props.title}</Text>
-                  <Image style={styles.img} source={props.icon} />
-                </Link>
+                <Text style={styles.txt}>{props.title}</Text>
+                <Image style={styles.img} source={props.icon} />
               </View>
             </TouchableWithoutFeedback>
           );
@@ -67,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 5,
     alignItems: "flex-start",
-    gap: 10,
+    gap: 5,
   },
   box: {
     height: 105,
