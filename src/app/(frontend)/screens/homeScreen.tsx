@@ -9,16 +9,37 @@ export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <NavBar name="UniLend" />
-      <CatScrollText />
-      <CatScrollImage />
+      <CatScrollText
+        setSelection={(category: any) => {
+          console.log("User selected:", category.id);
+
+          if (category.name === "Electronics") {
+            console.log("Show electronics screen");
+          }
+        }}
+      />
+      <CatScrollImage
+        setSelection={(category: any) => {
+          console.log("User selected:", category.id);
+        }}
+      />
+
       <Text style={styles.heading1}>Library</Text>
-      <UserInteractables />
+      <UserInteractables
+        setSelection={(category: any) => {
+          console.log("User selected:", category.id);
+        }}
+      />
 
       <Text style={styles.heading1}>Browse</Text>
       <BrowseItems />
 
       <Text style={styles.heading1}>Novels</Text>
-      <BrowseItems />
+      <BrowseItems
+        setSelect={(category: any) => {
+          console.log("User selected:", category.id);
+        }}
+      />
     </ScrollView>
   );
 }

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 const HPImgTest = require("../../../../../../assets/images/harry-potter.png");
-const BrowseItems = () => {
+const BrowseItems = ({setSelect}: any) => {
   const Items = [
     {
       id: 100,
@@ -40,7 +40,12 @@ const BrowseItems = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.box}>
-            <Pressable onPress={() => alert("Hi")}>
+            <Pressable
+              onPress={() => {
+                alert("Hi");
+                setSelect({Items});
+              }}
+            >
               <Image source={item.img} style={styles.img} />
               <Text numberOfLines={2} style={styles.text}>
                 {item.title}

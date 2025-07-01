@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-const CatScrollImage = () => {
+const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
   const [categories, setCategories] = useState<tag[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const test = require("../../../../../../assets/images/store-cat-images/Acces-cat.png");
@@ -31,7 +31,10 @@ const CatScrollImage = () => {
         {categories.map((category) => (
           <TouchableWithoutFeedback
             key={category.id}
-            onPress={() => setSelectedId(category.id)}
+            onPress={() => {
+              setSelectedId(category.id);
+              setSelection(category);
+            }}
           >
             <View>
               {category.imageUrl ? (

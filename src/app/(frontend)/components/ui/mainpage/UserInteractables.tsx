@@ -8,11 +8,11 @@ import {
   View,
 } from "react-native";
 import libHistory from "../../../../../../assets/images/lib-history.png";
+import libAdd from "../../../../../../assets/images/lib-listing.png";
 import libStar from "../../../../../../assets/images/lib-star.png";
-import libAdd from "../../../../../../assets/images/lib-listing.png"
 
 const icons = [libStar, libHistory, libAdd];
-const UserInteractables = () => {
+const UserInteractables = ({ setSelection }: { setSelection: any }) => {
   const cards = [
     {
       id: 2,
@@ -27,11 +27,11 @@ const UserInteractables = () => {
       press: "",
     },
     {
-      id:4,
-      title:"Add Listing!",
+      id: 4,
+      title: "Add Listing!",
       icon: icons[2],
       press: "",
-    }
+    },
   ];
   return (
     <ScrollView horizontal>
@@ -41,6 +41,7 @@ const UserInteractables = () => {
             <TouchableWithoutFeedback
               onPress={() => {
                 alert("Hi");
+                setSelection(cards);
               }}
               key={props.id}
             >

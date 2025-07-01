@@ -52,7 +52,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-const CatScrollText = () => {
+
+const CatScrollText = ({ setSelection }: { setSelection: any }) => {
   const categories = [
     { id: 1, name: "Books" },
     { id: 2, name: "Calculators" },
@@ -68,7 +69,10 @@ const CatScrollText = () => {
           const [Clicked, setClicked] = useState(false);
           return (
             <TouchableWithoutFeedback
-              onPress={() => setClicked(!Clicked)}
+              onPress={() => {
+                setClicked(!Clicked);
+                setSelection(category);
+              }}
               key={category.id}
             >
               <Text
