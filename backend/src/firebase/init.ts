@@ -4,7 +4,7 @@ admin.initializeApp({
   credential: admin.credential.cert(
     process.env.NODE_ENV === "production"
       ? "/etc/secrets/serviceAccountKey.json"
-      : ("./backend/serviceAccountKey.json" as string)
+      : ("./serviceAccountKey.json" as string)
   ),
 });
 

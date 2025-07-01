@@ -1,8 +1,8 @@
 import * as ImagePicker from "expo-image-picker";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function PickImage() {
+export default function PickImage({handleUpload}: { handleUpload: (arg0: File | string) => void}) {
   const [image, setImage] = useState<string | null>(null);
 
   const pickImage = async () => {
@@ -17,6 +17,7 @@ export default function PickImage() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      handleUpload(result.assets[0].uri);
     }
   };
 

@@ -6,7 +6,11 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-const CatTextSelector = () => {
+const CatTextSelector = ({
+  handleClick,
+}: {
+  handleClick: (category: string) => void;
+}) => {
   const categories = [
     { id: 1, name: "Books" },
     { id: 2, name: "Calculators" },
@@ -25,7 +29,10 @@ const CatTextSelector = () => {
           const [Clicked, setClicked] = useState(false);
           return (
             <TouchableWithoutFeedback
-              onPress={() => setClicked(!Clicked)}
+              onPress={() => {
+                setClicked(!Clicked);
+                handleClick(category.name);
+              }}
               key={category.id}
             >
               <Text

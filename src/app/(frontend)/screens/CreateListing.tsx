@@ -1,10 +1,12 @@
-import { createBookPost } from "@/src/api/firestore/post";
+import { BookPostInput, createBookPost } from "@/src/api/firestore/post";
+
 import PickImage from "@/src/app/(frontend)/components/ui/listing/ImagePicker";
 import CatTextSelector from "@/src/app/(frontend)/components/ui/listing/TypeDropDown";
 import NavBar from "@/src/app/(frontend)/components/ui/mainpage/Navbar";
 import { getAuth } from "@react-native-firebase/auth";
 import React, { useState } from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
@@ -14,57 +16,55 @@ import {
   View,
 } from "react-native";
 
-const [title,setTitle] = useState("");
-const [price,setPrice] = useState("");
-const [image,setImage] = useState<File | null>(null);
-const [model,setModel] = useState("");
-const [Company,setCompany] = useState("");
-const [description,setDescription] = useState("");
-const [type,setType] = useState("");
-const [isForLending,setisForLending] = useState(false);
-const [isforsale,setIsForSale] = useState(false);
+const CreateListing = () => {
+  const [formState, setFormState] = useState<
+    Omit<BookPostInput, "location" | "ownerId">
+  >({
+    title: "",
+    images: null,
+    type: null,
+    category: "",
+    model: "",
+    company: "",
+    description: "",
+    price: 0,
+  });
 
-const handlesubmit = async () => {
-  if(!title || !price || !image) {
-    alert("Please fill all fields")
-    return;
-  }
-
-try{
-  const user = getAuth().currentUser;
-  const authToken = await user?.getIdToken();
-
-  if(!authToken || !user)
-    throw new Error("user not logged in");
-
-  const postData = {
-    title,
-    model,
-    Company,
-    description,
-    isForLending,
-    isforsale,
-    price: parseFloat(price),
-    ownerId: user.uid,
-    category: type,
-    location: {
-      city: "Delhi",
-      state: "DL",
-      country: "India",
-      lat: 28.6139,
-      lng: 77.2090,
-    },
-    images: [image],
-    authToken,
+  const handleChange = (
+    key: keyof Omit<BookPostInput, "location" | "ownerId">,
+    value: any
+  ) => {
+    setFormState({
+      ...formState,
+      [key]: value,
+    });
   };
 
-  await createBookPost(postData);
-  alert("Book listed successfully!");
-} catch(error) {
-  alert(`Error: ${(error as Error).message}`);
-}
-};
-const CreateListing = () => {
+  const handleSubmit = async (
+    formState: Omit<BookPostInput, "location" | "ownerId">
+  ) => {
+    const auth = getAuth().currentUser;
+    const userId = await auth?.getIdToken();
+    if (!userId) throw new Error("The user isn't authenticated");
+    try {
+      createBookPost({ ...formState, ownerId: userId, location: null });
+
+      setFormState({
+        title: "",
+        images: null,
+        type: null,
+        category: "",
+        model: "",
+        company: "",
+        description: "",
+        price: 0,
+      });
+      Alert.alert("Success", "Item listed successfully!");
+    } catch (error) {
+      console.error("Error caught when submitting: " + error);
+    }
+  };
+
   return (
     <KeyboardAvoidingView enabled behavior="padding" style={styles.container}>
       <NavBar name="Add Listing" />
@@ -74,23 +74,29 @@ const CreateListing = () => {
 
         <TextInput
           style={styles.input1}
-          placeholder= "Add Name"
+          placeholder="Add Name"
           placeholderTextColor="#efe3c87a"
-          onChangeText={(text) =>setTitle(text)}
+          defaultValue={formState.title}
+          onChangeText={(text) => handleChange("title", text)}
         />
 
         <Text style={styles.heading1}>Product Image*</Text>
-        <PickImage/>
+        <PickImage
+          handleUpload={(image: File | string) => handleChange("images", image)}
+        />
 
         <Text style={styles.heading1}>Item Type*</Text>
-        <CatTextSelector />
+        <CatTextSelector
+          handleClick={(category: string) => handleChange("category", category)}
+        />
 
         <Text style={styles.heading1}>Model/Edition*</Text>
         <TextInput
           style={styles.input1}
           placeholder="eg. Manik Edition"
           placeholderTextColor="#efe3c87a"
-          onChangeText={(text) => setModel(text)}
+          defaultValue={formState.model}
+          onChangeText={(model) => handleChange("model", model)}
         />
 
         <Text style={styles.heading1}>Company/Publication*</Text>
@@ -98,7 +104,8 @@ const CreateListing = () => {
           style={styles.input1}
           placeholder="eg. Jaypee Cement"
           placeholderTextColor="#efe3c87a"
-          onChangeText={(text) => setCompany(text)}
+          defaultValue={formState.company}
+          onChangeText={(company) => handleChange("company", company)}
         />
 
         <Text style={styles.heading1}>Item Discription*</Text>
@@ -107,15 +114,20 @@ const CreateListing = () => {
           style={styles.input1}
           placeholder="(Min 10 words.) eg. A platform to sell books that is created by three people oh five people"
           placeholderTextColor="#efe3c87a"
-          onChangeText={(text) => setDescription(text)} 
+          defaultValue={formState.description}
+          onChangeText={(description) =>
+            handleChange("description", description)
+          }
         />
 
-        <text style={styles.input1}> Price </text>
+        <Text style={styles.heading1}> Price </Text>
         <TextInput
-        placeholder="Enter price"
-        value = {price}
-        onChangeText={(text) => setPrice(text)}
-        keyboardType="numeric"
+          style={styles.input1}
+          placeholder="Enter price"
+          placeholderTextColor="#efe3c87a"
+          defaultValue={formState.price.toString()}
+          onChangeText={(price) => handleChange("price", price)}
+          keyboardType="numeric"
         />
         <Text style={styles.heading1}>Trade Type*</Text>
         {/* <TradeType 
@@ -124,8 +136,13 @@ const CreateListing = () => {
         ontogglesale ={() => setIsForSale((prev) => !prev)}
         ontogglelending = {() => setisForLending((prev) => !prev)}
         /> */}
-  
-        <TouchableWithoutFeedback onPress={() => alert("Hi")}>
+
+        <TouchableWithoutFeedback
+          onPress={() => {
+            console.log("submitted");
+            handleSubmit(formState);
+          }}
+        >
           <View style={styles.button}>
             <Text
               style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}
@@ -134,7 +151,7 @@ const CreateListing = () => {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={handlesubmit}>
+        <TouchableWithoutFeedback>
           <View style={styles.button2}>
             <Text style={styles.text2}>Cancel, nevermind!</Text>
           </View>

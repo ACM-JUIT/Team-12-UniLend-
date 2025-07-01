@@ -26,7 +26,7 @@ export default function generateUploadSignature(): {
   const signature = cloudinary.utils.api_sign_request(
     {
       timestamp,
-      eager,
+      // eager,
       folder,
     },
     SECRET

@@ -1,4 +1,9 @@
-import { CloudinaryUploadResult, uploadImage } from "../cloudinary/upload";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+} from "@react-native-firebase/firestore";
+import { uploadImage } from "../cloudinary/upload";
 
 type Location = {
   city: string;
@@ -8,42 +13,49 @@ type Location = {
   lng: number;
 };
 
-type BookPostInput = {
+export type BookPostInput = {
   title: string;
   description: string;
   price: number;
-  type: "sell" | "lend" | "both",
+  type: "sell" | "lend" | "both" | null;
   ownerId: string;
   category: string;
-  location: Location;
+  model: string;
+  company: string;
+  location: Location | null;
   viewcount?: number;
   createdAt?: string;
-  images: File[];
+  images: File[] | string | null;
 };
 
 export async function createBookPost(postData: BookPostInput): Promise<void> {
   try {
-    const {ownerId, images, ...otherData } = postData;
-
+    const { ownerId, images, ...otherData } = postData;
     if (!ownerId) throw new Error("User not authenticated");
-    const uploadedResults: CloudinaryUploadResult[] = await Promise.all(
-      images.map((file) => uploadImage(file, ownerId))
-    );
-    console.log("IMAGES:" + JSON.stringify(uploadedResults))
+    console.log("createBookPost function started");
+    // const uploadedResults: CloudinaryUploadResult[] = await Promise.all(
+    //   images?.map((file) => uploadImage(file, ownerId))
+    // );
+    const uploadedResults = await uploadImage(images as string, ownerId);
+    console.log("IMAGES:" + JSON.stringify(uploadedResults));
 
     // const imageIds = uploadedResults.map((res) => res.public_id);
+    console.log("createBookPost function ran");
+    const bookPost = {
+      ...otherData,
+      images: uploadedResults.public_id.toString(),
+      viewcount: otherData.viewcount ?? 0,
+      createdAt: otherData.createdAt ?? new Date().toISOString(),
+    };
+    console.log(bookPost)
 
-    // const bookPost = {
-    //   ...otherData,
-    //   images: imageIds,
-    //   viewcount: otherData.viewcount ?? 0,
-    //   createdAt: otherData.createdAt ?? new Date().toISOString(),
-    // };
-
-    // const firestore = getFirestore();
-    // await addDoc(collection(firestore, "bookPosts"), bookPost);
+    const firestore = getFirestore();
+    await addDoc(collection(firestore, "Items"), bookPost);
+    console.log("Book posted?");
   } catch (error) {
-    throw new Error(`Error while creating book post: ${(error as Error).message}`);
+    console.log("Bosst posting error ", error);
+    throw new Error(
+      `Error while creating book post: ${(error as Error).message}`
+    );
   }
 }
-

@@ -26,6 +26,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.get("/get-signature", (req: Request, res: Response) => {
     const {signature, timestamp, eager, folder} = generateUploadSignature();
+    console.log("FROM THE BACKEND: ", signature, timestamp, folder)
     res.status(200).json({
         signature,
         timestamp,
