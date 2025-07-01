@@ -8,28 +8,8 @@ import {
   View,
 } from "react-native";
 
-const HPImgTest = require("../../../../../../assets/images/harry-potter.png");
-const BrowseItems = ({setSelect}: any) => {
-  const Items = [
-    {
-      id: 100,
-      title: "Harry potter and sorcerer's ston rewrewrwe ewrewr we",
-      edit: "Lakshya's Version",
-      img: HPImgTest,
-    },
-    {
-      id: 2,
-      title: "Harry potter and sorcerer's stone",
-      edit: "Lakshya's Version",
-      img: HPImgTest,
-    },
-    {
-      id: 3,
-      title: "Harry potter and sorcerer's stone",
-      edit: "Lakshya's Version",
-      img: HPImgTest,
-    },
-  ];
+const BrowseItems = ({Items}: {Items: any}) => {
+
 
   return (
     <View style={styles.container}>
@@ -43,16 +23,15 @@ const BrowseItems = ({setSelect}: any) => {
             <Pressable
               onPress={() => {
                 alert("Hi");
-                setSelect({Items});
               }}
             >
-              <Image source={item.img} style={styles.img} />
+              <Image source={{uri: "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" + item.images}} style={styles.img} />
               <Text numberOfLines={2} style={styles.text}>
                 {item.title}
               </Text>
             </Pressable>
             <View style={styles.box2}>
-              <Text style={styles.text2}>{item.id}00/m</Text>
+              <Text style={styles.text2}>{item.price}00/m</Text>
               <Pressable onPress={() => alert("Watchlist")}>
                 <Image
                   source={require("../../../../../../assets/images/watchlist.png")}

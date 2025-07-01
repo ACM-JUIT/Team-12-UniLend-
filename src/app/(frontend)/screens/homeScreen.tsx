@@ -1,11 +1,38 @@
+import {
+  collection,
+  getDocs,
+  getFirestore,
+} from "@react-native-firebase/firestore";
+
 import CatScrollImage from "@/src/app/(frontend)/components/ui/mainpage/CatScrollImages";
 import CatScrollText from "@/src/app/(frontend)/components/ui/mainpage/CatScrollText";
 import UserInteractables from "@/src/app/(frontend)/components/ui/mainpage/UserInteractables";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import BrowseItems from "../components/ui/mainpage/BrowseItems";
 import NavBar from "../components/ui/mainpage/Navbar";
 
 export default function HomePage() {
+  const [posts, setPosts] = useState<any>();
+  useEffect(() => {
+    const func = async () => {
+       const firestore = getFirestore(); 
+      const temp = await getDocs(collection(firestore, "Items"));
+
+      const posts: any[] = [];
+
+      temp.forEach((post) => {
+        posts.push({
+          id: post.id,
+          ...post.data(),
+        });
+      });
+      setPosts(posts)
+      console.log(posts);
+    };
+    func();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <NavBar name="UniLend" />
@@ -32,14 +59,7 @@ export default function HomePage() {
       />
 
       <Text style={styles.heading1}>Browse</Text>
-      <BrowseItems />
-
-      <Text style={styles.heading1}>Novels</Text>
-      <BrowseItems
-        setSelect={(category: any) => {
-          console.log("User selected:", category.id);
-        }}
-      />
+      <BrowseItems Items={posts} />
     </ScrollView>
   );
 }

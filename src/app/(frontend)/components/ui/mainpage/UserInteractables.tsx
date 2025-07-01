@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -46,8 +47,10 @@ const UserInteractables = ({ setSelection }: { setSelection: any }) => {
               key={props.id}
             >
               <View style={styles.box}>
-                <Text style={styles.txt}>{props.title}</Text>
-                <Image style={styles.img} source={props.icon} />
+                <Link href="../../../screens/CreateListing">
+                  <Text style={styles.txt}>{props.title}</Text>
+                  <Image style={styles.img} source={props.icon} />
+                </Link>
               </View>
             </TouchableWithoutFeedback>
           );
