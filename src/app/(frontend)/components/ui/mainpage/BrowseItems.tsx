@@ -37,8 +37,9 @@ const BrowseItems = () => {
         style={styles.list}
         horizontal
         data={Items}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.box} key={item.id}>
+          <View style={styles.box}>
             <Pressable onPress={() => alert("Hi")}>
               <Image source={item.img} style={styles.img} />
               <Text style={styles.text}>{item.title}</Text>
