@@ -1,5 +1,5 @@
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { uploadImage, CloudinaryUploadResult } from "../cloudinary/upload";
+import { addDoc, collection, getFirestore } from "@react-native-firebase/firestore";
+import { CloudinaryUploadResult, uploadImage } from "../cloudinary/upload";
 
 type Location = {
   city: string;
@@ -13,22 +13,22 @@ type BookPostInput = {
   title: string;
   description: string;
   price: number;
-  isForLending: boolean;
+  type: "sell" | "lend" | "both",
   ownerId: string;
   category: string;
   location: Location;
   viewcount?: number;
   createdAt?: string;
   images: File[];
-  authToken: string;
 };
 
 export async function createBookPost(postData: BookPostInput): Promise<void> {
   try {
-    const { authToken, images, ...otherData } = postData;
+    const {ownerId, images, ...otherData } = postData;
 
+    if (!ownerId) throw new Error("User not authenticated");
     const uploadedResults: CloudinaryUploadResult[] = await Promise.all(
-      images.map((file) => uploadImage(file, authToken))
+      images.map((file) => uploadImage(file, ownerId))
     );
 
     const imageIds = uploadedResults.map((res) => res.public_id);
