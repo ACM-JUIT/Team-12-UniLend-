@@ -12,8 +12,8 @@ const HPImgTest = require("../../../../../../assets/images/harry-potter.png");
 const BrowseItems = () => {
   const Items = [
     {
-      id: 1,
-      title: "Harry potter and sorcerer's stone",
+      id: 100,
+      title: "Harry potter and sorcerer's ston rewrewrwe ewrewr we",
       edit: "Lakshya's Version",
       img: HPImgTest,
     },
@@ -42,7 +42,9 @@ const BrowseItems = () => {
           <View style={styles.box}>
             <Pressable onPress={() => alert("Hi")}>
               <Image source={item.img} style={styles.img} />
-              <Text style={styles.text}>{item.title}</Text>
+              <Text numberOfLines={2} style={styles.text}>
+                {item.title}
+              </Text>
             </Pressable>
             <View style={styles.box2}>
               <Text style={styles.text2}>{item.id}00/m</Text>
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   },
   box: {
     width: 135,
-    height: 230,
+    height: "auto",
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderRadius: 20,
     marginRight: 19,
@@ -116,9 +118,10 @@ const styles = StyleSheet.create({
     textShadowRadius: 7,
   },
   text2: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "left",
     color: "#FFFFFF",
+    fontFamily: "Rosarivo",
   },
 });
 export default BrowseItems;
