@@ -35,8 +35,9 @@ const UserInteractables = () => {
               onPress={() => {
                 alert("Hi");
               }}
+              key={props.id}
             >
-              <View key={props.id} style={styles.box}>
+              <View style={styles.box}>
                 <Text style={styles.txt}>{props.title}</Text>
                 <Image style={styles.img} source={props.icon} />
               </View>
