@@ -28,7 +28,7 @@ export default function PickImage({handleUpload}: { handleUpload: (arg0: File | 
         onPress={pickImage}
         pressRetentionOffset={10}
       >
-        <Text style={styles.text1}> upload a file </Text>
+        <Text style={styles.text1}> Upload file </Text>
         {image && <Image source={{ uri: image }} style={styles.image} />}
       </Pressable>
     </View>
@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
     height: 1920 / 6,
     borderRadius: 10,
   },
-  text1: { fontFamily: "Rosarivo", color: "#cecdca" },
+  text1: { color: "#cecdca" },
 });
