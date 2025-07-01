@@ -11,7 +11,7 @@ import {
 const CatScrollImage = () => {
   const [categories, setCategories] = useState<tag[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const test = require("../../../../../../assets/images/cat-electronics.png");
+  const test = require("../../../../../../assets/images/store-cat-images/Acces-cat.png");
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -51,18 +51,19 @@ export default CatScrollImage;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
     flexDirection: "row",
     width: "100%",
     height: "auto",
+    marginTop: 20,
+    marginLeft: 5,
   },
   box: {
     borderColor: "#f5f5dc53",
     borderWidth: 1,
     borderRadius: 10,
     color: "#F5F5DC",
-    width: 270,
-    height: 140,
+    width: 309,
+    height: 150,
     resizeMode: "cover",
     marginRight: 10,
   },

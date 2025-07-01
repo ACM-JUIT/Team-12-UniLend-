@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import libHistory from "../../../../../../assets/images/lib-history.png";
 import libStar from "../../../../../../assets/images/lib-star.png";
+import libAdd from "../../../../../../assets/images/lib-listing.png"
 
-const icons = [libStar, libHistory];
+const icons = [libStar, libHistory, libAdd];
 const UserInteractables = () => {
   const cards = [
     {
@@ -25,6 +26,12 @@ const UserInteractables = () => {
       icon: icons[1],
       press: "",
     },
+    {
+      id:4,
+      title:"Add Listing!",
+      icon: icons[2],
+      press: "",
+    }
   ];
   return (
     <ScrollView horizontal>
