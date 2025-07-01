@@ -37,10 +37,8 @@ const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
             }}
           >
             <View>
-              {category.imageUrl ? (
+              {category.imageUrl && (
                 <Image source={{ uri: category.imageUrl }} style={styles.box} />
-              ) : (
-                <Image source={test} style={styles.box} />
               )}
             </View>
           </TouchableWithoutFeedback>
