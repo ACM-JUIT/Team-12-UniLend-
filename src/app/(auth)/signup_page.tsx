@@ -14,7 +14,8 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
-
+import StandardOverlay from "../(frontend)/components/ui/standard/StandardOverlay";
+StandardOverlay;
 const LoginSchema = z.object({
   username: z.string().nonempty("Username is required"),
   email: z.string().email("Invalid email address"),
@@ -66,6 +67,8 @@ export default function SignUp() {
   const input2Ref = useRef<TextInput>(null);
   const input3Ref = useRef<TextInput>(null);
 
+  //Variable for privacy overlay
+  const [POVisible, setPOVisible] = useState(false);
   const handleSignUp = async () => {
     const validate = formValidation({
       username: userName,
@@ -181,11 +184,13 @@ export default function SignUp() {
             status={privacyPolicy ? "checked" : "unchecked"}
             onPress={() => setPrivacyPolicy(!privacyPolicy)}
           />
+
           <TouchableWithoutFeedback
             onPress={() =>
-              alert(
-                "Privacy is not your first priority, it is sending us cat pictures"
-              )
+              // alert(
+              //   "Privacy is not your first priority, it is sending us cat pictures"
+              // )
+              setPOVisible(true)
             }
           >
             <Text style={styles.textSmallest}>
@@ -221,6 +226,12 @@ export default function SignUp() {
           </Text>
         </View>
       </TouchableHighlight>
+      <StandardOverlay
+        header="Privacy Policy"
+        Activated={POVisible}
+        text={"Hello"}
+        Controller={setPOVisible}
+      />
     </ImageBackground>
   );
 }

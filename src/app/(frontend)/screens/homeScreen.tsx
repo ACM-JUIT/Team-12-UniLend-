@@ -16,7 +16,7 @@ export default function HomePage() {
   const [posts, setPosts] = useState<any>();
   useEffect(() => {
     const func = async () => {
-       const firestore = getFirestore(); 
+      const firestore = getFirestore();
       const temp = await getDocs(collection(firestore, "Items"));
 
       const posts: any[] = [];
@@ -27,7 +27,7 @@ export default function HomePage() {
           ...post.data(),
         });
       });
-      setPosts(posts)
+      setPosts(posts);
       console.log(posts);
     };
     func();

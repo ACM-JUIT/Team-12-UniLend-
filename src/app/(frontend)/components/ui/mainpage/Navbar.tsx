@@ -30,6 +30,7 @@ export default function NavBar(props: NavBarProps) {
           alignItems: "flex-end",
         }}
         onPress={() => alert("wow")}
+        
       >
         <Image
           source={require("../../../../../../assets/images/search.png")}

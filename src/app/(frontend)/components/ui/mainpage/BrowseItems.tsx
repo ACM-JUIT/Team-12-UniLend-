@@ -8,15 +8,18 @@ import {
   View,
 } from "react-native";
 
-const BrowseItems = ({Items}: {Items: any}) => {
+type BrowserProps = {
+  Items: any;
+  Action?: any;
+};
 
-
+const BrowseItems = (props: BrowserProps) => {
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.list}
         horizontal
-        data={Items}
+        data={props.Items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.box}>
@@ -25,7 +28,14 @@ const BrowseItems = ({Items}: {Items: any}) => {
                 alert("Hi");
               }}
             >
-              <Image source={{uri: "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" + item.images}} style={styles.img} />
+              <Image
+                source={{
+                  uri:
+                    "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" +
+                    item.images,
+                }}
+                style={styles.img}
+              />
               <Text numberOfLines={2} style={styles.text}>
                 {item.title}
               </Text>
