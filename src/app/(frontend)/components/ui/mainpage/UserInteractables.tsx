@@ -34,7 +34,7 @@ const UserInteractables = ({ setSelection }: { setSelection: any }) => {
     },
   ];
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
         {cards.map((props) => {
           return (

@@ -17,6 +17,7 @@ const BrowseItems = (props: BrowserProps) => {
   return (
     <View style={styles.container}>
       <FlatList
+        showsHorizontalScrollIndicator={false}
         style={styles.list}
         horizontal
         data={props.Items}

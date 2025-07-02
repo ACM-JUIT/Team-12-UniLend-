@@ -63,7 +63,7 @@ const CatScrollText = ({ setSelection }: { setSelection: any }) => {
     { id: 6, name: "Misc" },
   ];
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
         {categories.map((category) => {
           const [Clicked, setClicked] = useState(false);
