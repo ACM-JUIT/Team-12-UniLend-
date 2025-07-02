@@ -227,9 +227,11 @@ export default function SignUp() {
         </View>
       </TouchableHighlight>
       <StandardOverlay
-        header="Privacy Policy"
+        title="Privacy Policy"
         Activated={POVisible}
-        text={"Hello"}
+        text={
+          "Hey so its been a while since i have wrote something without AI so hereis some writing practice by my sidehehe"
+        }
         Controller={setPOVisible}
       />
     </ImageBackground>
