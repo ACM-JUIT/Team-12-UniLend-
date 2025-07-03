@@ -1,14 +1,14 @@
 // to open specific book page using bookid
-import { View, Text } from 'react-native'
-import React from 'react'
+import NavBar from "@/src/(frontend)/components/mainpage/Navbar";
+import React from "react";
+import { Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function 
-() {
+export default function () {
   return (
-    <View>
-      <Text>
-        
-      </Text>
-    </View>
-  )
+    <SafeAreaView>
+      <NavBar title="Like It?" />
+      <Text></Text>
+    </SafeAreaView>
+  );
 }

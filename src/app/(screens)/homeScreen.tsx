@@ -35,7 +35,7 @@ export default function HomePage() {
 
   return (
     <ScrollView style={styles.container}>
-      <NavBar name="UniLend" />
+      <NavBar title="UniLend" />
       <CatScrollText
         setSelection={(category: any) => {
           console.log("User selected:", category.id);

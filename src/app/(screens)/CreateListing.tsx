@@ -67,7 +67,7 @@ const CreateListing = () => {
 
   return (
     <KeyboardAvoidingView enabled behavior="padding" style={styles.container}>
-      <NavBar name="Add Listing" />
+      <NavBar title="Add Listing" />
 
       <ScrollView style={styles.ScrollContainer}>
         <Text style={styles.heading1}>Item Name*</Text>

@@ -10,7 +10,7 @@ import {
 const Drawer = createDrawerNavigator();
 
 type NavBarProps = {
-  name: String;
+  title: String;
 };
 export default function NavBar(props: NavBarProps) {
   return (
@@ -21,7 +21,7 @@ export default function NavBar(props: NavBarProps) {
           style={{ height: 25, width: 25, marginTop: 8 }}
         />
       </TouchableWithoutFeedback>
-      <Text style={styles.text}>{props.name}</Text>
+      <Text style={styles.text}>{props.title}</Text>
       <TouchableWithoutFeedback
         style={{
           marginTop: 12,
