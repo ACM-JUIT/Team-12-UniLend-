@@ -1,8 +1,8 @@
 import { BookPostInput, createBookPost } from "@/src/api/firestore/post";
 
-import PickImage from "@/src/app/(frontend)/components/ui/listing/ImagePicker";
-import CatTextSelector from "@/src/app/(frontend)/components/ui/listing/TypeDropDown";
-import NavBar from "@/src/app/(frontend)/components/ui/mainpage/Navbar";
+import PickImage from "@/src/(frontend)/components/listing/ImagePicker";
+import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
+import NavBar from "@/src/(frontend)/components/mainpage/Navbar";
 import { getAuth } from "@react-native-firebase/auth";
 import React, { useState } from "react";
 import {

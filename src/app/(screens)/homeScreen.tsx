@@ -4,13 +4,13 @@ import {
   getFirestore,
 } from "@react-native-firebase/firestore";
 
-import CatScrollImage from "@/src/app/(frontend)/components/ui/mainpage/CatScrollImages";
-import CatScrollText from "@/src/app/(frontend)/components/ui/mainpage/CatScrollText";
-import UserInteractables from "@/src/app/(frontend)/components/ui/mainpage/UserInteractables";
+import CatScrollImage from "@/src/(frontend)/components/mainpage/CatScrollImages";
+import CatScrollText from "@/src/(frontend)/components/mainpage/CatScrollText";
+import UserInteractables from "@/src/(frontend)/components/mainpage/UserInteractables";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
-import BrowseItems from "../components/ui/mainpage/BrowseItems";
-import NavBar from "../components/ui/mainpage/Navbar";
+import BrowseItems from "../../(frontend)/components/mainpage/BrowseItems";
+import NavBar from "../../(frontend)/components/mainpage/Navbar";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<any>();

@@ -77,7 +77,7 @@ export default function Login() {
     try {
       setLoading(true);
       await logIn({ email, password });
-      router.replace("/screens/homeScreen");
+      router.replace("/(screens)/homeScreen");
       setLoading(false);
     } catch (error) {
       setLoading(false);

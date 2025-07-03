@@ -6,17 +6,17 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <Stack>
-        <Stack.Screen name="./index" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen
-          name="(frontend)/screens/splashScreen"
+          name="(screens)/splashScreen"
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="(frontend)/screens/homeScreen"
+          name="(screens)/homeScreen"
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="(frontend)/screens/CreateListing"
+          name="(screens)/CreateListing"
           options={{ headerShown: false }}
         />
       </Stack>

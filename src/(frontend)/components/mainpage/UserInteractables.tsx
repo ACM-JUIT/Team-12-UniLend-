@@ -8,9 +8,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import libHistory from "../../../../../../assets/images/lib-history.png";
-import libAdd from "../../../../../../assets/images/lib-listing.png";
-import libStar from "../../../../../../assets/images/lib-star.png";
+import libHistory from "../../../../assets/images/lib-history.png";
+import libAdd from "../../../../assets/images/lib-listing.png";
+import libStar from "../../../../assets/images/lib-star.png";
 const icons = [libStar, libHistory, libAdd];
 const UserInteractables = ({ setSelection }: { setSelection: any }) => {
   const cards = [
@@ -42,7 +42,7 @@ const UserInteractables = ({ setSelection }: { setSelection: any }) => {
               onPress={() => {
                 alert("Hi");
                 setSelection(cards);
-                router.replace("/screens/CreateListing");
+                router.replace("/(screens)/CreateListing");
               }}
               key={props.id}
             >

@@ -1,4 +1,4 @@
-import SplashScreen from "./(frontend)/screens/splashScreen";
+import SplashScreen from "./(screens)/splashScreen";
 export default function RootLayout() {
   return SplashScreen();
 }

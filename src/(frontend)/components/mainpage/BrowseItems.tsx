@@ -45,7 +45,7 @@ const BrowseItems = (props: BrowserProps) => {
               <Text style={styles.text2}>{item.price}00/m</Text>
               <Pressable onPress={() => alert("Watchlist")}>
                 <Image
-                  source={require("../../../../../../assets/images/watchlist.png")}
+                  source={require("../../../../assets/images/watchlist.png")}
                   style={{
                     width: 32,
                     height: 32,

@@ -1,3 +1,4 @@
+import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import signUp from "@/src/api/auth/signup";
 import { Checkbox } from "@futurejj/react-native-checkbox";
 import { router } from "expo-router";
@@ -14,7 +15,6 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
-import StandardOverlay from "../(frontend)/components/ui/standard/StandardOverlay";
 StandardOverlay;
 const LoginSchema = z.object({
   username: z.string().nonempty("Username is required"),

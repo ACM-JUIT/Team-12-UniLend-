@@ -11,7 +11,7 @@ import {
 const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
   const [categories, setCategories] = useState<tag[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const test = require("../../../../../../assets/images/store-cat-images/Acces-cat.png");
+  const test = require("../../../../assets/images/store-cat-images/Acces-cat.png");
   useEffect(() => {
     const fetchTags = async () => {
       try {
