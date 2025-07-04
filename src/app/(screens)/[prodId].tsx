@@ -19,11 +19,11 @@ export default function () {
   return (
     <SafeAreaView style={styles.container}>
       <NavBar title="Like It?" />
-      <TopActions backFunc={router.back} itemId={data} watchBut={setSOopen(true)} />
+      <TopActions backFunc={router.back} itemId={data} watchBut={setSOopen} />
       <StandardOverlay
         Activated={SOopen}
         Controller={setSOopen}
-        title={"Alert!"}
+        title="Alert!"
         text={
           "This is a temporary alert, we will later make it run a function to watchlist item using the id."
         }

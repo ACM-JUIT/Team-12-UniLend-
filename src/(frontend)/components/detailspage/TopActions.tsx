@@ -15,7 +15,7 @@ const TopActions = (props: TAProps) => {
           source={require("../../../../assets/images/ProductInfo/prod-back.png")}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={props.watchBut}>
+      <TouchableOpacity onPress={() => props.watchBut(true)}>
         <Image
           style={styles.watchlist}
           source={require("../../../../assets/images/watchlist.png")}
