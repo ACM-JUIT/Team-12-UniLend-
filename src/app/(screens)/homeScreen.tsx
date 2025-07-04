@@ -2,6 +2,10 @@ import {
   collection,
   getDocs,
   getFirestore,
+  limit,
+  orderBy,
+  query,
+  where,
 } from "@react-native-firebase/firestore";
 
 import CatScrollImage from "@/src/(frontend)/components/mainpage/CatScrollImages";
@@ -12,25 +16,77 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import BrowseItems from "../../(frontend)/components/mainpage/BrowseItems";
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
-export default function HomePage() {
-  const [posts, setPosts] = useState<any>();
-  useEffect(() => {
-    const func = async () => {
-      const firestore = getFirestore();
-      const temp = await getDocs(collection(firestore, "Items"));
+import { ItemPostInput } from "@/src/api/firestore/post";
 
-      const posts: any[] = [];
+interface Item extends ItemPostInput {
+  id: string;
+}
 
-      temp.forEach((post) => {
-        posts.push({
-          id: post.id,
-          ...post.data(),
-        });
+const fetchItemsByCategory = async (
+  firestore: any,
+  category?: string,
+  orderByField: string = "createdAt",
+  limitCount: number = 7
+): Promise<Item[]> => {
+  let q;
+
+  if (category) {
+    q = query(
+      collection(firestore, "Items"),
+      where("category", "==", category),
+      orderBy(orderByField, "desc"),
+      limit(limitCount)
+    );
+  } else {
+    q = query(
+      collection(firestore, "Items"),
+      orderBy(orderByField, "desc"),
+      limit(limitCount)
+    );
+  }
+
+  try {
+    const querySnapshot = await getDocs(q);
+    const items: Item[] = [];
+
+    querySnapshot.forEach((item) => {
+      items.push({
+        id: item.id,
+        ...(item.data() as Omit<Item, "id">),
       });
-      setPosts(posts);
-      console.log(posts);
+    });
+    return items;
+  } catch (error: any) {
+    console.log("The query was", category)
+    console.error(error)
+    throw new Error(error)
+  }
+
+};
+
+export default function HomePage() {
+  const [newPosts, setNewPosts] = useState<Item[]>([]);
+  const [popularPosts, setPopularPosts] = useState<Item[]>([]);
+  const [electronicsPosts, setElectronicsPosts] = useState<Item[]>([]);
+  const [booksPosts, setBooksPosts] = useState<Item[]>([]);
+  useEffect(() => {
+    const fetchCategorizedPosts = async () => {
+      const firestore = getFirestore();
+      console.log("test");
+      const [newItems, popularItems, electronicsItems, booksItems] =
+        await Promise.all([
+          fetchItemsByCategory(firestore),
+          fetchItemsByCategory(firestore, undefined, "viewcount"),
+          fetchItemsByCategory(firestore, "Electronics"),
+          fetchItemsByCategory(firestore, "Books"),
+        ]);
+
+      setNewPosts(newItems);
+      setPopularPosts(popularItems);
+      setElectronicsPosts(electronicsItems);
+      setBooksPosts(booksItems);
     };
-    func();
+    fetchCategorizedPosts();
   }, []);
 
   return (
@@ -58,8 +114,19 @@ export default function HomePage() {
         }}
       />
 
-      <Text style={styles.heading1}>Browse</Text>
-      <BrowseItems Items={posts} />
+      <Text style={styles.heading1}>New Stuff</Text>
+      <BrowseItems Items={newPosts} />
+
+      <Text style={styles.heading1}>Popular Stuff</Text>
+      <BrowseItems Items={popularPosts} />
+
+      <Text style={styles.heading1}>Electronics ⚡</Text>
+      <BrowseItems Items={electronicsPosts} />
+
+      <Text style={styles.heading1}>Books 📕</Text>
+      <BrowseItems Items={booksPosts} />
+
+
     </ScrollView>
   );
 }

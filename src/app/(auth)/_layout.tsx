@@ -1,11 +1,12 @@
 import { useAuth } from "@/src/context/AuthContext";
 import { Stack } from "expo-router";
 
+
 export default function AuthLayout() {
   const { user, loading } = useAuth();
-  //   if (user) {
-  //     return <Redirect href="/screens/homeScreen" />;
-  //   }
+    // if (user) {
+    //   return <Redirect href="/screens/homeScreen" />;
+    // }
 
   return (
     <>

@@ -5,7 +5,7 @@ import {
 } from "@react-native-firebase/firestore";
 import { uploadImage } from "../cloudinary/upload";
 
-type Location = {
+interface Location  {
   city: string;
   state: string;
   country: string;
@@ -13,7 +13,7 @@ type Location = {
   lng: number;
 };
 
-export type BookPostInput = {
+export interface ItemPostInput  {
   title: string;
   description: string;
   price: number;
@@ -28,7 +28,7 @@ export type BookPostInput = {
   images: File[] | string | null;
 };
 
-export async function createBookPost(postData: BookPostInput): Promise<void> {
+export async function createBookPost(postData: ItemPostInput): Promise<void> {
   try {
     const { ownerId, images, ...otherData } = postData;
     if (!ownerId) throw new Error("User not authenticated");
