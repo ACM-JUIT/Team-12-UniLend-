@@ -13,7 +13,7 @@ export default function SplashScreen() {
         resizeMode="cover"
         style={styles.container}
       >
-        <Link href="/(screens)/homeScreen" style={styles.text1}>
+        <Link href="/(screens)/[prodId]" style={styles.text1}>
           <Image source={require("../../../assets/images/logo.png")} />
         </Link>
         <Link href="/onboardingPage" style={styles.text1}>

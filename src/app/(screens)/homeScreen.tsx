@@ -10,7 +10,7 @@ import UserInteractables from "@/src/(frontend)/components/mainpage/UserInteract
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import BrowseItems from "../../(frontend)/components/mainpage/BrowseItems";
-import NavBar from "../../(frontend)/components/mainpage/Navbar";
+import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<any>();
