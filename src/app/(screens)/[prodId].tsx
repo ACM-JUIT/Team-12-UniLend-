@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UploadedImage from "../../../assets/images/harry-potter.png";
+import NavBar from "@/src/(frontend)/components/standard/Navbar";
 type dataInfo = {
   id: number;
   name: string;
@@ -29,7 +30,7 @@ const [SOopen, setSOopen] = useState(false);
 export default function () {
   return (
     <SafeAreaView style={styles.container}>
-      {/* <NavBar title="Like It?" /> */}
+      <NavBar title="Like It?" />
       <TopActions
         backFunc={router.back}
         itemId={dataInfo}

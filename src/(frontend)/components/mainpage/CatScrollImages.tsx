@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     height: "auto",
     marginTop: 20,
     marginLeft: 5,
+    marginRight: 5,
   },
   box: {
     borderColor: "#f5f5dc53",
