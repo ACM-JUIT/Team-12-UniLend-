@@ -12,7 +12,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -136,8 +136,9 @@ const CreateListing = () => {
         ontogglesale ={() => setIsForSale((prev) => !prev)}
         ontogglelending = {() => setisForLending((prev) => !prev)}
         /> */}
-
-        <TouchableWithoutFeedback
+      </ScrollView>
+      <View style={styles.buttonsbox}>
+        <TouchableOpacity
           onPress={() => {
             console.log("submitted");
             handleSubmit(formState);
@@ -147,16 +148,16 @@ const CreateListing = () => {
             <Text
               style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}
             >
-              Submit
+              Submit item
             </Text>
           </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
+        </TouchableOpacity>
+        <TouchableOpacity>
           <View style={styles.button2}>
             <Text style={styles.text2}>Cancel, nevermind!</Text>
           </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -197,8 +198,12 @@ const styles = StyleSheet.create({
     textShadowRadius: 20,
     textShadowColor: "#11111192",
   },
+  buttonsbox: {
+    gap: 10,
+    padding: 10,
+    paddingBottom: 0,
+  },
   button: {
-    marginTop: 10,
     borderColor: "#EFE3C8",
     padding: 10,
     borderWidth: 1,
@@ -208,7 +213,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button2: {
-    marginTop: 10,
     borderColor: "#EFE3C8",
     padding: 10,
     borderWidth: 1,

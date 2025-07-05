@@ -38,7 +38,7 @@ export default function NavBar(props: NavBarProps) {
             width: 25,
             marginTop: 13,
             alignSelf: "center",
-            justifyContent:"center"
+            justifyContent: "center",
           }}
         />
       </TouchableWithoutFeedback>
