@@ -16,6 +16,7 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import BrowseItems from "../../(frontend)/components/mainpage/BrowseItems";
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
+import SmallPreview from "@/src/(frontend)/components/standard/SmallPreview";
 import { ItemPostInput } from "@/src/api/firestore/post";
 
 interface Item extends ItemPostInput {
@@ -57,11 +58,10 @@ const fetchItemsByCategory = async (
     });
     return items;
   } catch (error: any) {
-    console.log("The query was", category)
-    console.error(error)
-    throw new Error(error)
+    console.log("The query was", category);
+    console.error(error);
+    throw new Error(error);
   }
-
 };
 
 export default function HomePage() {
@@ -125,11 +125,16 @@ export default function HomePage() {
 
       <Text style={styles.heading1}>Books 📕</Text>
       <BrowseItems Items={booksPosts} />
-
-
+      <SmallPreview item={item} />
     </ScrollView>
   );
 }
+
+const item = {
+  images: "",
+  title: "Harry Potter and the sorcerer's stone",
+  price: "100",
+};
 
 const styles = StyleSheet.create({
   container: {
