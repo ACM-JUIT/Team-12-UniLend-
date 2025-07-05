@@ -38,6 +38,7 @@ export default function NavBar(props: NavBarProps) {
             width: 25,
             marginTop: 13,
             alignSelf: "center",
+            justifyContent:"center"
           }}
         />
       </TouchableWithoutFeedback>
@@ -53,12 +54,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+    justifyContent: "space-between",
   },
   text: {
     fontSize: 32,
     fontFamily: "Amiri",
     color: "rgba(245, 245, 220, 1)",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     fontWeight: "bold",
+    alignSelf: "flex-start",
   },
 });

@@ -1,13 +1,14 @@
 // to open specific book page using bookid
+import BottomButtons from "@/src/(frontend)/components/detailspage/bottomButtons";
 import ItemDetails from "@/src/(frontend)/components/detailspage/ItemDetails";
 import TopActions from "@/src/(frontend)/components/detailspage/TopActions";
+import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UploadedImage from "../../../assets/images/harry-potter.png";
-import NavBar from "@/src/(frontend)/components/standard/Navbar";
 type dataInfo = {
   id: number;
   name: string;
@@ -37,7 +38,7 @@ export default function () {
         watchBut={setSOopen}
       />
       <ItemDetails data={dataInfo} />
-
+      <BottomButtons />
       <StandardOverlay
         Activated={SOopen}
         Controller={setSOopen}
