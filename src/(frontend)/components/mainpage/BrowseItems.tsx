@@ -13,7 +13,7 @@ type BrowserProps = {
   Action?: any;
 };
 
-const BrowseItems = (props: BrowserProps) => {
+export const BrowseItems = (props: BrowserProps) => {
   return (
     <FlatList
       showsHorizontalScrollIndicator={false}
@@ -114,4 +114,3 @@ const styles = StyleSheet.create({
     fontFamily: "Rosarivo",
   },
 });
-export default BrowseItems;

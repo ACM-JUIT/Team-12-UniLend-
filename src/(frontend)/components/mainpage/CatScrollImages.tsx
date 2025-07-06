@@ -1,5 +1,5 @@
-import { getActiveTags, Tag } from "@/src/api/firestore/tags";
-import React, { useEffect, useState } from "react";
+import { Tag } from "@/src/api/firestore/tags";
+import React from "react";
 import {
   Image,
   ScrollView,
@@ -8,22 +8,13 @@ import {
   View,
 } from "react-native";
 
-const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
-  const [categories, setCategories] = useState<Tag[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const tags = await getActiveTags();
-        setCategories(tags);
-      } catch (err) {
-        console.error("Error fetching tags:", err);
-      }
-    };
-
-    fetchTags();
-  }, []);
-
+export const CatScrollImage = ({
+  categories,
+  setSelection,
+}: {
+  categories: Tag[];
+  setSelection: any;
+}) => {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
@@ -31,7 +22,6 @@ const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
           <TouchableWithoutFeedback
             key={category.id}
             onPress={() => {
-              setSelectedId(category.id);
               setSelection(category.name);
             }}
           >
@@ -46,8 +36,6 @@ const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
     </ScrollView>
   );
 };
-
-export default CatScrollImage;
 
 const styles = StyleSheet.create({
   container: {

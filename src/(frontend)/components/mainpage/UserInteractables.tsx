@@ -12,7 +12,8 @@ import libHistory from "../../../../assets/images/lib-history.png";
 import libAdd from "../../../../assets/images/lib-listing.png";
 import libStar from "../../../../assets/images/lib-star.png";
 const icons = [libStar, libHistory, libAdd];
-const UserInteractables = ({ setSelection }: { setSelection: any }) => {
+
+export const UserInteractables = ({ setSelection }: { setSelection: any }) => {
   const cards = [
     {
       id: 1,
@@ -57,8 +58,6 @@ const UserInteractables = ({ setSelection }: { setSelection: any }) => {
     </ScrollView>
   );
 };
-
-export default UserInteractables;
 
 const styles = StyleSheet.create({
   container: {
