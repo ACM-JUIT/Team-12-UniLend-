@@ -2,13 +2,12 @@ import { fetchItemsByCategory } from "@/src/api/firestore/items";
 import { useEffect, useState } from "react";
 
 import { StyleSheet, Text } from "react-native";
-import BrowseItems from "./BrowseItems";
-import UserInteractables from "./UserInteractables";
+import { BrowseItems } from "./BrowseItems";
+import { UserInteractables } from "./UserInteractables";
 
 import { Item } from "@/src/api/firestore/post";
 
-
-export default function HomePageDefault() {
+export function HomePageDefault() {
   const [newPosts, setNewPosts] = useState<Item[]>([]);
   const [popularPosts, setPopularPosts] = useState<Item[]>([]);
   const [electronicsPosts, setElectronicsPosts] = useState<Item[]>([]);
@@ -20,7 +19,7 @@ export default function HomePageDefault() {
           fetchItemsByCategory(),
           fetchItemsByCategory(undefined, "viewcount"),
           fetchItemsByCategory("Electronics"),
-          fetchItemsByCategory( "Books"),
+          fetchItemsByCategory("Books"),
         ]);
 
       setNewPosts(newItems);

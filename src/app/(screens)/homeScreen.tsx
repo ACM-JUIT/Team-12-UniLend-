@@ -1,32 +1,48 @@
-import CatScrollImage from "@/src/(frontend)/components/mainpage/CatScrollImages";
-import CatScrollText from "@/src/(frontend)/components/mainpage/CatScrollText";
-import HomePageCategory from "@/src/(frontend)/components/mainpage/HomePageCategory";
-import HomePageDefault from "@/src/(frontend)/components/mainpage/HomePageDefault";
-import { useState } from "react";
+import {
+  CatScrollImage,
+  CatScrollText,
+  HomePageCategory,
+  HomePageDefault,
+} from "@/src/(frontend)/components/mainpage";
+import { getActiveTags, Tag } from "@/src/api/firestore/tags";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
-  const [category, setCategory] = useState<string>("Home");
+  const [selectedCategory, setSelectedCategory] = useState<string>("home");
+  const [categories, setCategories] = useState<Tag[]>([]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const tags = await getActiveTags();
+        setCategories(tags);
+      } catch (err) {
+        console.error("Error fetching tags:", err);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   const handleCategory = (newCategory: string) => {
-    setCategory(newCategory)
-  }
+    setSelectedCategory(newCategory);
+  };
   return (
     <ScrollView style={styles.container}>
       <NavBar title="UniLend" />
-      <CatScrollText
-        setSelection={handleCategory}
-      />
-      {category === "Home" ? (
+      <CatScrollText categories={categories} setSelection={handleCategory} />
+      {selectedCategory === "home" ? (
         <>
           <CatScrollImage
+            categories={categories}
             setSelection={handleCategory}
           />
           <HomePageDefault />
         </>
       ) : (
-        <HomePageCategory category={category}/>
+        <HomePageCategory category={selectedCategory} />
       )}
     </ScrollView>
   );

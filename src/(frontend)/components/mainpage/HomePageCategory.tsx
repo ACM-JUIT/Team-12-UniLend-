@@ -3,7 +3,8 @@ import { Item } from "@/src/api/firestore/post";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import SmallPreview from "../standard/SmallPreview";
-export default function HomePageCategory({ category }: { category: string }) {
+
+export function HomePageCategory({ category }: { category: string }) {
   const [posts, setPosts] = useState<Item[]>([]);
 
   useEffect(() => {
