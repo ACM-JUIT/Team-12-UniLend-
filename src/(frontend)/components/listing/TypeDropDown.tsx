@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+
+import { getActiveTags, Tag } from "@/src/api/firestore/tags";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -6,38 +8,37 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-const CatTextSelector = ({
-  handleClick,
-}: {
-  handleClick: (category: string) => void;
-}) => {
-  const categories = [
-    { id: 1, name: "Books" },
-    { id: 2, name: "Calculators" },
-    { id: 3, name: "Electronics" },
-    { id: 4, name: "Accessories" },
-    { id: 5, name: "Lab Equipment" },
-    { id: 6, name: "Room Essentials" },
-    { id: 7, name: "Stationery" },
-    { id: 8, name: "Apparel" },
-    { id: 9, name: "Misc" },
-  ];
+
+const CatTextSelector = ({ handleClick }: { handleClick: any }) => {
+  const [categories, setCategories] = useState<Tag[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  useEffect(() => {
+      const fetchTags = async () => {
+        try {
+          const tags = await getActiveTags();
+          setCategories(tags);
+        } catch (err) {
+          console.error("Error fetching tags:", err);
+        }
+      };
+  
+      fetchTags();
+    }, []);
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
         {categories.map((category) => {
-          const [Clicked, setClicked] = useState(false);
           return (
             <TouchableWithoutFeedback
               onPress={() => {
-                setClicked(!Clicked);
-                handleClick(category.name);
+                setSelectedId(category.slug)
+                handleClick(category);
               }}
               key={category.id}
             >
               <Text
                 key={category.id}
-                style={Clicked ? styles.boxClicked : styles.boxUnClick}
+                style={category.id === selectedId ? styles.boxClicked : styles.boxUnClick}
               >
                 {category.name}
               </Text>
