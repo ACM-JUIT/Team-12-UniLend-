@@ -1,11 +1,14 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-
-type SPProps = {
-  item: any;
-};
-
-const SmallPreview = (props: SPProps) => {
+const SmallPreview = ({
+  title,
+  images,
+  price,
+}: {
+  title: string;
+  images: string | File[] | null;
+  price: number;
+}) => {
   return (
     <View style={styles.box}>
       <Pressable
@@ -13,13 +16,20 @@ const SmallPreview = (props: SPProps) => {
           alert("Hi");
         }}
       >
-        <Image source={props.item.images} style={styles.img} />
+        <Image
+          source={{
+            uri:
+              "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" +
+              images,
+          }}
+          style={styles.img}
+        />
         <Text numberOfLines={2} style={styles.text}>
-          {props.item.title}
+          {title}
         </Text>
       </Pressable>
       <View style={styles.box2}>
-        <Text style={styles.text2}>{props.item.price}00/m</Text>
+        <Text style={styles.text2}>{price}00/m</Text>
         <Pressable onPress={() => alert("Watchlist")}>
           <Image
             source={require("../../../../assets/images/watchlist.png")}

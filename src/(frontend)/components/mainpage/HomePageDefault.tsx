@@ -1,64 +1,12 @@
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "@react-native-firebase/firestore";
+import { fetchItemsByCategory } from "@/src/api/firestore/items";
 import { useEffect, useState } from "react";
 
 import { StyleSheet, Text } from "react-native";
 import BrowseItems from "./BrowseItems";
 import UserInteractables from "./UserInteractables";
 
-import { ItemPostInput } from "@/src/api/firestore/post";
+import { Item } from "@/src/api/firestore/post";
 
-interface Item extends ItemPostInput {
-  id: string;
-}
-
-const fetchItemsByCategory = async (
-  firestore: any,
-  category?: string,
-  orderByField: string = "createdAt",
-  limitCount: number = 7
-): Promise<Item[]> => {
-  let q;
-
-  if (category) {
-    q = query(
-      collection(firestore, "Items"),
-      where("category", "==", category),
-      orderBy(orderByField, "desc"),
-      limit(limitCount)
-    );
-  } else {
-    q = query(
-      collection(firestore, "Items"),
-      orderBy(orderByField, "desc"),
-      limit(limitCount)
-    );
-  }
-
-  try {
-    const querySnapshot = await getDocs(q);
-    const items: Item[] = [];
-
-    querySnapshot.forEach((item) => {
-      items.push({
-        id: item.id,
-        ...(item.data() as Omit<Item, "id">),
-      });
-    });
-    return items;
-  } catch (error: any) {
-    console.log("The query was", category);
-    console.error(error);
-    throw new Error(error);
-  }
-};
 
 export default function HomePageDefault() {
   const [newPosts, setNewPosts] = useState<Item[]>([]);
@@ -67,14 +15,12 @@ export default function HomePageDefault() {
   const [booksPosts, setBooksPosts] = useState<Item[]>([]);
   useEffect(() => {
     const fetchCategorizedPosts = async () => {
-      const firestore = getFirestore();
-      console.log("test");
       const [newItems, popularItems, electronicsItems, booksItems] =
         await Promise.all([
-          fetchItemsByCategory(firestore),
-          fetchItemsByCategory(firestore, undefined, "viewcount"),
-          fetchItemsByCategory(firestore, "Electronics"),
-          fetchItemsByCategory(firestore, "Books"),
+          fetchItemsByCategory(),
+          fetchItemsByCategory(undefined, "viewcount"),
+          fetchItemsByCategory("Electronics"),
+          fetchItemsByCategory( "Books"),
         ]);
 
       setNewPosts(newItems);

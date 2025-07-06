@@ -37,7 +37,6 @@ const CatTextSelector = ({ handleClick }: { handleClick: any }) => {
               key={category.id}
             >
               <Text
-                key={category.id}
                 style={category.id === selectedId ? styles.boxClicked : styles.boxUnClick}
               >
                 {category.name}

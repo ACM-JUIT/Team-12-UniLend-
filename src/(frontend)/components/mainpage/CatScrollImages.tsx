@@ -32,7 +32,7 @@ const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
             key={category.id}
             onPress={() => {
               setSelectedId(category.id);
-              setSelection(category);
+              setSelection(category.name);
             }}
           >
             <View>

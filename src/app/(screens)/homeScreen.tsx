@@ -1,28 +1,33 @@
 import CatScrollImage from "@/src/(frontend)/components/mainpage/CatScrollImages";
 import CatScrollText from "@/src/(frontend)/components/mainpage/CatScrollText";
+import HomePageCategory from "@/src/(frontend)/components/mainpage/HomePageCategory";
 import HomePageDefault from "@/src/(frontend)/components/mainpage/HomePageDefault";
+import { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
+  const [category, setCategory] = useState<string>("Home");
+
+  const handleCategory = (newCategory: string) => {
+    setCategory(newCategory)
+  }
   return (
     <ScrollView style={styles.container}>
       <NavBar title="UniLend" />
       <CatScrollText
-        setSelection={(category: any) => {
-          console.log("User selected:", category.id);
-
-          if (category.name === "Electronics") {
-            console.log("Show electronics screen");
-          }
-        }}
+        setSelection={handleCategory}
       />
-      <CatScrollImage
-        setSelection={(category: any) => {
-          console.log("User selected:", category.id);
-        }}
-      />
-      <HomePageDefault />
+      {category === "Home" ? (
+        <>
+          <CatScrollImage
+            setSelection={handleCategory}
+          />
+          <HomePageDefault />
+        </>
+      ) : (
+        <HomePageCategory category={category}/>
+      )}
     </ScrollView>
   );
 }

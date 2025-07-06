@@ -13,7 +13,8 @@ interface Location  {
   lng: number;
 };
 
-export interface ItemPostInput  {
+export interface Item  {
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -28,7 +29,7 @@ export interface ItemPostInput  {
   images: File[] | string | null;
 };
 
-export async function createBookPost(postData: ItemPostInput): Promise<void> {
+export async function createBookPost(postData: Omit<Item, "id">): Promise<void> {
   try {
     const { ownerId, images, ...otherData } = postData;
     if (!ownerId) throw new Error("User not authenticated");
@@ -40,7 +41,6 @@ export async function createBookPost(postData: ItemPostInput): Promise<void> {
     console.log("IMAGES:" + JSON.stringify(uploadedResults));
 
     // const imageIds = uploadedResults.map((res) => res.public_id);
-    console.log("createBookPost function ran");
     const bookPost = {
       ...otherData,
       images: uploadedResults.public_id.toString(),
@@ -51,9 +51,9 @@ export async function createBookPost(postData: ItemPostInput): Promise<void> {
 
     const firestore = getFirestore();
     await addDoc(collection(firestore, "Items"), bookPost);
-    console.log("Book posted?");
+    console.log("Item posted");
   } catch (error) {
-    console.log("Bosst posting error ", error);
+    console.log("Item posting error ", error);
     throw new Error(
       `Error while creating book post: ${(error as Error).message}`
     );

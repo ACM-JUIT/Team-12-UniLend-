@@ -11,7 +11,7 @@ import {
 
 const CatScrollText = ({ setSelection }: { setSelection: any }) => {
   const [categories, setCategories] = useState<Tag[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string>("home");
   useEffect(() => {
       const fetchTags = async () => {
         try {
@@ -27,17 +27,28 @@ const CatScrollText = ({ setSelection }: { setSelection: any }) => {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
+         <TouchableWithoutFeedback
+              onPress={() => {
+                setSelectedId("Home")
+                setSelection("Home");
+              }}
+            >
+              <Text
+                style={selectedId === "home" ? styles.boxClicked : styles.boxUnClick}
+              >
+                Home
+              </Text>
+            </TouchableWithoutFeedback>
         {categories.map((category) => {
           return (
             <TouchableWithoutFeedback
               onPress={() => {
                 setSelectedId(category.id)
-                setSelection(category.slug);
+                setSelection(category.name);
               }}
               key={category.id}
             >
               <Text
-                key={category.id}
                 style={category.id === selectedId ? styles.boxClicked : styles.boxUnClick}
               >
                 {category.name}
