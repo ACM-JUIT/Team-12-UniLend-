@@ -1,6 +1,6 @@
 import { getFirestore } from "@react-native-firebase/firestore";
 
-export type tag = {
+export type Tag = {
   id: string;
   createdAt: string;
   description: string;
@@ -11,16 +11,16 @@ export type tag = {
   slug: string;
 };
 
-export const getActiveTags = async (): Promise<tag[]> => {
+export const getActiveTags = async (): Promise<Tag[]> => {
   const db = getFirestore()
   const snapshot = await db
   .collection('Tags')
   .where('isActive', '==',true) 
   .orderBy('order')
   .get();
-  const tags: tag[] = snapshot.docs.map((doc) => ({
+  const tags: Tag[] = snapshot.docs.map((doc) => ({
     id: doc.id,
-    ...(doc.data() as Omit<tag, 'id'>)
+    ...(doc.data() as Omit<Tag, 'id'>)
   }));
   return tags;
 };  

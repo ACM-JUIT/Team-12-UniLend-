@@ -1,4 +1,4 @@
-import { getActiveTags, tag } from "@/src/api/firestore/tags";
+import { getActiveTags, Tag } from "@/src/api/firestore/tags";
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -9,9 +9,8 @@ import {
 } from "react-native";
 
 const CatScrollImage = ({ setSelection }: { setSelection: any }) => {
-  const [categories, setCategories] = useState<tag[]>([]);
+  const [categories, setCategories] = useState<Tag[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const test = require("../../../../assets/images/store-cat-images/Acces-cat.png");
   useEffect(() => {
     const fetchTags = async () => {
       try {
