@@ -15,7 +15,7 @@ async function creatUserInFirestore(
     username,
     email,
     privacyPolicy,
-  }: { username: string; email: string; privacyPolicy: boolean }
+  }: { username: string; email: string; privacyPolicy: boolean;}
 ) {
   const db = getFirestore();
   const userRef = doc(db, "Users", uid);
@@ -26,6 +26,7 @@ async function creatUserInFirestore(
     createdAt: serverTimestamp(),
     lastLoggedIn: serverTimestamp(),
     privacyPolicy,
+    watchList: [],
   });
 }
 
