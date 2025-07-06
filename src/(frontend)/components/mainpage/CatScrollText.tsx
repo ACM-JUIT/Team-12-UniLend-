@@ -32,7 +32,7 @@ const CatScrollText = ({ setSelection }: { setSelection: any }) => {
             <TouchableWithoutFeedback
               onPress={() => {
                 setSelectedId(category.id)
-                setSelection(category);
+                setSelection(category.slug);
               }}
               key={category.id}
             >
