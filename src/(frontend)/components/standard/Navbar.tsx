@@ -49,12 +49,13 @@ export default function NavBar(props: NavBarProps) {
 const styles = StyleSheet.create({
   container: {
     alignContent: "flex-start",
-    width: "100%",
+    width: "90%",
     height: "auto",
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
     justifyContent: "space-between",
+    alignSelf: "center",
   },
   text: {
     fontSize: 32,

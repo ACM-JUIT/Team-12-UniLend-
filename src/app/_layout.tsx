@@ -23,6 +23,14 @@ export default function RootLayout() {
           name="(screens)/[prodId]"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="(screens)/itemWatchlist"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(screens)/tradeHist"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </AuthProvider>
   );

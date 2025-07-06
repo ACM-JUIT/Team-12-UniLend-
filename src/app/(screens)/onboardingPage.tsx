@@ -65,10 +65,7 @@ const styles = StyleSheet.create({
   },
   box: {
     flexDirection: "row",
-    alignSelf: "center",
-    justifyContent: "center",
     gap: "10",
-    alignItems: "center",
   },
   text1: {
     alignSelf: "center",
@@ -77,6 +74,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#F5F5DC",
+    lineHeight: 48,
   },
   image1: {
     height: 58,
@@ -90,9 +88,9 @@ const styles = StyleSheet.create({
     fontFamily: "Rosarivo",
     paddingLeft: 20,
     paddingRight: 20,
-    marginBottom: 30,
     alignSelf: "center",
     textAlign: "auto",
+    
   },
   button1: {
     borderColor: "#EFE3C8",
