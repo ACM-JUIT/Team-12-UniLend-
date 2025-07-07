@@ -13,7 +13,7 @@ export default function SplashScreen() {
         resizeMode="cover"
         style={styles.container}
       >
-        <Link href="/tradeHist" style={styles.text1}>
+        <Link href="/itemWatchlist" style={styles.text1}>
           <Image source={require("../../../assets/images/logo.png")} />
         </Link>
         <Link href="/homeScreen" style={styles.text1}>
