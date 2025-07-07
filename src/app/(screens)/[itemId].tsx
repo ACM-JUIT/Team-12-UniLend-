@@ -1,4 +1,5 @@
 // to open specific book page using bookid
+import BottomButtons from "@/src/(frontend)/components/detailspage/bottomButtons";
 import ItemDetails from "@/src/(frontend)/components/detailspage/ItemDetails";
 import TopActions from "@/src/(frontend)/components/detailspage/TopActions";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
@@ -14,7 +15,7 @@ export default function Productpage() {
   const { itemId } = useLocalSearchParams();
   const [item, setItem] = useState<Item | null>(null);
   const [SOopen, setSOopen] = useState<boolean>(false);
-
+  
   useEffect(() => {
     const handleFetch = async () => {
       try {
@@ -36,23 +37,26 @@ export default function Productpage() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBar title="Like It?" />
-      <TopActions backFunc={router.back} itemId={item} watchBut={setSOopen} />
-      <ItemDetails item={item} />
-      <StandardOverlay
-        Activated={SOopen}
-        Controller={setSOopen}
-        title="Alert!"
-        text={
-          "This is a temporary alert, we will later make it run a function to watchlist item using the id."
-        }
-      />
+      <View style={styles.box}>
+        <NavBar title="Like It?" />
+        <TopActions backFunc={router.back} itemId={item} watchBut={setSOopen} />
+        <ItemDetails item={item} />
+        <BottomButtons callbfunc={() => alert("Hello")} />
+        <StandardOverlay
+          Activated={SOopen}
+          Controller={setSOopen}
+          title="Alert!"
+          text={
+            "This is a temporary alert, we will later make it run a function to watchlist item using the id."
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  box: {
     backgroundColor: "#1C161E",
     height: "100%",
     width: "100%",
@@ -60,5 +64,10 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 10,
     alignItems: "center",
+  },
+  container: {
+    backgroundColor: "#1C161E",
+    height: "100%",
+    width: "100%",
   },
 });
