@@ -1,12 +1,18 @@
 import { Item } from "@/src/api/firestore/post";
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
 const ItemDetails = ({ item }: { item: Item }) => {
+  const [Expanded, setExpanded] = useState(false);
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <ScrollView>
+      <View style={styles.container}>
         <Image
           style={styles.imgUploaded}
           source={{
@@ -19,18 +25,26 @@ const ItemDetails = ({ item }: { item: Item }) => {
           <Text numberOfLines={2} style={styles.title}>
             {item.title}
           </Text>
-          <Text numberOfLines={2} style={styles.pub}>
-            {item.ownerId}
+          <Text style={styles.pub}>
+            Seller: {item.ownerId ? item.ownerId : "Lakshya"}
           </Text>
-          <Text numberOfLines={1} style={styles.itemtag}>
-            {item.category}
-          </Text>
-          <Text style={styles.itemdisc} numberOfLines={3}>
-            {item.description}
-          </Text>
+          <Text style={styles.itemtag}>{item.category}</Text>
+          <TouchableHighlight
+            style={{ flexDirection: "row" }}
+            onPress={() => setExpanded(!Expanded)}
+          >
+            <View style={{ gap: 2 }}>
+              <Text style={styles.itemdisc} numberOfLines={Expanded ? 0 : 2}>
+                {item.description}
+              </Text>
+              <Text style={styles.readmore}>
+                {Expanded ? "Read less (click-me)" : "Read more (click-me)"}
+              </Text>
+            </View>
+          </TouchableHighlight>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -42,13 +56,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
+    gap: 5,
   },
   imgUploaded: {
     height: 318,
     width: 207,
-    borderRadius: 30,
-    borderWidth: 1.5,
+    borderRadius: 10,
+    borderWidth: 2,
     borderColor: "black",
   },
   title: {
@@ -58,23 +72,24 @@ const styles = StyleSheet.create({
     color: "#F5F5DC",
     textTransform: "capitalize",
     lineHeight: 26,
+    width: 220,
   },
   pub: {
     textTransform: "uppercase",
     fontFamily: "Rosarivo",
     fontSize: 16,
-    color: "#F5F5DC",
-    lineHeight: 16,
+    color: "#ffffff",
+    textAlign: "center",
   },
   texts: {
     alignItems: "center",
-    gap: 2,
+    gap: 4,
   },
   itemtag: {
     fontFamily: "Rosarivo",
     fontSize: 12,
     textTransform: "capitalize",
-    lineHeight: 12,
+    lineHeight: 14,
     color: "#FFFFFF",
   },
   itemdisc: {
@@ -84,5 +99,11 @@ const styles = StyleSheet.create({
     textOverflow: "",
     paddingLeft: 10,
     paddingRight: 10,
+    borderRadius: 10,
+  },
+  readmore: {
+    color: "beige",
+    textAlign: "right",
+    fontSize: 12,
   },
 });

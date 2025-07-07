@@ -1,10 +1,15 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+type BB = {
+  callbfunc: any;
+  text?: any;
+  image?: any;
+};
 
-const BottomButtons = () => {
+const BottomButtons = (props: BB) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button1}>
+      <TouchableOpacity style={styles.button1} onPress={props.callbfunc}>
         <Image
           source={require("../../../../assets/images/ProductInfo/prod-buy.png")}
           style={styles.icon1}
@@ -20,9 +25,9 @@ export default BottomButtons;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#1C161E",
     width: "100%",
-    position: "absolute",
-    height: "100%",
+    paddingBottom: 20,
   },
   button1: {
     width: "100%",
@@ -32,10 +37,8 @@ const styles = StyleSheet.create({
     padding: 7,
     flexDirection: "row",
     justifyContent: "center",
-    alignSelf: "flex-end",
-    position: "absolute",
+    alignSelf: "center",
     gap: 4,
-    bottom: 30,
   },
   buttxt1: {
     color: "#4A2B29",
