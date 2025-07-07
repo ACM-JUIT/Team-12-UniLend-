@@ -1,15 +1,13 @@
 // to open specific book page using bookid
-import BottomButtons from "@/src/(frontend)/components/detailspage/bottomButtons";
 import ItemDetails from "@/src/(frontend)/components/detailspage/ItemDetails";
 import TopActions from "@/src/(frontend)/components/detailspage/TopActions";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import { fetchItem } from "@/src/api/firestore/items";
 import { Item } from "@/src/api/firestore/post";
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Productpage() {
@@ -37,22 +35,19 @@ export default function Productpage() {
   }
 
   return (
-    <>
-      <Stack.Screen options={{ headerShown: false }} />
-      <SafeAreaView style={styles.container}>
-        <NavBar title="Like It?" />
-        <TopActions backFunc={router.back} itemId={item} watchBut={setSOopen} />
-          <ItemDetails item={item} />
-        <StandardOverlay
-          Activated={SOopen}
-          Controller={setSOopen}
-          title="Alert!"
-          text={
-            "This is a temporary alert, we will later make it run a function to watchlist item using the id."
-          }
-        />
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={styles.container}>
+      <NavBar title="Like It?" />
+      <TopActions backFunc={router.back} itemId={item} watchBut={setSOopen} />
+      <ItemDetails item={item} />
+      <StandardOverlay
+        Activated={SOopen}
+        Controller={setSOopen}
+        title="Alert!"
+        text={
+          "This is a temporary alert, we will later make it run a function to watchlist item using the id."
+        }
+      />
+    </SafeAreaView>
   );
 }
 
