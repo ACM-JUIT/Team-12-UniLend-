@@ -13,7 +13,7 @@ import libAdd from "../../../../assets/images/lib-listing.png";
 import libStar from "../../../../assets/images/lib-star.png";
 const icons = [libStar, libHistory, libAdd];
 
-export const UserInteractables = ({ setSelection }: { setSelection: any }) => {
+export const UserInteractables = () => {
   const cards = [
     {
       id: 1,
@@ -41,8 +41,6 @@ export const UserInteractables = ({ setSelection }: { setSelection: any }) => {
           return (
             <TouchableWithoutFeedback
               onPress={() => {
-                alert("Hi");
-                setSelection(cards);
                 router.replace("/(screens)/CreateListing");
               }}
               key={props.id}

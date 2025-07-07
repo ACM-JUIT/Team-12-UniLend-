@@ -17,8 +17,6 @@ export default function PickImage({
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       handleUpload(result.assets[0].uri);
@@ -32,8 +30,11 @@ export default function PickImage({
         onPress={pickImage}
         pressRetentionOffset={10}
       >
-        {image || <Text style={styles.text1}> Upload image (click-me) </Text>}
-        {image && <Text style={styles.text1}> Change image (click-me) </Text>}
+        {image ? (
+          <Text style={styles.text1}> Change image (click-me) </Text>
+        ) : (
+          <Text style={styles.text1}> Upload image (click-me) </Text>
+        )}
         {image && <Image source={{ uri: image }} style={styles.image} />}
       </Pressable>
     </View>

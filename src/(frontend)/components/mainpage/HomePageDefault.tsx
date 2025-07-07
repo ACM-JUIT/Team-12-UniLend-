@@ -33,11 +33,7 @@ export function HomePageDefault() {
   return (
     <>
       <Text style={styles.heading1}>Library</Text>
-      <UserInteractables
-        setSelection={(category: any) => {
-          console.log("User selected:", category.id);
-        }}
-      />
+      <UserInteractables />
 
       <Text style={styles.heading1}>New Stuff</Text>
       <BrowseItems items={newPosts} />

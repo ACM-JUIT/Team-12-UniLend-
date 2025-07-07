@@ -15,7 +15,6 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
-StandardOverlay;
 const LoginSchema = z.object({
   username: z.string().nonempty("Username is required"),
   email: z.string().email("Invalid email address"),
@@ -46,7 +45,6 @@ function formValidation({
 
   if (!result.success) {
     const error = result.error.format();
-    console.log(error);
     const firstError =
       error.username?._errors[0] ||
       error.email?._errors[0] ||

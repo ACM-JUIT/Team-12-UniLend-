@@ -1,6 +1,7 @@
 import { Item, createBookPost } from "@/src/api/firestore/post";
 
 import PickImage from "@/src/(frontend)/components/listing/ImagePicker";
+import TradeType from "@/src/(frontend)/components/listing/TradeType";
 import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import { getAuth } from "@react-native-firebase/auth";
@@ -16,7 +17,35 @@ import {
   View,
 } from "react-native";
 
-const CreateListing = () => {
+import { z } from "zod";
+const ListingSchema = z.object({
+  title: z
+    .string()
+    .nonempty("Item name is required")
+    .max(50, "Item name must be 50 characters or less"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  price: z
+    .number()
+    .nonnegative("Price can't be negative")
+    .max(10000, "Price must be less than 10000"),
+  type: z.enum(["sell", "lend", "both"], {
+    errorMap: () => ({ message: "Trade type must be selected" }),
+  }),
+  category: z.string().nonempty("Category is required"),
+  model: z
+    .string()
+    .nonempty("Model/Edition is required")
+    .max(50, "Model/Edition must be 50 characters or less"),
+  company: z
+    .string()
+    .nonempty("Company/Publication is required")
+    .max(50, "Company/Publication must be 50 characters or less"),
+  images: z
+    .union([z.array(z.instanceof(File)), z.string()])
+    .refine((val) => val !== null, "Product image is required"),
+});
+
+export default function CreateListing() {
   const [formState, setFormState] = useState<
     Omit<Item, "location" | "ownerId" | "id">
   >({
@@ -43,6 +72,27 @@ const CreateListing = () => {
   const handleSubmit = async (
     formState: Omit<Item, "location" | "ownerId" | "id">
   ) => {
+    const result = ListingSchema.safeParse(formState);
+    if (!result.success) {
+      const error = result.error.format();
+      const firstError =
+        error.title?._errors[0] ||
+        error.description?._errors[0] ||
+        error.price?._errors[0] ||
+        error.type?._errors[0] ||
+        error.category?._errors[0] ||
+        error.model?._errors[0] ||
+        error.company?._errors[0] ||
+        error.images?._errors[0] ||
+        "Invalid Input";
+
+      Alert.alert(
+        "Validation Error",
+        firstError || "Please check your input and try again."
+      );
+      return;
+    }
+
     const auth = getAuth().currentUser;
     const userId = await auth?.getIdToken();
     if (!userId) throw new Error("The user isn't authenticated");
@@ -126,16 +176,11 @@ const CreateListing = () => {
           placeholder="Enter price"
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.price.toString()}
-          onChangeText={(price) => handleChange("price", price)}
+          onChangeText={(price) => handleChange("price", +price)}
           keyboardType="numeric"
         />
         <Text style={styles.heading1}>Trade Type*</Text>
-        {/* <TradeType 
-        // isforsale = {isforsale}
-        // isForlending = {isForLending}
-        ontogglesale ={() => setIsForSale((prev) => !prev)}
-        ontogglelending = {() => setisForLending((prev) => !prev)}
-        /> */}
+        <TradeType handleTypeChange={(type) => handleChange("type", type)} />
       </ScrollView>
       <View style={styles.buttonsbox}>
         <TouchableOpacity
@@ -160,7 +205,7 @@ const CreateListing = () => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -227,5 +272,3 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
-
-export default CreateListing;

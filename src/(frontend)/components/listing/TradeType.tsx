@@ -6,24 +6,46 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-const TradeType = () => {
-  const categories = [
-    { id: 1, name: "Sell" },
-    { id: 2, name: "Lend" },
-  ];
+
+interface TradeOption {
+  id: number;
+  name: string;
+  slug: "sell" | "lend" | "both";
+}
+
+const tradeOptions: TradeOption[] = [
+  { id: 1, name: "Sell", slug: "sell" },
+  { id: 2, name: "Lend", slug: "lend" },
+  { id: 3, name: "Both", slug: "both" },
+];
+const TradeType = ({
+  handleTypeChange,
+  initialValue = null,
+}: {
+  handleTypeChange: (type: string) => void;
+  initialValue: TradeOption["slug"] | null;
+}) => {
+  const [selectedType, setSelectedType] = useState<TradeOption["slug"] | null>(
+    initialValue
+  );
   return (
     <ScrollView horizontal>
       <View style={styles.container}>
-        {categories.map((category) => {
-          const [Clicked, setClicked] = useState(false);
+        {tradeOptions.map((category) => {
           return (
             <TouchableWithoutFeedback
-              onPress={() => setClicked(!Clicked)}
+              onPress={() => {
+                setSelectedType(category.slug);
+                handleTypeChange(category.slug);
+              }}
               key={category.id}
             >
               <Text
-                key={category.id}
-                style={Clicked ? styles.boxClicked : styles.boxUnClick}
+                style={
+                  category.slug === selectedType
+                    ? styles.boxClicked
+                    : styles.boxUnClick
+                }
               >
                 {category.name}
               </Text>
