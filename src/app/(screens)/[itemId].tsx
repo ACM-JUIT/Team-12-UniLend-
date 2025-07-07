@@ -9,6 +9,7 @@ import { Item } from "@/src/api/firestore/post";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Productpage() {
@@ -28,7 +29,11 @@ export default function Productpage() {
     handleFetch();
   });
   if (!item) {
-    return <View><Text className="text-white text-2xl text-center">Loading</Text></View>
+    return (
+      <View>
+        <Text className="text-white text-2xl text-center">Loading</Text>
+      </View>
+    );
   }
 
   return (
@@ -37,8 +42,7 @@ export default function Productpage() {
       <SafeAreaView style={styles.container}>
         <NavBar title="Like It?" />
         <TopActions backFunc={router.back} itemId={item} watchBut={setSOopen} />
-        <ItemDetails item={item} />
-        <BottomButtons />
+          <ItemDetails item={item} />
         <StandardOverlay
           Activated={SOopen}
           Controller={setSOopen}
@@ -57,22 +61,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#1C161E",
     height: "100%",
     width: "100%",
-    paddingLeft: 20,
-    paddingRight: 20,
-    flex: 1,
-  },
-  topactions: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
     alignItems: "center",
-  },
-  backimage: {
-    width: 35.2,
-    height: 32.7,
-  },
-  watchlist: {
-    width: 32,
-    height: 32,
   },
 });

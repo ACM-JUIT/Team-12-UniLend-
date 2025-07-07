@@ -7,7 +7,7 @@ const SmallPreview = ({
   images,
   price,
 }: {
-  itemId: string,
+  itemId: string;
   title: string;
   images: string | File[] | null;
   price: number;
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 12,
     marginRight: 10,
+    justifyContent: "space-between",
   },
   box2: {
     backgroundColor: "rgba(255, 255, 255, 0.08)",
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 7,
     lineHeight: 14,
     marginBottom: 6,
+    justifyContent: "center",
   },
   text2: {
     fontSize: 14,

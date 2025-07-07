@@ -1,4 +1,4 @@
-import { ItemPostInput, createBookPost } from "@/src/api/firestore/post";
+import { Item, createBookPost } from "@/src/api/firestore/post";
 
 import PickImage from "@/src/(frontend)/components/listing/ImagePicker";
 import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
@@ -18,7 +18,7 @@ import {
 
 const CreateListing = () => {
   const [formState, setFormState] = useState<
-    Omit<ItemPostInput, "location" | "ownerId">
+    Omit<Item, "location" | "ownerId">
   >({
     title: "",
     images: null,
@@ -31,7 +31,7 @@ const CreateListing = () => {
   });
 
   const handleChange = (
-    key: keyof Omit<ItemPostInput, "location" | "ownerId">,
+    key: keyof Omit<Item, "location" | "ownerId">,
     value: any
   ) => {
     setFormState({
@@ -41,7 +41,7 @@ const CreateListing = () => {
   };
 
   const handleSubmit = async (
-    formState: Omit<ItemPostInput, "location" | "ownerId">
+    formState: Omit<Item, "location" | "ownerId">
   ) => {
     const auth = getAuth().currentUser;
     const userId = await auth?.getIdToken();
