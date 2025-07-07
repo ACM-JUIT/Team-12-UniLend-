@@ -15,7 +15,7 @@ const WidePreview = (props: WPProps) => {
         <Text style={styles.textbottom}>{props.item.bottomtxt}</Text>
       </View>
       <TouchableOpacity style={styles.morebut} onPress={props.item.callback}>
-        <Image source={moreButton} />
+        <Image style={styles.morebutimg} source={moreButton} />
       </TouchableOpacity>
     </View>
   );
