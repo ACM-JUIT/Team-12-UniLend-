@@ -42,7 +42,10 @@ export default function HomePage() {
           <HomePageDefault />
         </>
       ) : (
-        <HomePageCategory selectedCategory={selectedCategory} categories={categories}  />
+        <HomePageCategory
+          selectedCategory={selectedCategory}
+          categories={categories}
+        />
       )}
     </ScrollView>
   );
