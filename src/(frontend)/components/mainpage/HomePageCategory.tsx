@@ -56,6 +56,7 @@ export function HomePageCategory({
             return (
               <SmallPreview
                 key={item.id}
+                itemId={item.id}
                 title={item.title}
                 images={item.images}
                 price={item.price}

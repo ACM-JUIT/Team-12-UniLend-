@@ -40,16 +40,16 @@ export function HomePageDefault() {
       />
 
       <Text style={styles.heading1}>New Stuff</Text>
-      <BrowseItems Items={newPosts} />
+      <BrowseItems items={newPosts} />
 
       <Text style={styles.heading1}>Popular Stuff</Text>
-      <BrowseItems Items={popularPosts} />
+      <BrowseItems items={popularPosts} />
 
       <Text style={styles.heading1}>Electronics ⚡</Text>
-      <BrowseItems Items={electronicsPosts} />
+      <BrowseItems items={electronicsPosts} />
 
       <Text style={styles.heading1}>Books 📕</Text>
-      <BrowseItems Items={booksPosts} />
+      <BrowseItems items={booksPosts} />
     </>
   );
 }

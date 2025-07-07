@@ -1,61 +1,22 @@
+import { Item } from "@/src/api/firestore/post";
 import React from "react";
 import {
   FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
+  StyleSheet
 } from "react-native";
+import SmallPreview from "../standard/SmallPreview";
 
-type BrowserProps = {
-  Items: any;
-  Action?: any;
-};
 
-export const BrowseItems = (props: BrowserProps) => {
+export const BrowseItems = ({items} : {items: Item[]}) => {
   return (
     <FlatList
       showsHorizontalScrollIndicator={false}
       style={styles.list}
       horizontal
-      data={props.Items}
+      data={items}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <View style={styles.box}>
-          <Pressable
-            onPress={() => {
-              alert("Hi");
-            }}
-          >
-            <Image
-              source={{
-                uri:
-                  "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" +
-                  item.images,
-              }}
-              style={styles.img}
-            />
-            <Text numberOfLines={2} style={styles.text}>
-              {item.title}
-            </Text>
-          </Pressable>
-          <View style={styles.box2}>
-            <Text style={styles.text2}>{item.price}00/m</Text>
-            <Pressable onPress={() => alert("Watchlist")}>
-              <Image
-                source={require("../../../../assets/images/watchlist.png")}
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderColor: "gray",
-                  borderWidth: 1,
-                  borderRadius: 5,
-                }}
-              ></Image>
-            </Pressable>
-          </View>
-        </View>
+        <SmallPreview itemId={item.id} title={item.title} price={item.price} images={item.images}/>
       )}
     />
   );

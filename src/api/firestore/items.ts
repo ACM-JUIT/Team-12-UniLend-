@@ -1,11 +1,13 @@
 import {
-    collection,
-    getDocs,
-    getFirestore,
-    limit,
-    orderBy,
-    query,
-    where,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+  where,
 } from "@react-native-firebase/firestore";
 
 import { Item } from "@/src/api/firestore/post";
@@ -17,7 +19,7 @@ export const fetchItemsByCategory = async (
 ): Promise<Item[]> => {
   try {
     const firestore = getFirestore();
-  
+
     let q;
     if (limitCount === -1) {
       q = query(
@@ -51,6 +53,26 @@ export const fetchItemsByCategory = async (
     return items;
   } catch (error: any) {
     console.error(error);
-    throw new Error(error);
+    throw error;
+  }
+};
+
+export const fetchItem = async (itemId: string) => {
+  try {
+    const firestore = getFirestore();
+
+    const itemSnap = await getDoc(doc(firestore, "Items", itemId));
+
+    if (itemSnap.exists()) {
+      return {
+        id: itemSnap.id,
+        ...(itemSnap.data() as Omit<Item, "id">),
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching single item: ", error);
+    throw error;
   }
 };

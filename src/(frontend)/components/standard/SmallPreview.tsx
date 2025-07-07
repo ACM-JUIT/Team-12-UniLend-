@@ -1,19 +1,23 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 const SmallPreview = ({
+  itemId,
   title,
   images,
   price,
 }: {
+  itemId: string,
   title: string;
   images: string | File[] | null;
   price: number;
 }) => {
+  const router = useRouter();
   return (
     <View style={styles.box}>
       <Pressable
         onPress={() => {
-          alert("Hi");
+          router.push(`/(screens)/${itemId}`);
         }}
       >
         <Image
@@ -29,7 +33,7 @@ const SmallPreview = ({
         </Text>
       </Pressable>
       <View style={styles.box2}>
-        <Text style={styles.text2}>{price}00/m</Text>
+        <Text style={styles.text2}>{price}/m</Text>
         <Pressable onPress={() => alert("Watchlist")}>
           <Image
             source={require("../../../../assets/images/watchlist.png")}

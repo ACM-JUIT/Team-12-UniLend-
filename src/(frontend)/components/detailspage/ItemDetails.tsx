@@ -1,25 +1,29 @@
+import { Item } from "@/src/api/firestore/post";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-type detailsProps = {
-  data: any;
-};
-
-const ItemDetails = (props: detailsProps) => {
+const ItemDetails = ({ item }: { item: Item }) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.imgUploaded} source={props.data.img} />
+      <Image
+        style={styles.imgUploaded}
+        source={{
+          uri:
+            "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" +
+            item.images,
+        }}
+      />
       <Text numberOfLines={2} style={styles.title}>
-        {props.data.name}
+        {item.title}
       </Text>
       <Text numberOfLines={2} style={styles.pub}>
-        {props.data.publorAuth}
+        {item.ownerId}
       </Text>
       <Text numberOfLines={1} style={styles.itemtag}>
-        {props.data.tag}
+        {item.category}
       </Text>
       <Text style={styles.itemdisc} numberOfLines={3}>
-        {props.data.disc}
+        {item.description}
       </Text>
     </View>
   );
@@ -70,6 +74,6 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     textOverflow: "",
     paddingLeft: 10,
-    paddingRight:10
+    paddingRight: 10,
   },
 });
