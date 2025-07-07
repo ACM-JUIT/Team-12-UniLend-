@@ -18,7 +18,7 @@ import {
 
 const CreateListing = () => {
   const [formState, setFormState] = useState<
-    Omit<Item, "location" | "ownerId">
+    Omit<Item, "location" | "ownerId" | "id">
   >({
     title: "",
     images: null,
@@ -41,7 +41,7 @@ const CreateListing = () => {
   };
 
   const handleSubmit = async (
-    formState: Omit<Item, "location" | "ownerId">
+    formState: Omit<Item, "location" | "ownerId" | "id">
   ) => {
     const auth = getAuth().currentUser;
     const userId = await auth?.getIdToken();
