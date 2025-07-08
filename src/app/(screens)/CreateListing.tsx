@@ -7,14 +7,13 @@ import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import { getAuth } from "@react-native-firebase/auth";
 import React, { useRef, useState } from "react";
 import {
-  Alert,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 
 import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
@@ -122,7 +121,6 @@ export default function CreateListing() {
         description: "",
         price: 0,
       });
-      Alert.alert("Success", "Item listed successfully!");
     } catch (error) {
       console.error("Error caught when submitting: " + error);
     }

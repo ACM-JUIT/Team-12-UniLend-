@@ -4,7 +4,6 @@ import { Checkbox } from "@futurejj/react-native-checkbox";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import {
-  Alert,
   Image,
   ImageBackground,
   StyleSheet,
@@ -12,12 +11,12 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 import { z } from "zod";
 const LoginSchema = z.object({
   username: z.string().nonempty("Username is required"),
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email address. It should be of the form example@gmail.com"),
   password: z.string().min(8, "Password must of minimum 8 characters"),
   privacyPolicy: z.boolean().refine((val) => val === true, {
     message: "You must agree to the privacy policy",
@@ -62,11 +61,14 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [privacyPolicy, setPrivacyPolicy] = useState(false);
 
+  const [formAlert, setFormAlert] = useState<{
+    title: string;
+    desc: string;
+    active: boolean;
+  }>({ title: "", desc: "", active: false });
+
   const input2Ref = useRef<TextInput>(null);
   const input3Ref = useRef<TextInput>(null);
-
-  //Variable for privacy overlay
-  const [POVisible, setPOVisible] = useState(false);
   const handleSignUp = async () => {
     const validate = formValidation({
       username: userName,
@@ -75,7 +77,7 @@ export default function SignUp() {
       privacyPolicy,
     });
     if (validate.failed) {
-      Alert.alert("Error", validate.error);
+      setFormAlert({ title: "Error", desc: validate.error, active: true });
       return;
     }
     try {
@@ -86,7 +88,7 @@ export default function SignUp() {
         privacyPolicy,
       });
 
-      Alert.alert("Account created", "Account successfully created");
+      setFormAlert({ title: "Account created", desc: "Account successfully created", active: true });
       // reset the login page
       setEmail("");
       setPassword("");
@@ -94,11 +96,11 @@ export default function SignUp() {
       setPrivacyPolicy(false);
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
-        Alert.alert("Error", "That email address is already in use!");
+        setFormAlert({ title: "Error", desc: "Email is already in use", active: true });
       }
 
       if (error.code === "auth/invalid-email") {
-        Alert.alert("Error", "That email address is invalid!");
+        setFormAlert({ title: "Error", desc: "Email address is invalid [from server]", active: true });
       }
 
       console.error(error);
@@ -185,10 +187,7 @@ export default function SignUp() {
 
           <TouchableWithoutFeedback
             onPress={() =>
-              // alert(
-              //   "Privacy is not your first priority, it is sending us cat pictures"
-              // )
-              setPOVisible(true)
+              setFormAlert({title: "Privacy Policy", desc: "By accepting our privacy policy, you give us right to sell your data. 🦉", active: true})
             }
           >
             <Text style={styles.textSmallest}>
@@ -225,12 +224,12 @@ export default function SignUp() {
         </View>
       </TouchableHighlight>
       <StandardOverlay
-        title="Privacy Policy"
-        activated={POVisible}
-        text={
-          "Hey so its been a while since i have wrote something without AI so hereis some writing practice by my sidehehe"
+        activated={formAlert.active}
+        controller={(isActive: boolean) =>
+          setFormAlert({ title: "", desc: "", active: isActive })
         }
-        controller={setPOVisible}
+        title={formAlert.title}
+        text={formAlert.desc}
       />
     </ImageBackground>
   );
