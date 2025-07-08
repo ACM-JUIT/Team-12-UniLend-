@@ -195,8 +195,22 @@ export default function CreateListing() {
           placeholder="Enter price"
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.price.toString()}
-          onChangeText={(price) => handleChange("price", +price)}
-          keyboardType="numeric"
+          onChangeText={(price) => {
+            if (price === "") {
+              handleChange("price", 0);
+              return;
+            }
+            const cleanPrice = price.replace(/[^0-9.]/g, "");
+            const parts = cleanPrice.split(".");
+            const finalPrice = parts[0] + (parts.length > 1 ? "." + parts[1] : "");
+
+            const numPrice = parseFloat(finalPrice);
+            if (!isNaN(numPrice)) {
+              handleChange("price", numPrice)
+            }
+            
+          }}
+          keyboardType="decimal-pad"
         />
         <Text style={styles.heading1}>Trade Type*</Text>
         <TradeType handleTypeChange={(type) => handleChange("type", type)} />
