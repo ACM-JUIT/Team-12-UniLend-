@@ -5,7 +5,7 @@ import TradeType from "@/src/(frontend)/components/listing/TradeType";
 import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import { getAuth } from "@react-native-firebase/auth";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -46,6 +46,9 @@ const ListingSchema = z.object({
 });
 
 export default function CreateListing() {
+  const companyRef = useRef<TextInput>(null);
+  const descriptionRef = useRef<TextInput>(null);
+
   const [formState, setFormState] = useState<
     Omit<Item, "location" | "ownerId" | "id">
   >({
@@ -147,19 +150,25 @@ export default function CreateListing() {
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.model}
           onChangeText={(model) => handleChange("model", model)}
+          onSubmitEditing={() => companyRef.current?.focus()}
+          returnKeyType="next"
         />
 
         <Text style={styles.heading1}>Company/Publication*</Text>
         <TextInput
+          ref={companyRef}
           style={styles.input1}
           placeholder="eg. Jaypee Cement"
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.company}
           onChangeText={(company) => handleChange("company", company)}
+          onSubmitEditing={() => descriptionRef.current?.focus()}
+          returnKeyType="next"
         />
 
         <Text style={styles.heading1}>Item Discription*</Text>
         <TextInput
+          ref={descriptionRef}
           multiline={true}
           style={styles.input1}
           placeholder="(Min 10 words.) eg. A platform to sell books that is created by three people oh five people"
