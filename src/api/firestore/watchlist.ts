@@ -45,3 +45,10 @@ export const getUserWatchList = async (UserId: string): Promise <string[]> => {
         throw new Error("Failed to retrieve watchlist.");
     }
 };
+
+export const getItemDetails = async (itemId: string): Promise<any | null> => {
+    const db = getFirestore();
+    const itemRef = doc(db,"'items",itemId);
+    const snapshot = await getDoc(itemRef);
+    return snapshot.exists() ? snapshot.data() : null;
+}
