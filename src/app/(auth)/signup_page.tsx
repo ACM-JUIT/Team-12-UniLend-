@@ -226,11 +226,11 @@ export default function SignUp() {
       </TouchableHighlight>
       <StandardOverlay
         title="Privacy Policy"
-        Activated={POVisible}
+        activated={POVisible}
         text={
           "Hey so its been a while since i have wrote something without AI so hereis some writing practice by my sidehehe"
         }
-        Controller={setPOVisible}
+        controller={setPOVisible}
       />
     </ImageBackground>
   );
