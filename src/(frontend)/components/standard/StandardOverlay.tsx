@@ -11,23 +11,23 @@ import {
 type SOProps = {
   title: string;
   text: string;
-  Activated: boolean;
-  Controller: any;
-  Animation?: string;
+  activated: boolean;
+  controller: any;
+  animation?: string;
 };
 
 const StandardOverlay = (props: SOProps) => {
   return (
     <Modal
       transparent
-      visible={props.Activated}
-      onRequestClose={() => props.Controller(false)}
+      visible={props.activated}
+      onRequestClose={() => props.controller(false)}
       animationType="slide"
     >
       <View style={styles.container}>
         <View style={styles.box}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => props.Controller(false)}>
+            <TouchableOpacity onPress={() => props.controller(false)}>
               <Image
                 style={styles.close}
                 source={require("@/assets/images/Standard Overlay/Frame.png")}
@@ -38,7 +38,7 @@ const StandardOverlay = (props: SOProps) => {
           <Text style={styles.text}>{props.text}</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => props.Controller(false)}
+            onPress={() => props.controller(false)}
           >
             <Text style={styles.buttontext}> Close </Text>
           </TouchableOpacity>
