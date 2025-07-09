@@ -1,22 +1,24 @@
+import BackButton from "@/src/(frontend)/components/standard/BackButton";
 import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import signUp from "@/src/api/auth/signup";
 import { Checkbox } from "@futurejj/react-native-checkbox";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import {
-  Image,
   ImageBackground,
   StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
   TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
 import { z } from "zod";
 const LoginSchema = z.object({
   username: z.string().nonempty("Username is required"),
-  email: z.string().email("Invalid email address. It should be of the form example@gmail.com"),
+  email: z
+    .string()
+    .email("Invalid email address. It should be of the form example@gmail.com"),
   password: z.string().min(8, "Password must of minimum 8 characters"),
   privacyPolicy: z.boolean().refine((val) => val === true, {
     message: "You must agree to the privacy policy",
@@ -88,7 +90,11 @@ export default function SignUp() {
         privacyPolicy,
       });
 
-      setFormAlert({ title: "Account created", desc: "Account successfully created", active: true });
+      setFormAlert({
+        title: "Account created",
+        desc: "Account successfully created",
+        active: true,
+      });
       // reset the login page
       setEmail("");
       setPassword("");
@@ -96,11 +102,19 @@ export default function SignUp() {
       setPrivacyPolicy(false);
     } catch (error: any) {
       if (error.code === "auth/email-already-in-use") {
-        setFormAlert({ title: "Error", desc: "Email is already in use", active: true });
+        setFormAlert({
+          title: "Error",
+          desc: "Email is already in use",
+          active: true,
+        });
       }
 
       if (error.code === "auth/invalid-email") {
-        setFormAlert({ title: "Error", desc: "Email address is invalid [from server]", active: true });
+        setFormAlert({
+          title: "Error",
+          desc: "Email address is invalid [from server]",
+          active: true,
+        });
       }
 
       console.error(error);
@@ -113,13 +127,7 @@ export default function SignUp() {
       style={styles.container}
       resizeMode="cover"
     >
-      <TouchableWithoutFeedback onPress={router.back}>
-        <Image
-          source={require("../../../assets/images/backArrow.png")}
-          style={styles.image1}
-        />
-      </TouchableWithoutFeedback>
-
+      <BackButton />
       <Text style={styles.text1}>Sign Up</Text>
 
       <Text style={styles.text2}>Username</Text>
@@ -187,7 +195,11 @@ export default function SignUp() {
 
           <TouchableWithoutFeedback
             onPress={() =>
-              setFormAlert({title: "Privacy Policy", desc: "By accepting our privacy policy, you give us right to sell your data. 🦉", active: true})
+              setFormAlert({
+                title: "Privacy Policy",
+                desc: "By accepting our privacy policy, you give us right to sell your data. 🦉",
+                active: true,
+              })
             }
           >
             <Text style={styles.textSmallest}>
