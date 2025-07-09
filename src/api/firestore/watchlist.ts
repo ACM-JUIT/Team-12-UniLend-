@@ -1,26 +1,27 @@
-import {doc,updateDoc,arrayUnion,arrayRemove,getDoc, getFirestore} from "@react-native-firebase/firestore"
-
-export const addToWatchList = async (userId: string, postId: string) => {
+import {doc,updateDoc,collection,setDoc,arrayRemove,getDoc, getFirestore, arrayUnion} from "@react-native-firebase/firestore"
+export const addToWatchlist = async (userId: string, itemId: string) => {
+  try {
     const db = getFirestore();
-    const userRef = doc(db,"users",userId);
+    const UserRef = doc(db,"users",userId);
 
-    try{
-        await updateDoc(userRef, {
-            watchlist: arrayUnion(postId),
-        });
-    } catch(error) {
-        console.error("Error removing form watchlist: ", error);
-        throw new Error("Failed to remove from watchlist.");
-    }
+    await updateDoc(UserRef, {
+      watclist: arrayUnion(itemId),
+    });
+
+    console.log("Watchlist item added successfully");
+  } catch (error) {
+    console.error("Failed to add to watchlist:", error);
+    throw error;
+  }
 };
 
-export const removeFromWatchList = async (userId: string, postId: string) => {
+export const removeFromWatchList = async (userId: string, itemId: string) => {
     const db = getFirestore();
     const userRef = doc(db,"users",userId);
 
     try{
         await updateDoc(userRef, {
-            watchlist: arrayRemove(postId),
+            watchlist: arrayRemove(itemId),
         });
     } catch(error) {
         console.error("Error remobving from watchlist:", error);
@@ -29,10 +30,10 @@ export const removeFromWatchList = async (userId: string, postId: string) => {
 };
 
 export const getUserWatchList = async (UserId: string): Promise <string[]> => {
-    const db = getFirestore();
-    const userRef = doc(db,"users","userId");
 
     try{
+        const db = getFirestore();
+        const userRef = doc(db,"users",UserId);
         const usersnap = await getDoc(userRef);
         if(usersnap.exists()) {
             const data = usersnap.data();
@@ -47,8 +48,13 @@ export const getUserWatchList = async (UserId: string): Promise <string[]> => {
 };
 
 export const getItemDetails = async (itemId: string): Promise<any | null> => {
-    const db = getFirestore();
-    const itemRef = doc(db,"'items",itemId);
-    const snapshot = await getDoc(itemRef);
-    return snapshot.exists() ? snapshot.data() : null;
-}
+    try{
+        const db = getFirestore();
+        const itemRef = doc(db,"items",itemId);
+        const snapshot = await getDoc(itemRef);
+       return snapshot.exists() ? snapshot.data() : null;
+    } catch(error) {
+        console.error("Error fetching item details: ",error);
+        return null;
+    }
+};  
