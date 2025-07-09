@@ -6,16 +6,16 @@ type BB = {
   image?: any;
 };
 
-const BottomButtons = (props: BB) => {
+const BottomButtons = ({callback, text, image} : {callback: (...args: any[]) => void, text?: string, image?: string}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button1} onPress={props.callbfunc}>
+      <TouchableOpacity style={styles.button1} onPress={callback}>
         <Image
           source={require("../../../../assets/images/ProductInfo/prod-buy.png")}
           style={styles.icon1}
         ></Image>
         {/* here add a check for what kind of interaction it it and change text accordingly. */}
-        <Text style={styles.buttxt1}>Buy Now!</Text>
+        <Text style={styles.buttxt1} onPress={callback}>Buy Now!</Text>
       </TouchableOpacity>
     </View>
   );

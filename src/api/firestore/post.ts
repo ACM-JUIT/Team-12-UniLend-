@@ -18,7 +18,7 @@ export interface Item  {
   title: string;
   description: string;
   price: number;
-  type: "sell" | "lend" | "both" | null;
+  type: "sell" | "lend" | "both";
   ownerId: string;
   category: string;
   model: string;
@@ -29,18 +29,13 @@ export interface Item  {
   images: File[] | string | null;
 };
 
-export async function createBookPost(postData: Omit<Item, "id">): Promise<void> {
+export async function createItemPost(postData: Omit<Item, "id">, idtoken: string): Promise<void> {
   try {
-    const { ownerId, images, ...otherData } = postData;
-    if (!ownerId) throw new Error("User not authenticated");
-    console.log("createBookPost function started");
-    // const uploadedResults: CloudinaryUploadResult[] = await Promise.all(
-    //   images?.map((file) => uploadImage(file, ownerId))
-    // );
-    const uploadedResults = await uploadImage(images as string, ownerId);
+    const { images, ...otherData } = postData;
+    const uploadedResults = await uploadImage(images as string, idtoken);
+    
     console.log("IMAGES:" + JSON.stringify(uploadedResults));
 
-    // const imageIds = uploadedResults.map((res) => res.public_id);
     const bookPost = {
       ...otherData,
       images: uploadedResults.public_id.toString(),

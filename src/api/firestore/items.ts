@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -75,3 +76,26 @@ export const fetchItem = async (itemId: string): Promise<Item | null> => {
     throw error;
   }
 };
+
+export  async function deleteItem(itemId: string): Promise<{success: boolean; error?: string}> {
+  try {
+    console.log(`Attempting to delete item with ID: ${itemId}`);
+    
+    const db = getFirestore();
+    const itemRef = doc(db, "Items", itemId);
+    
+    // Check if item exists before deleting
+    const itemSnap = await getDoc(itemRef);
+    if (!itemSnap.exists()) {
+      console.log(`Item ${itemId} does not exist`);
+      return {success: false, error: "Item not found"};
+    }
+    
+    await deleteDoc(itemRef);
+    console.log(`Item ${itemId} successfully deleted`);
+    return {success: true};
+  } catch (error) {
+    console.error("Error deleting Item in deleteItem: ", error);
+    return {success: false, error: String(error)};
+  }
+}

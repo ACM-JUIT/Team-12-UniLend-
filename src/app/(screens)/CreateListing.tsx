@@ -1,9 +1,10 @@
-import { Item, createBookPost } from "@/src/api/firestore/post";
+import { Item, createItemPost } from "@/src/api/firestore/post";
 
 import PickImage from "@/src/(frontend)/components/listing/ImagePicker";
 import TradeType from "@/src/(frontend)/components/listing/TradeType";
 import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
+import { useAuth } from "@/src/context/AuthContext";
 import { getAuth } from "@react-native-firebase/auth";
 import React, { useRef, useState } from "react";
 import {
@@ -48,10 +49,12 @@ const ListingSchema = z.object({
 });
 
 export default function CreateListing() {
+  const {user} = useAuth();
+
   const companyRef = useRef<TextInput>(null);
   const descriptionRef = useRef<TextInput>(null);
 
-  const [formError, setFormError] = useState<{
+  const [formAlert, setFormAlert] = useState<{
     title: string;
     desc: string;
     active: boolean;
@@ -62,13 +65,14 @@ export default function CreateListing() {
   >({
     title: "",
     images: null,
-    type: null,
+    type: "sell",
     category: "",
     model: "",
     company: "",
     description: "",
     price: 0,
   });
+  if (!user) throw new Error("The user isn't authenticated");
 
   const handleChange = (
     key: keyof Omit<Item, "location" | "ownerId">,
@@ -97,7 +101,7 @@ export default function CreateListing() {
         error.type?._errors[0] ||
         "Invalid Input";
 
-      setFormError({
+      setFormAlert({
         title: "Oops!",
         desc: firstError,
         active: true,
@@ -105,24 +109,25 @@ export default function CreateListing() {
       return;
     }
 
-    const auth = getAuth().currentUser;
-    const userId = await auth?.getIdToken();
-    if (!userId) throw new Error("The user isn't authenticated");
+
     try {
-      createBookPost({ ...formState, ownerId: userId, location: null });
+      const idToken = await getAuth().currentUser?.getIdToken();
+      if (!idToken) throw new Error("User not authenticated")
+      await createItemPost({ ...formState, ownerId: user.uid, location: null }, idToken);
 
       setFormState({
         title: "",
         images: null,
-        type: null,
+        type: "sell",
         category: "",
         model: "",
         company: "",
         description: "",
         price: 0,
       });
+      setFormAlert({title: "Success!", desc: "Item successfully posted!", active: true})
     } catch (error) {
-      console.error("Error caught when submitting: " + error);
+      console.error( error);
     }
   };
 
@@ -235,12 +240,12 @@ export default function CreateListing() {
         </TouchableOpacity>
       </View>
       <StandardOverlay
-        activated={formError.active}
+        activated={formAlert.active}
         controller={(isActive: boolean) =>
-          setFormError({ title: "", desc: "", active: isActive })
+          setFormAlert({ title: "", desc: "", active: isActive })
         }
-        title={formError.title}
-        text={formError.desc}
+        title={formAlert.title}
+        text={formAlert.desc}
       />
     </KeyboardAvoidingView>
   );
