@@ -1,3 +1,4 @@
+import BackButton from "@/src/(frontend)/components/standard/BackButton";
 import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import forgetPassword from "@/src/api/auth/forgetPassword";
 import logIn from "@/src/api/auth/login";
@@ -5,7 +6,6 @@ import { router } from "expo-router";
 import { useRef, useState } from "react";
 import {
   Alert,
-  Image,
   ImageBackground,
   StyleSheet,
   Text,
@@ -17,7 +17,9 @@ import {
 import { z } from "zod";
 
 const LoginSchema = z.object({
-  email: z.string().email("Invalid email address. It should be of the form example@gmail.com"),
+  email: z
+    .string()
+    .email("Invalid email address. It should be of the form example@gmail.com"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
@@ -57,13 +59,21 @@ export default function Login() {
 
   const handleForgetPassword = async () => {
     if (!email) {
-         setFormError({ title: "Error", desc: "Please enter your email address first.", active: true });
+      setFormError({
+        title: "Error",
+        desc: "Please enter your email address first.",
+        active: true,
+      });
       return;
     }
 
     try {
       await forgetPassword(email);
-         setFormError({ title: "Success", desc: "Password reset email sent to your mail.", active: true });
+      setFormError({
+        title: "Success",
+        desc: "Password reset email sent to your mail.",
+        active: true,
+      });
     } catch (error) {
       console.error("password reset error:", error);
       Alert.alert("error", "an error occured while sending reset email");
@@ -96,13 +106,7 @@ export default function Login() {
       style={styles.container}
       resizeMode="cover"
     >
-      <TouchableWithoutFeedback onPress={router.back}>
-        <Image
-          source={require("../../../assets/images/backArrow.png")}
-          style={styles.image1}
-        />
-      </TouchableWithoutFeedback>
-
+      <BackButton />
       <Text style={styles.text1}>Log In</Text>
 
       <Text style={styles.text2}>Email</Text>
