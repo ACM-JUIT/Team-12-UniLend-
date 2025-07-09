@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 
-const CatTextSelector = ({ handleClick, initialValue = null }: { handleClick: any, initialValue: string | null }) => {
+const CatTextSelector = ({ handleClick, initialValue = null }: { handleClick: any, initialValue?: string | null }) => {
   const [categories, setCategories] = useState<Tag[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(initialValue);
   useEffect(() => {

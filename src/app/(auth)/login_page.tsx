@@ -1,3 +1,4 @@
+import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import forgetPassword from "@/src/api/auth/forgetPassword";
 import logIn from "@/src/api/auth/login";
 import { router } from "expo-router";
@@ -16,7 +17,7 @@ import {
 import { z } from "zod";
 
 const LoginSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email address. It should be of the form example@gmail.com"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
@@ -46,20 +47,23 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [formError, setFormError] = useState<{
+    title: string;
+    desc: string;
+    active: boolean;
+  }>({ title: "", desc: "", active: false });
+
   const input2Ref = useRef<TextInput>(null);
 
   const handleForgetPassword = async () => {
     if (!email) {
-      Alert.alert("Error", "Please enter your email address first!");
+         setFormError({ title: "Error", desc: "Please enter your email address first.", active: true });
       return;
     }
 
     try {
       await forgetPassword(email);
-      Alert.alert(
-        "Success",
-        "password reset email sent! Please check your inbox."
-      );
+         setFormError({ title: "Success", desc: "Password reset email sent to your mail.", active: true });
     } catch (error) {
       console.error("password reset error:", error);
       Alert.alert("error", "an error occured while sending reset email");
@@ -70,7 +74,7 @@ export default function Login() {
     const validation = formValidation({ email, password });
 
     if (validation.failed) {
-      Alert.alert("validation error", validation.error);
+      setFormError({ title: "Error", desc: validation.error, active: true });
       return;
     }
 
@@ -175,6 +179,14 @@ export default function Login() {
           </Text>
         </View>
       </TouchableHighlight>
+      <StandardOverlay
+        activated={formError.active}
+        controller={(isActive: boolean) =>
+          setFormError({ title: "", desc: "", active: isActive })
+        }
+        title={formError.title}
+        text={formError.desc}
+      />
     </ImageBackground>
   );
 }

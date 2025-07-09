@@ -1,27 +1,30 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 type TAProps = {
-  backFunc: any;
-  itemId: any;
-  watchBut: any;
+  backFunc: () => void;
+  itemId: string;
+  watchBut: any; 
+  isSaved: boolean;
+  toggleWatchlist: () => void;
 };
-// const [SOopen, setSOopen] = useState(false);
+// const [SOopen, setSOopen] = useState(false); 
 const TopActions = (props: TAProps) => {
+  const {backFunc,toggleWatchlist,isSaved} = props;
   return (
     <View style={styles.topactions}>
-      <TouchableOpacity onPress={props.backFunc}>
+      <TouchableOpacity onPress={backFunc}>
         <Image
           style={styles.backimage}
           source={require("../../../../assets/images/ProductInfo/prod-back.png")}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.watchBut(true)}>
+      <TouchableOpacity onPress={toggleWatchlist}>
         <Image
           style={styles.watchlist}
           source={require("../../../../assets/images/watchlist.png")}
         />
       </TouchableOpacity>
-      {/* <StandardOverlay
+      { /*<StandardOverlay
         Activated={SOopen}
         Controller={setSOopen}
         title={"Alert!"}

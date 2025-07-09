@@ -5,33 +5,29 @@ import TradeType from "@/src/(frontend)/components/listing/TradeType";
 import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import { getAuth } from "@react-native-firebase/auth";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
-  Alert,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 
+import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
 import { z } from "zod";
 const ListingSchema = z.object({
   title: z
     .string()
     .nonempty("Item name is required")
     .max(50, "Item name must be 50 characters or less"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  price: z
-    .number()
-    .nonnegative("Price can't be negative")
-    .max(10000, "Price must be less than 10000"),
-  type: z.enum(["sell", "lend", "both"], {
-    errorMap: () => ({ message: "Trade type must be selected" }),
-  }),
-  category: z.string().nonempty("Category is required"),
+  images: z
+    .union([z.array(z.instanceof(File)), z.string()])
+    .nullable()
+    .refine((val) => val !== null, "Product image is required"),
+
   model: z
     .string()
     .nonempty("Model/Edition is required")
@@ -40,12 +36,27 @@ const ListingSchema = z.object({
     .string()
     .nonempty("Company/Publication is required")
     .max(50, "Company/Publication must be 50 characters or less"),
-  images: z
-    .union([z.array(z.instanceof(File)), z.string()])
-    .refine((val) => val !== null, "Product image is required"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  price: z
+    .number()
+    .nonnegative("Price can't be negative")
+    .max(10000, "Price must be less than 10000"),
+  category: z.string().nonempty("Category is required"),
+  type: z.enum(["sell", "lend", "both"], {
+    errorMap: () => ({ message: "Trade type must be selected" }),
+  }),
 });
 
 export default function CreateListing() {
+  const companyRef = useRef<TextInput>(null);
+  const descriptionRef = useRef<TextInput>(null);
+
+  const [formError, setFormError] = useState<{
+    title: string;
+    desc: string;
+    active: boolean;
+  }>({ title: "", desc: "", active: false });
+
   const [formState, setFormState] = useState<
     Omit<Item, "location" | "ownerId" | "id">
   >({
@@ -77,19 +88,20 @@ export default function CreateListing() {
       const error = result.error.format();
       const firstError =
         error.title?._errors[0] ||
-        error.description?._errors[0] ||
-        error.price?._errors[0] ||
-        error.type?._errors[0] ||
+        error.images?._errors[0] ||
         error.category?._errors[0] ||
         error.model?._errors[0] ||
         error.company?._errors[0] ||
-        error.images?._errors[0] ||
+        error.description?._errors[0] ||
+        error.price?._errors[0] ||
+        error.type?._errors[0] ||
         "Invalid Input";
 
-      Alert.alert(
-        "Validation Error",
-        firstError || "Please check your input and try again."
-      );
+      setFormError({
+        title: "Oops!",
+        desc: firstError,
+        active: true,
+      });
       return;
     }
 
@@ -109,7 +121,6 @@ export default function CreateListing() {
         description: "",
         price: 0,
       });
-      Alert.alert("Success", "Item listed successfully!");
     } catch (error) {
       console.error("Error caught when submitting: " + error);
     }
@@ -147,19 +158,25 @@ export default function CreateListing() {
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.model}
           onChangeText={(model) => handleChange("model", model)}
+          onSubmitEditing={() => companyRef.current?.focus()}
+          returnKeyType="next"
         />
 
         <Text style={styles.heading1}>Company/Publication*</Text>
         <TextInput
+          ref={companyRef}
           style={styles.input1}
           placeholder="eg. Jaypee Cement"
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.company}
           onChangeText={(company) => handleChange("company", company)}
+          onSubmitEditing={() => descriptionRef.current?.focus()}
+          returnKeyType="next"
         />
 
         <Text style={styles.heading1}>Item Discription*</Text>
         <TextInput
+          ref={descriptionRef}
           multiline={true}
           style={styles.input1}
           placeholder="(Min 10 words.) eg. A platform to sell books that is created by three people oh five people"
@@ -176,8 +193,22 @@ export default function CreateListing() {
           placeholder="Enter price"
           placeholderTextColor="#efe3c87a"
           defaultValue={formState.price.toString()}
-          onChangeText={(price) => handleChange("price", +price)}
-          keyboardType="numeric"
+          onChangeText={(price) => {
+            if (price === "") {
+              handleChange("price", 0);
+              return;
+            }
+            const cleanPrice = price.replace(/[^0-9.]/g, "");
+            const parts = cleanPrice.split(".");
+            const finalPrice = parts[0] + (parts.length > 1 ? "." + parts[1] : "");
+
+            const numPrice = parseFloat(finalPrice);
+            if (!isNaN(numPrice)) {
+              handleChange("price", numPrice)
+            }
+            
+          }}
+          keyboardType="decimal-pad"
         />
         <Text style={styles.heading1}>Trade Type*</Text>
         <TradeType handleTypeChange={(type) => handleChange("type", type)} />
@@ -203,6 +234,14 @@ export default function CreateListing() {
           </View>
         </TouchableOpacity>
       </View>
+      <StandardOverlay
+        activated={formError.active}
+        controller={(isActive: boolean) =>
+          setFormError({ title: "", desc: "", active: isActive })
+        }
+        title={formError.title}
+        text={formError.desc}
+      />
     </KeyboardAvoidingView>
   );
 }
