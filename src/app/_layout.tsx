@@ -33,6 +33,14 @@ export default function RootLayout() {
             name="(screens)/tradeHist"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="(screens)/userProfile"
+            options={{ headerShown: false }}
+          />{" "}
+          <Stack.Screen
+            name="(screens)/editProfile"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </GestureHandlerRootView>
     </AuthProvider>
