@@ -23,7 +23,7 @@ const TradeType = ({
   initialValue = null,
 }: {
   handleTypeChange: (type: string) => void;
-  initialValue: TradeOption["slug"] | null;
+  initialValue?: TradeOption["slug"] | null;
 }) => {
   const [selectedType, setSelectedType] = useState<TradeOption["slug"] | null>(
     initialValue

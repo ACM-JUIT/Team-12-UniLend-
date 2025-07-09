@@ -76,8 +76,8 @@ export default function Productpage() {
         <ItemDetails item={item} />
         <BottomButtons callbfunc={() => alert("Hello")} />
         <StandardOverlay
-          Activated={SOopen}
-          Controller={setSOopen}
+          activated ={SOopen}
+          controller={setSOopen}
           title="Add to WatchList!"
           text={
             "Would you Like to add this to your watchlist?"
