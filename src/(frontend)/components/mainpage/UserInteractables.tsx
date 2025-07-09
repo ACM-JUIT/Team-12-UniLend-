@@ -19,19 +19,19 @@ export const UserInteractables = () => {
       id: 1,
       title: "Item Watchlist",
       icon: icons[0],
-      press: "",
+      press: () => router.navigate("/(screens)/itemWatchlist"),
     },
     {
       id: 2,
       title: "Trade History",
       icon: icons[1],
-      press: "",
+      press: () => router.navigate("/(screens)/tradeHist"),
     },
     {
       id: 3,
       title: "Add Listing!",
       icon: icons[2],
-      press: "",
+      press: () => router.navigate("/(screens)/CreateListing"),
     },
   ];
   return (
@@ -39,12 +39,7 @@ export const UserInteractables = () => {
       <View style={styles.container}>
         {cards.map((props) => {
           return (
-            <TouchableWithoutFeedback
-              onPress={() => {
-                router.replace("/(screens)/CreateListing");
-              }}
-              key={props.id}
-            >
+            <TouchableWithoutFeedback onPress={props.press} key={props.id}>
               <View style={styles.box}>
                 <Text style={styles.txt}>{props.title}</Text>
                 <Image style={styles.img} source={props.icon} />

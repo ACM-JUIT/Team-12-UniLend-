@@ -15,7 +15,7 @@ export default function Productpage() {
   const { itemId } = useLocalSearchParams();
   const [item, setItem] = useState<Item | null>(null);
   const [SOopen, setSOopen] = useState<boolean>(false);
-  
+
   useEffect(() => {
     const handleFetch = async () => {
       try {

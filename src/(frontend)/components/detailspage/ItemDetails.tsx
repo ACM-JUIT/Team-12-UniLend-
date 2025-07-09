@@ -31,7 +31,9 @@ const ItemDetails = ({ item }: { item: Item }) => {
           <Text style={styles.itemtag}>{item.category}</Text>
           <TouchableHighlight
             style={{ flexDirection: "row" }}
-            onPress={() => setExpanded(!Expanded)}
+            onPress={() => {
+              setExpanded(!Expanded);
+            }}
           >
             <View style={{ gap: 2 }}>
               <Text style={styles.itemdisc} numberOfLines={Expanded ? 0 : 2}>
@@ -105,5 +107,7 @@ const styles = StyleSheet.create({
     color: "beige",
     textAlign: "right",
     fontSize: 12,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
