@@ -22,7 +22,7 @@ export default function RootLayout() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="(screens)/[itemId]"
+            name="(screens)/inventory/[itemId]"
             options={{ headerShown: false }}
           />
           <Stack.Screen

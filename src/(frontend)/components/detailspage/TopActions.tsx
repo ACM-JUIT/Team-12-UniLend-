@@ -1,37 +1,90 @@
-import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-type TAProps = {
-  backFunc: () => void;
-  itemId: string;
-  watchBut: any; 
-  isSaved: boolean;
-  toggleWatchlist: () => void;
-};
-// const [SOopen, setSOopen] = useState(false); 
-const TopActions = (props: TAProps) => {
-  const {backFunc,toggleWatchlist,isSaved} = props;
+import {
+  addToWatchlist,
+  getUserWatchlist,
+  removeFromWatchlist,
+} from "@/src/api/firestore/watchlist";
+import { useAuth } from "@/src/context/AuthContext";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import StandardOverlay from "../standard/StandardOverlay";
+
+const TopActions = ({ userId, itemId }: { userId: string; itemId: string }) => {
+  const { user } = useAuth();
+
+  const router = useRouter()
+
+  const [modal, setModal] = useState<{
+    title: string;
+    desc: string;
+    active: boolean;
+  }>({ title: "", desc: "", active: false });
+
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!user) {
+        console.error("User not logged in");
+        return;
+      }
+      try {
+        const watchList = await getUserWatchlist(user.uid);
+        if (watchList.includes(itemId)) {
+          setIsSaved(true);
+        }
+      } catch (e) {
+        setModal({ title: "Error!", desc: String(e), active: true });
+        return;
+      }
+    };
+    fetchUser();
+  }, [user, itemId]);
+
+  if (!user) {
+    return (
+      <View style={styles.topactions}>
+        <Text style={{ color: "white" }}>Not logged in</Text>
+      </View>
+    );
+  }
+
+  const toggleWatchList = async () => {
+    if (!userId || !itemId) return;
+
+    try {
+      if (isSaved) {
+        await removeFromWatchlist(userId, itemId as string);
+        setIsSaved(false);
+      } else {
+        await addToWatchlist(userId, itemId as string);
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error("Failed to toggle watchlist: ", error);
+    }
+  };
+
   return (
     <View style={styles.topactions}>
-      <TouchableOpacity onPress={backFunc}>
+      <TouchableOpacity onPress={router.back}>
         <Image
           style={styles.backimage}
           source={require("../../../../assets/images/ProductInfo/prod-back.png")}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={toggleWatchlist}>
+      <TouchableOpacity onPress={toggleWatchList}>
         <Image
           style={styles.watchlist}
           source={require("../../../../assets/images/watchlist.png")}
         />
       </TouchableOpacity>
-      { /*<StandardOverlay
-        Activated={SOopen}
-        Controller={setSOopen}
-        title={"Alert!"}
-        text={
-          "This is a temporary alert, we will later make it run a function to watchlist item using the id."
-        }
-      /> */}
+      <StandardOverlay
+        activated={modal.active}
+        controller={() => setModal({ title: "", desc: "", active: false })}
+        title={modal.title}
+        text={modal.desc}
+      />
     </View>
   );
 };

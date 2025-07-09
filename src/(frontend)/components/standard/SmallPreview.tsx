@@ -17,7 +17,7 @@ const SmallPreview = ({
     <View style={styles.box}>
       <Pressable
         onPress={() => {
-          router.push(`/(screens)/${itemId}`);
+          router.push(`/inventory/${itemId}`);
         }}
       >
         <Image

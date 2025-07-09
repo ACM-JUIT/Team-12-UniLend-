@@ -1,20 +1,43 @@
 import moreButton from "@/assets/images/backArrow.png";
+import { RelativePathString, useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-type WPProps = {
-  item: any;
-};
 
-const WidePreview = (props: WPProps) => {
+const WidePreview = ({
+  title,
+  middleText,
+  bottomText,
+  imageId,
+  buttonLink,
+}: {
+  title: string;
+  middleText: string;
+  bottomText: string;
+  imageId: string;
+  buttonLink: RelativePathString;
+}) => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
-      <Image source={props.item.image} style={styles.image} />
+      <Image
+        source={{
+          uri:
+            "https://res.cloudinary.com/theowl/image/upload/q_auto/f_auto/" +
+            imageId,
+        }}
+        style={styles.image}
+      />
       <View style={styles.infobox}>
-        <Text style={styles.texttitle}>{props.item.title}</Text>
-        <Text style={styles.textmiddle}>{props.item.middletxt}</Text>
-        <Text style={styles.textbottom}>{props.item.bottomtxt}</Text>
+        <Text style={styles.texttitle}>{title}</Text>
+        <Text style={styles.textmiddle}>{middleText}</Text>
+        <Text style={styles.textbottom}>{bottomText}</Text>
       </View>
-      <TouchableOpacity style={styles.morebut} onPress={props.item.callback}>
+      <TouchableOpacity
+        style={styles.morebut}
+        onPress={() => {
+          router.push(buttonLink);
+        }}
+      >
         <Image style={styles.morebutimg} source={moreButton} />
       </TouchableOpacity>
     </View>

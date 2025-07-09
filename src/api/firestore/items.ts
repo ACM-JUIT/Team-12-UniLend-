@@ -57,12 +57,11 @@ export const fetchItemsByCategory = async (
   }
 };
 
-export const fetchItem = async (itemId: string) => {
+export const fetchItem = async (itemId: string): Promise<Item | null> => {
   try {
     const firestore = getFirestore();
 
     const itemSnap = await getDoc(doc(firestore, "Items", itemId));
-
     if (itemSnap.exists()) {
       return {
         id: itemSnap.id,
