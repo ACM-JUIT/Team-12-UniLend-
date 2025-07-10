@@ -7,7 +7,8 @@ type upProps = {
 };
 
 let datatest = {
-  username: "Lakshya Walia",
+  name: "Lakshya Walia",
+  username: "lakshyawalia01",
   sales: 4,
   hostel: "H10-R4",
   mobile: "+46465455X",
@@ -23,11 +24,11 @@ const userProfile = (props = datatest) => {
   );
 };
 
-export default userProfile();
+export default userProfile;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: "#1C161E",
     height: "100%",
     width: "100%",
   },

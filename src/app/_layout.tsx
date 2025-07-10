@@ -30,7 +30,7 @@ export default function RootLayout() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="(screens)/tradeHist"
+            name="(screens)/orderHistory/[orderId]"
             options={{ headerShown: false }}
           />
           <Stack.Screen
