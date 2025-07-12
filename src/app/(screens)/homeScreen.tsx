@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <ScrollView style={styles.container}>
       <NavBar title="UniLend" />
-      <CatScrollText categories={categories} setSelection={handleCategory} />
+      <CatScrollText categories={categories} setSelection={handleCategory} selectedCategory={selectedCategory}/>
       {selectedCategory === "home" ? (
         <>
           <CatScrollImage
