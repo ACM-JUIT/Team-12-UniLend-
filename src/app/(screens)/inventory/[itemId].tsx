@@ -28,7 +28,6 @@ export default function Productpage() {
   const [item, setItem] = useState<Item | null>(null);
 
   const {user} = useAuth()
-  console.log(user?.uid);
 
   useEffect(() => {
     const handleFetch = async () => {

@@ -29,7 +29,6 @@ export default function HomePage() {
     const fetchTags = async () => {
       try {
         const tags = await getActiveTags();
-        console.log(tags);
         setCategories(tags);
       } catch (err) {
         console.error("Error fetching tags:", err);

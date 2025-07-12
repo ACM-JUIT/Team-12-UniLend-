@@ -78,13 +78,11 @@ export const fetchItem = async (itemId: string): Promise<Item | null> => {
 };
 
 export  async function deleteItem(itemId: string): Promise<{success: boolean; error?: string}> {
-  try {
-    console.log(`Attempting to delete item with ID: ${itemId}`);
+  try {;
     
     const db = getFirestore();
     const itemRef = doc(db, "Items", itemId);
     
-    // Check if item exists before deleting
     const itemSnap = await getDoc(itemRef);
     if (!itemSnap.exists()) {
       console.log(`Item ${itemId} does not exist`);
