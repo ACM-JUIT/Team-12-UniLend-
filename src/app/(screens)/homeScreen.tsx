@@ -5,7 +5,7 @@ import {
   HomePageDefault,
 } from "@/src/(frontend)/components/mainpage";
 import { getActiveTags, Tag } from "@/src/api/firestore/tags";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   BackHandler,
@@ -17,7 +17,6 @@ import {
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
-  const router = useRouter();
 
   const [selectedCategory, setSelectedCategory] = useState<
     Tag["slug"] & "home"
@@ -29,7 +28,6 @@ export default function HomePage() {
     const fetchTags = async () => {
       try {
         const tags = await getActiveTags();
-        console.log(tags);
         setCategories(tags);
       } catch (err) {
         console.error("Error fetching tags:", err);
