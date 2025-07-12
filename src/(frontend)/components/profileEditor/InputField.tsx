@@ -2,21 +2,22 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-type ifProps = {
+type Props = {
   heading: string;
   placehldr: string;
-  callback: any;
+  callback: (text: string) => void;
   multil?: boolean;
 };
-const InputField = (props: ifProps) => {
+const InputField: React.FC<Props> = ({placehldr,heading,callback,multil}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>{props.heading}</Text>
+      <Text style={styles.heading}>{heading}</Text>
       <TextInput
-        multiline={props.multil ?? false}
+        multiline={multil ?? false}
         style={styles.textbox}
-        placeholder={props.placehldr}
+        placeholder={placehldr}
         placeholderTextColor="rgba(255, 255, 255, 0.4)"
+        onChangeText={callback}
       ></TextInput>
     </View>
   );
