@@ -5,12 +5,13 @@ import {
   HomePageDefault,
 } from "@/src/(frontend)/components/mainpage";
 import { getActiveTags, Tag } from "@/src/api/firestore/tags";
+import { useFocusEffect } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { BackHandler, ScrollView, StyleSheet } from "react-native";
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("home");
+  const [selectedCategory, setSelectedCategory] = useState<Tag["slug"] & "home">("home");
   const [categories, setCategories] = useState<Tag[]>([]);
 
   useEffect(() => {
@@ -26,7 +27,21 @@ export default function HomePage() {
     fetchTags();
   }, []);
 
-  const handleCategory = (newCategory: string) => {
+  useFocusEffect(() => {
+    const backAction = () => {
+      if (selectedCategory !== "home") {
+        setSelectedCategory("home");
+        return true;
+      } else {
+        return false;
+      }
+    }
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () => backHandler.remove()
+  })
+
+  const handleCategory = (newCategory: Tag["slug"] & "home") => {
     setSelectedCategory(newCategory);
   };
   return (

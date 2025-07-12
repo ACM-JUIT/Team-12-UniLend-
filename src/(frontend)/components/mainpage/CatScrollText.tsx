@@ -15,24 +15,24 @@ export const CatScrollText = ({
 }: {
   categories: Tag[];
   setSelection: any;
-  selectedCategory: Tag["slug"];
+  selectedCategory: Tag["slug"] & "home";
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     const selectedIndex = categories.findIndex((category) => category.slug === selectedCategory);
 
-    if (selectedIndex !== -1) {
+    if (selectedIndex !== -1 || selectedCategory === "home") {
       const itemWidth = 100;
       const offset = selectedIndex * itemWidth;
-
+      console.log(offset)
       scrollViewRef.current?.scrollTo({
         x: offset, 
         y: 0,
         animated: true
       })
     }
-  })
+  }, [selectedCategory, categories])
 
   return (
     <ScrollView
