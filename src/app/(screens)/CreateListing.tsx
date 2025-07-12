@@ -179,7 +179,7 @@ export default function CreateListing() {
           returnKeyType="next"
         />
 
-        <Text style={styles.heading1}>Item Discription*</Text>
+        <Text style={styles.heading1}>Item Description*</Text>
         <TextInput
           ref={descriptionRef}
           multiline={true}

@@ -25,7 +25,6 @@ export const CatScrollText = ({
     if (selectedIndex !== -1 || selectedCategory === "home") {
       const itemWidth = 100;
       const offset = selectedIndex * itemWidth;
-      console.log(offset)
       scrollViewRef.current?.scrollTo({
         x: offset, 
         y: 0,
