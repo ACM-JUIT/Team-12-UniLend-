@@ -3,12 +3,16 @@ import cross from "@/assets/images/red-cross.png";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const ActionButton = () => {
+type props = {
+  callback: () => void;
+};
+
+const ActionButton: React.FC<props> = ({callback}) => {
   return (
     <View style={styles.Container}>
       <TouchableOpacity
         style={styles.UpdateBut}
-        onPress={() => alert("Submit")}
+        onPress={callback}
       >
         <Image style={styles.imgcheck} source={check} />
         <Text style={styles.textupd}>Update</Text>
