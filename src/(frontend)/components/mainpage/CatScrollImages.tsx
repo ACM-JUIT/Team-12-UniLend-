@@ -22,7 +22,7 @@ export const CatScrollImage = ({
           <TouchableWithoutFeedback
             key={category.id}
             onPress={() => {
-              setSelection(category.name);
+              setSelection(category.slug);
             }}
           >
             <View>

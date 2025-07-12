@@ -1,6 +1,5 @@
-
 import { Tag } from "@/src/api/firestore/tags";
-import React, { useState } from "react";
+import { useEffect, useRef } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -9,35 +8,68 @@ import {
   View,
 } from "react-native";
 
-export const CatScrollText = ({ categories, setSelection }: { categories: Tag[], setSelection: any }) => {
-  const [selectedId, setSelectedId] = useState<string>("home");
+export const CatScrollText = ({
+  categories,
+  setSelection,
+  selectedCategory,
+}: {
+  categories: Tag[];
+  setSelection: any;
+  selectedCategory: Tag["slug"] & "home";
+}) => {
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const selectedIndex = categories.findIndex((category) => category.slug === selectedCategory);
+
+    if (selectedIndex !== -1 || selectedCategory === "home") {
+      const itemWidth = 100;
+      const offset = selectedIndex * itemWidth;
+      console.log(offset)
+      scrollViewRef.current?.scrollTo({
+        x: offset, 
+        y: 0,
+        animated: true
+      })
+    }
+  }, [selectedCategory, categories])
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      ref={scrollViewRef}
+    >
       <View style={styles.container}>
-         <TouchableWithoutFeedback
-              onPress={() => {
-                setSelectedId("home")
-                setSelection("home");
-              }}
-            >
-              <Text
-                style={selectedId === "home" ? styles.boxClicked : styles.boxUnClick}
-              >
-                Home
-              </Text>
-            </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setSelection("home");
+          }}
+        >
+          <Text
+            style={
+              selectedCategory === "home"
+                ? styles.boxClicked
+                : styles.boxUnClick
+            }
+          >
+            Home
+          </Text>
+        </TouchableWithoutFeedback>
         {categories.map((category) => {
           return (
             <TouchableWithoutFeedback
               onPress={() => {
-                setSelectedId(category.id)
                 setSelection(category.slug);
               }}
               key={category.id}
             >
               <Text
-                style={category.id === selectedId ? styles.boxClicked : styles.boxUnClick}
+                style={
+                  category.slug === selectedCategory
+                    ? styles.boxClicked
+                    : styles.boxUnClick
+                }
               >
                 {category.name}
               </Text>
