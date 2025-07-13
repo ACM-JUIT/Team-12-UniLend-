@@ -10,9 +10,8 @@ A peer-to-peer items lending platform for universities
 
 - React Native with Expo framework
 - `react-native-firebase` for connecting with firebase
-- `nativewind` for tailwind style classes
-- `gluestack-ui` based on nativewind for components (most components are self made though)
-- Typescript
+- `zod` for form validation
+- `"@futurejj/react-native-checkbox"` checkbox component
 
 (**NOTE:** We are using firebase-auth for authentication and firestore for storing user data)
 
