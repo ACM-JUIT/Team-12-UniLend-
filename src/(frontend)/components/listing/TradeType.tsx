@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -20,14 +19,11 @@ const tradeOptions: TradeOption[] = [
 ];
 const TradeType = ({
   handleTypeChange,
-  initialValue = null,
+  selectedType
 }: {
   handleTypeChange: (type: string) => void;
-  initialValue?: TradeOption["slug"] | null;
+  selectedType: TradeOption["slug"];
 }) => {
-  const [selectedType, setSelectedType] = useState<TradeOption["slug"] | null>(
-    initialValue
-  );
   return (
     <ScrollView horizontal>
       <View style={styles.container}>
@@ -35,7 +31,6 @@ const TradeType = ({
           return (
             <TouchableWithoutFeedback
               onPress={() => {
-                setSelectedType(category.slug);
                 handleTypeChange(category.slug);
               }}
               key={category.id}
