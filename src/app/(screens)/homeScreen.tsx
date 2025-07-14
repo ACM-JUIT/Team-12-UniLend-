@@ -7,12 +7,22 @@ import {
 import { getActiveTags, Tag } from "@/src/api/firestore/tags";
 import { useFocusEffect } from "expo-router";
 import { useEffect, useState } from "react";
-import { BackHandler, ScrollView, StyleSheet } from "react-native";
+import {
+  BackHandler,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<Tag["slug"] & "home">("home");
+
+  const [selectedCategory, setSelectedCategory] = useState<
+    Tag["slug"] & "home"
+  >("home");
   const [categories, setCategories] = useState<Tag[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -23,9 +33,15 @@ export default function HomePage() {
         console.error("Error fetching tags:", err);
       }
     };
-
     fetchTags();
   }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+  };
+  const handleOnRefreshComplete = () => {
+    setRefreshing(false);
+  };
 
   useFocusEffect(() => {
     const backAction = () => {
@@ -35,33 +51,56 @@ export default function HomePage() {
       } else {
         return false;
       }
-    }
-    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+    };
 
-    return () => backHandler.remove()
-  })
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  });
 
   const handleCategory = (newCategory: Tag["slug"] & "home") => {
     setSelectedCategory(newCategory);
   };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={["#1C161E"]}
+        />
+      }
+    >
       <NavBar title="UniLend" />
-      <CatScrollText categories={categories} setSelection={handleCategory} selectedCategory={selectedCategory}/>
-      {selectedCategory === "home" ? (
-        <>
-          <CatScrollImage
-            categories={categories}
-            setSelection={handleCategory}
-          />
-          <HomePageDefault />
-        </>
-      ) : (
+      <CatScrollText
+        categories={categories}
+        setSelection={handleCategory}
+        selectedCategory={selectedCategory}
+      />
+
+      <View
+        style={selectedCategory === "home" ? styles.visible : styles.hidden}
+      >
+        <CatScrollImage categories={categories} setSelection={handleCategory} />
+        <HomePageDefault
+          refreshing={refreshing}
+          onRefreshComplete={handleOnRefreshComplete}
+        />
+      </View>
+
+      <View
+        style={selectedCategory !== "home" ? styles.visible : styles.hidden}
+      >
         <HomePageCategory
           selectedCategory={selectedCategory}
           categories={categories}
+          refreshing={refreshing}
+          onRefreshComplete={handleOnRefreshComplete}
         />
-      )}
+      </View>
     </ScrollView>
   );
 }
@@ -84,5 +123,11 @@ const styles = StyleSheet.create({
     marginTop: 25,
     textShadowRadius: 20,
     textShadowColor: "#11111192",
+  },
+  visible: {
+    display: "flex",
+  },
+  hidden: {
+    display: "none",
   },
 });

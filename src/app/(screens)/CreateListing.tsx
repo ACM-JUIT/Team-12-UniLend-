@@ -1,11 +1,10 @@
-import { Item, createItemPost } from "@/src/api/firestore/post";
+import { createItemPost, Item } from "@/src/api/firestore/post";
 
 import PickImage from "@/src/(frontend)/components/listing/ImagePicker";
 import TradeType from "@/src/(frontend)/components/listing/TradeType";
 import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import { useAuth } from "@/src/context/AuthContext";
-import { getAuth } from "@react-native-firebase/auth";
 import React, { useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -14,10 +13,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 
 import StandardOverlay from "@/src/(frontend)/components/standard/StandardOverlay";
+import { getAuth } from "@react-native-firebase/auth";
 import { z } from "zod";
 const ListingSchema = z.object({
   title: z
@@ -49,10 +49,11 @@ const ListingSchema = z.object({
 });
 
 export default function CreateListing() {
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const companyRef = useRef<TextInput>(null);
   const descriptionRef = useRef<TextInput>(null);
+  const picImageRef = useRef<{ clearImage: () => void }>(null);
 
   const [formAlert, setFormAlert] = useState<{
     title: string;
@@ -109,11 +110,13 @@ export default function CreateListing() {
       return;
     }
 
-
     try {
       const idToken = await getAuth().currentUser?.getIdToken();
-      if (!idToken) throw new Error("User not authenticated")
-      await createItemPost({ ...formState, ownerId: user.uid, location: null }, idToken);
+      if (!idToken) throw new Error("User not authenticated");
+      await createItemPost(
+        { ...formState, ownerId: user.uid, location: null },
+        idToken
+      );
 
       setFormState({
         title: "",
@@ -125,9 +128,15 @@ export default function CreateListing() {
         description: "",
         price: 0,
       });
-      setFormAlert({title: "Success!", desc: "Item successfully posted!", active: true})
+      picImageRef.current?.clearImage();
+
+      setFormAlert({
+        title: "Success!",
+        desc: "Item successfully posted!",
+        active: true,
+      });
     } catch (error) {
-      console.error( error);
+      console.error(error);
     }
   };
 
@@ -149,11 +158,13 @@ export default function CreateListing() {
         <Text style={styles.heading1}>Product Image*</Text>
         <PickImage
           handleUpload={(image: File | string) => handleChange("images", image)}
+          ref={picImageRef}
         />
 
         <Text style={styles.heading1}>Item Type*</Text>
         <CatTextSelector
           handleClick={(category: string) => handleChange("category", category)}
+          selectedId={formState.category}
         />
 
         <Text style={styles.heading1}>Model/Edition*</Text>
@@ -179,7 +190,7 @@ export default function CreateListing() {
           returnKeyType="next"
         />
 
-        <Text style={styles.heading1}>Item Discription*</Text>
+        <Text style={styles.heading1}>Item Description*</Text>
         <TextInput
           ref={descriptionRef}
           multiline={true}
@@ -205,18 +216,21 @@ export default function CreateListing() {
             }
             const cleanPrice = price.replace(/[^0-9.]/g, "");
             const parts = cleanPrice.split(".");
-            const finalPrice = parts[0] + (parts.length > 1 ? "." + parts[1] : "");
+            const finalPrice =
+              parts[0] + (parts.length > 1 ? "." + parts[1] : "");
 
             const numPrice = parseFloat(finalPrice);
             if (!isNaN(numPrice)) {
-              handleChange("price", numPrice)
+              handleChange("price", numPrice);
             }
-            
           }}
           keyboardType="decimal-pad"
         />
         <Text style={styles.heading1}>Trade Type*</Text>
-        <TradeType handleTypeChange={(type) => handleChange("type", type)} />
+        <TradeType
+          handleTypeChange={(type) => handleChange("type", type)}
+          selectedType={formState.type}
+        />
       </ScrollView>
       <View style={styles.buttonsbox}>
         <TouchableOpacity

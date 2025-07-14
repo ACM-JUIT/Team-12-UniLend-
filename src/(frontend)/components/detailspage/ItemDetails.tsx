@@ -1,5 +1,6 @@
 import { Item } from "@/src/api/firestore/post";
-import React, { useState } from "react";
+import { getUserProfile } from "@/src/api/firestore/user";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   StyleSheet,
@@ -9,7 +10,22 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 const ItemDetails = ({ item }: { item: Item }) => {
-  const [Expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [seller, setSeller ] = useState<any>();
+
+  useEffect(() => {
+    const fetchSeller = async () => {
+      try {
+        console.log(item.ownerId)
+        const seller = await getUserProfile(item.ownerId);
+        setSeller(seller);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchSeller();
+  }, [item.ownerId])
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -26,21 +42,21 @@ const ItemDetails = ({ item }: { item: Item }) => {
             {item.title}
           </Text>
           <Text style={styles.pub}>
-            Seller: {item.ownerId ? item.ownerId : "Lakshya"}
+            Seller: {seller?.username ? seller.username : "Rowlet"}
           </Text>
           <Text style={styles.itemtag}>{item.category}</Text>
           <TouchableHighlight
             style={{ flexDirection: "row" }}
             onPress={() => {
-              setExpanded(!Expanded);
+              setExpanded(!expanded);
             }}
           >
             <View style={{ gap: 2 }}>
-              <Text style={styles.itemdisc} numberOfLines={Expanded ? 0 : 2}>
+              <Text style={styles.itemdisc} numberOfLines={expanded ? 0 : 2}>
                 {item.description}
               </Text>
               <Text style={styles.readmore}>
-                {Expanded ? "Read less (click-me)" : "Read more (click-me)"}
+                {expanded ? "Read less (click-me)" : "Read more (click-me)"}
               </Text>
             </View>
           </TouchableHighlight>

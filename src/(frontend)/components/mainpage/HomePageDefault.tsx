@@ -7,28 +7,48 @@ import { UserInteractables } from "./UserInteractables";
 
 import { Item } from "@/src/api/firestore/post";
 
-export function HomePageDefault() {
+export function HomePageDefault({
+  refreshing,
+  onRefreshComplete,
+}: {
+  refreshing: boolean;
+  onRefreshComplete: (refreshComplete: boolean) => void;
+}) {
   const [newPosts, setNewPosts] = useState<Item[]>([]);
   const [popularPosts, setPopularPosts] = useState<Item[]>([]);
   const [electronicsPosts, setElectronicsPosts] = useState<Item[]>([]);
   const [booksPosts, setBooksPosts] = useState<Item[]>([]);
-  useEffect(() => {
-    const fetchCategorizedPosts = async () => {
-      const [newItems, popularItems, electronicsItems, booksItems] =
-        await Promise.all([
-          fetchItemsByCategory(),
-          fetchItemsByCategory(undefined, "viewcount"),
-          fetchItemsByCategory("Electronics"),
-          fetchItemsByCategory("Books"),
-        ]);
 
-      setNewPosts(newItems);
-      setPopularPosts(popularItems);
-      setElectronicsPosts(electronicsItems);
-      setBooksPosts(booksItems);
-    };
+  const fetchCategorizedPosts = async () => {
+    const [newItems, popularItems, electronicsItems, booksItems] =
+      await Promise.all([
+        fetchItemsByCategory(),
+        fetchItemsByCategory(undefined, "viewcount"),
+        fetchItemsByCategory("electronics"),
+        fetchItemsByCategory("books"),
+      ]);
+
+    setNewPosts(newItems);
+    setPopularPosts(popularItems);
+    setElectronicsPosts(electronicsItems);
+    setBooksPosts(booksItems);
+  };
+
+  useEffect(() => {
     fetchCategorizedPosts();
   }, []);
+
+  useEffect(() => {
+    const refresh = async () => {
+      try {
+        await fetchCategorizedPosts();
+        onRefreshComplete(true);
+      } catch (error) {
+        console.error("HomePageDefault refresh failed ", error);
+      }
+    };
+    refresh();
+  }, [refreshing, onRefreshComplete]);
 
   return (
     <>

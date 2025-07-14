@@ -1,4 +1,5 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerActions } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 import {
   Image,
   StyleSheet,
@@ -7,15 +8,19 @@ import {
   View,
 } from "react-native";
 
-const Drawer = createDrawerNavigator();
-
 type NavBarProps = {
-  title: String;
+  title: string;
 };
 export default function NavBar(props: NavBarProps) {
+  const navigation = useNavigation();
+
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer())
+  }
+
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => alert("wow")}>
+      <TouchableWithoutFeedback onPress={openDrawer}>
         <Image
           source={require("../../../../assets/images/hamburger.png")}
           style={{ height: 25, width: 25, marginTop: 8 }}

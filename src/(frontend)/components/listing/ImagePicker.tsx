@@ -1,13 +1,23 @@
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React, { useImperativeHandle, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function PickImage({
   handleUpload,
+  ref
 }: {
   handleUpload: (arg0: File | string) => void;
+  ref? :React.RefObject<{clearImage: () => void} | null>
 }) {
   const [image, setImage] = useState<string | null>(null);
+
+  useImperativeHandle(ref, () => {
+    return {
+      clearImage() {
+        setImage(null);
+      }
+    }
+  })
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

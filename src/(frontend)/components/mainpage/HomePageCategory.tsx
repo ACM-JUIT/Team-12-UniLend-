@@ -1,16 +1,20 @@
 import { fetchItemsByCategory } from "@/src/api/firestore/items";
 import { Item } from "@/src/api/firestore/post";
 import { Tag } from "@/src/api/firestore/tags";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import SmallPreview from "../standard/SmallPreview";
 
 export function HomePageCategory({
   selectedCategory,
   categories,
+  refreshing,
+  onRefreshComplete,
 }: {
   selectedCategory: string;
   categories: Tag[];
+  refreshing: boolean;
+  onRefreshComplete: (refreshComplete: boolean) => void;
 }) {
   const [posts, setPosts] = useState<Item[]>([]);
 
@@ -20,17 +24,31 @@ export function HomePageCategory({
   const categoryName = selectedCategoryObj?.name;
   const imageLink = selectedCategoryObj?.imageUrl;
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      const categorySlug = selectedCategory
-        .split(" ")
-        .map((word) => word.toLowerCase())
-        .join("-");
-      const items = await fetchItemsByCategory(categorySlug, "createdAt", -1);
-      setPosts(items);
-    };
-    fetchItems();
+  const fetchItems = useCallback(async () => {
+    const categorySlug = selectedCategory
+      .split(" ")
+      .map((word) => word.toLowerCase())
+      .join("-");
+    const items = await fetchItemsByCategory(categorySlug, "createdAt", -1);
+    setPosts(items);
   }, [selectedCategory]);
+
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
+
+  useEffect(() => {
+    const refresh = async () => {
+      try {
+        await fetchItems();
+        onRefreshComplete(true);
+      } catch (error) {
+        console.error("HomePageCategory refresh failed ", error);
+      }
+    };
+    refresh();
+  }, [refreshing, onRefreshComplete, fetchItems]);
+
   return (
     <View>
       <Text
@@ -50,7 +68,7 @@ export function HomePageCategory({
         )}
       </Text>
 
-      <View style={{ flexDirection: "row", gap: 10 }}>
+      <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap" }}>
         {posts.length > 0 ? (
           posts.map((item) => {
             return (

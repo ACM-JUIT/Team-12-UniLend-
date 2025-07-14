@@ -9,9 +9,8 @@ import {
   View,
 } from "react-native";
 
-const CatTextSelector = ({ handleClick, initialValue = null }: { handleClick: any, initialValue?: string | null }) => {
+const CatTextSelector = ({ handleClick, selectedId = null }: { handleClick: any, selectedId?: string | null }) => {
   const [categories, setCategories] = useState<Tag[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(initialValue);
   useEffect(() => {
       const fetchTags = async () => {
         try {
@@ -31,13 +30,12 @@ const CatTextSelector = ({ handleClick, initialValue = null }: { handleClick: an
           return (
             <TouchableWithoutFeedback
               onPress={() => {
-                setSelectedId(category.id)
                 handleClick(category.slug);
               }}
               key={category.id}
             >
               <Text
-                style={category.id === selectedId ? styles.boxClicked : styles.boxUnClick}
+                style={category.slug === selectedId ? styles.boxClicked : styles.boxUnClick}
               >
                 {category.name}
               </Text>
