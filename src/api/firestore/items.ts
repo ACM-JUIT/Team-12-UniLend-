@@ -5,9 +5,11 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  increment,
   limit,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "@react-native-firebase/firestore";
 
@@ -95,5 +97,22 @@ export  async function deleteItem(itemId: string): Promise<{success: boolean; er
   } catch (error) {
     console.error("Error deleting Item in deleteItem: ", error);
     return {success: false, error: String(error)};
+  }
+}
+
+export async function updateViewCount(itemId: string): Promise<{success: boolean, error?: string}> {
+  try {
+    const db = getFirestore();
+    const itemRef = doc(db, "Items", itemId);
+
+    await updateDoc(itemRef, {
+      viewcount: increment(1)
+    })
+
+    return {success: true}
+
+  } catch (error) {
+    console.error("ERror updating viewCount", error);
+    return {success: false, error: String(error)}
   }
 }

@@ -3,7 +3,10 @@ import BottomButtons from "@/src/(frontend)/components/detailspage/bottomButtons
 import ItemDetails from "@/src/(frontend)/components/detailspage/ItemDetails";
 import TopActions from "@/src/(frontend)/components/detailspage/TopActions";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
-import { fetchItem } from "@/src/api/firestore/items";
+import {
+  fetchItem,
+  updateViewCount,
+} from "@/src/api/firestore/items";
 import { addOrder } from "@/src/api/firestore/order";
 import { Item } from "@/src/api/firestore/post";
 import { useAuth } from "@/src/context/AuthContext";
@@ -12,22 +15,24 @@ import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 const buyItem = async (item: Item, userId: string) => {
   try {
     await addOrder(item, userId);
-    Alert.alert("Success", "Order successfully added. You can view the orders page")
+    Alert.alert(
+      "Success",
+      "Order successfully added. You can view the orders page"
+    );
   } catch (error) {
-    Alert.alert("Error", String(error))
+    Alert.alert("Error", String(error));
   }
-}
+};
 
 export default function Productpage() {
   const { itemId } = useLocalSearchParams();
-  const router = useRouter()
+  const router = useRouter();
   const [item, setItem] = useState<Item | null>(null);
 
-  const {user} = useAuth()
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -44,6 +49,18 @@ export default function Productpage() {
     };
     handleFetch();
   }, [itemId, user]);
+
+  useEffect(() => {
+    const viewCountUpdate = async () => {
+      try {
+        if (typeof itemId === "object") return;
+        await updateViewCount(itemId);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    viewCountUpdate();
+  });
 
   if (typeof itemId === "object") {
     return (
@@ -69,11 +86,13 @@ export default function Productpage() {
         <NavBar title="Like It?" />
         <TopActions userId={user.uid} itemId={itemId} />
         <ItemDetails item={item} />
-        <BottomButtons callback={() => {
-          buyItem(item, user.uid)
-          alert("Item bought");
-          router.back();
-        }} />
+        <BottomButtons
+          callback={() => {
+            buyItem(item, user.uid);
+            alert("Item bought");
+            router.back();
+          }}
+        />
       </View>
     </SafeAreaView>
   );
