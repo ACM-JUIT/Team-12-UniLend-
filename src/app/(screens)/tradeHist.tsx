@@ -2,33 +2,36 @@ import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import WidePreview from "@/src/(frontend)/components/standard/WidePreview";
 import { getOrderHistory, Order } from "@/src/api/firestore/order";
 import { useAuth } from "@/src/context/AuthContext";
-import { RelativePathString } from "expo-router";
-import { useEffect, useState } from "react";
+import { RelativePathString, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 export default function TradeHistory() {
-  const {user} = useAuth()
-  
-  const [orderHistory, setOrderHistory] = useState<Order[]>([])
+  const { user } = useAuth();
+
+  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchWatchList = async () => {
-      if (!user) {
-        console.error("User not authenticated in fetchWatchList function")
-        return
-      }
-      try {
-        setLoading(true);
-        const orderHistory = await getOrderHistory(user.uid);
-        setOrderHistory(orderHistory);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching watchLists", error);
-      }
-    }
-    fetchWatchList();
-  }, [user])
+  useFocusEffect(
+    useCallback(() => {
+      const fetchWatchList = async () => {
+        if (!user) {
+          console.error("User not authenticated in fetchWatchList function");
+          return;
+        }
+        try {
+          setLoading(true);
+          const orderHistory = await getOrderHistory(user.uid);
+          setOrderHistory(orderHistory);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching watchLists", error);
+        }
+      };
+
+      fetchWatchList();
+    }, [user])
+  );
 
   if (!user) {
     return (
@@ -39,8 +42,6 @@ export default function TradeHistory() {
       </SafeAreaView>
     );
   }
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,16 +56,27 @@ export default function TradeHistory() {
           showsVerticalScrollIndicator={false}
           style={styles.scroll}
           data={orderHistory}
-          renderItem={({ item}) => {
+          renderItem={({ item }) => {
             const orderItem = item.item;
-            return <WidePreview title={orderItem.title} middleText={orderItem.type === "sell" ?  orderItem.price + "/-" : orderItem.price + "/m"} bottomText={`Seller name(temp): ${item.sellerId}`} imageId={orderItem.images as string} buttonLink={`/inventory/${orderItem.id }` as RelativePathString} />
-          } }
+            return (
+              <WidePreview
+                title={orderItem.title}
+                middleText={
+                  orderItem.type === "sell"
+                    ? orderItem.price + "/-"
+                    : orderItem.price + "/m"
+                }
+                bottomText={`Seller name(temp): ${item.sellerId}`}
+                imageId={orderItem.images as string}
+                buttonLink={`/inventory/${orderItem.id}` as RelativePathString}
+              />
+            );
+          }}
         />
       )}
     </SafeAreaView>
   );
-};
-
+}
 
 const styles = StyleSheet.create({
   container: {

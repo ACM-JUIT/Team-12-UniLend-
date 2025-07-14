@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -14,24 +14,25 @@ import libStar from "../../../../assets/images/lib-star.png";
 const icons = [libStar, libHistory, libAdd];
 
 export const UserInteractables = () => {
+  const router = useRouter()
   const cards = [
     {
       id: 1,
       title: "Item Watchlist",
       icon: icons[0],
-      press: () => router.navigate("/(screens)/itemWatchlist"),
+      press: () => router.push("/(screens)/itemWatchlist"),
     },
     {
       id: 2,
       title: "Trade History",
       icon: icons[1],
-      press: () => router.navigate("/(screens)/tradeHist"),
+      press: () => router.push("/(screens)/tradeHist"),
     },
     {
       id: 3,
       title: "Add Listing!",
       icon: icons[2],
-      press: () => router.navigate("/(screens)/CreateListing"),
+      press: () => router.push("/(screens)/CreateListing"),
     },
   ];
   return (
