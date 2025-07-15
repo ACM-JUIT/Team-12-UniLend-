@@ -65,6 +65,12 @@ export default function RootLayout() {
         }}
       />
       <Drawer.Screen
+        name="SearchPage"
+        options={{
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+      <Drawer.Screen
         name="inventory/[itemId]"
         options={{
           drawerItemStyle: { display: "none" },

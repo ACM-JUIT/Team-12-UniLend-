@@ -1,5 +1,5 @@
 import { DrawerActions } from "@react-navigation/native";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import {
   Image,
   StyleSheet,
@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-
 type NavBarProps = {
   title: string;
 };
@@ -15,8 +14,8 @@ export default function NavBar(props: NavBarProps) {
   const navigation = useNavigation();
 
   const openDrawer = () => {
-    navigation.dispatch(DrawerActions.openDrawer())
-  }
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
 
   return (
     <View style={styles.container}>
@@ -34,7 +33,7 @@ export default function NavBar(props: NavBarProps) {
           flexGrow: 1,
           alignItems: "flex-end",
         }}
-        onPress={() => alert("wow")}
+        onPress={() => router.navigate("/(screens)/SearchPage")}
       >
         <Image
           source={require("../../../../assets/images/search.png")}

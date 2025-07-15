@@ -16,10 +16,7 @@ export default function RootLayout() {
             name="(auth)/signup_page"
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="(screens)"
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="(screens)" options={{ headerShown: false }} />
         </Stack>
       </GestureHandlerRootView>
     </AuthProvider>
