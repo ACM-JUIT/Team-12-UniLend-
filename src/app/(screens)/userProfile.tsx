@@ -4,9 +4,11 @@ import Browse from "@/src/(frontend)/components/userprofile/Browse";
 import ProfileImg from "@/src/(frontend)/components/userprofile/pfp";
 import UserInfo from "@/src/(frontend)/components/userprofile/userinfo";
 import React,{useEffect,useState} from "react";
-import { StyleSheet, View } from "react-native";
-import { getUserProfile } from "@/src/api/firestore/user";
+import { StyleSheet, View,Alert,Button } from "react-native";
+import { getUserProfile, updateUserProfile } from "@/src/api/firestore/user";
 import { getAuth } from "@react-native-firebase/auth";
+import { uploadImage } from "@/src/api/cloudinary";
+import * as ImagePicker from "expo-image-picker";
 
 export default function UserProfile() {
   const user = getAuth().currentUser;
@@ -46,6 +48,42 @@ export default function UserProfile() {
 
       fetchprofile();
     });
+
+    const handeprofilepicture = async () => {
+      try{
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if(permissionResult.status !=="granted") {
+          Alert.alert("permission denied","We need permission to access your photos.");
+          return;
+        }
+
+        const pickerResult = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          quality: 1,
+        });
+        
+        if(pickerResult.canceled) {
+          return;
+        }
+
+        const uploadedurl = await uploadImage(pickerResult);
+
+        if(!uploadedurl) {
+          Alert.alert("Upload failed","could not upload image.");
+          return;
+        }
+
+        if(user) {
+          await updateUserProfile(user.uid,{photoURL: uploadedurl});
+          setProfile({...profile,photoURL: uploadedurl});
+          Alert.alert("Success","Profile picture updated!");
+        }
+      } catch(error) {
+        console.error("Failed to upload profile picture:",error);
+        Alert.alert("Error","Something went wrong while uploading.");
+      }
+    };
   return (
     <View style={styles.container}>
       <NavBar title={profile.name || "Your profile"} />
