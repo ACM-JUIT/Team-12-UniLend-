@@ -2,7 +2,7 @@ import { createItemPost, Item } from "@/src/api/firestore/post";
 
 import PickImage from "@/src/(frontend)/components/listing/ImagePicker";
 import TradeType from "@/src/(frontend)/components/listing/TradeType";
-import CatTextSelector from "@/src/(frontend)/components/listing/TypeDropDown";
+import TypeDropDown from "@/src/(frontend)/components/listing/TypeDropDown";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import { useAuth } from "@/src/context/AuthContext";
 import React, { useRef, useState } from "react";
@@ -162,7 +162,7 @@ export default function CreateListing() {
         />
 
         <Text style={styles.heading1}>Item Type*</Text>
-        <CatTextSelector
+        <TypeDropDown
           handleClick={(category: string) => handleChange("category", category)}
           selectedId={formState.category}
         />

@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 
-const CatTextSelector = ({ handleClick, selectedId = null }: { handleClick: any, selectedId?: string | null }) => {
+const TypeDropDown = ({ handleClick, selectedId = null }: { handleClick: any, selectedId?: string | null }) => {
   const [categories, setCategories] = useState<Tag[]>([]);
   useEffect(() => {
       const fetchTags = async () => {
@@ -47,7 +47,7 @@ const CatTextSelector = ({ handleClick, selectedId = null }: { handleClick: any,
   );
 };
 
-export default CatTextSelector;
+export default TypeDropDown;
 
 const styles = StyleSheet.create({
   container: {

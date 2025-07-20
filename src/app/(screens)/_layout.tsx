@@ -3,8 +3,10 @@ import { Drawer } from "expo-router/drawer";
 export default function RootLayout() {
   return (
     <Drawer
+      initialRouteName="homeScreen"
       screenOptions={{
         headerShown: false,
+
         drawerStyle: {
           backgroundColor: "#1C161E",
           width: 280,
@@ -47,6 +49,12 @@ export default function RootLayout() {
         }}
       />
       <Drawer.Screen
+        name="SearchPage"
+        options={{
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+      <Drawer.Screen
         name="splashScreen"
         options={{
           drawerItemStyle: { display: "none" },
@@ -54,12 +62,6 @@ export default function RootLayout() {
       />
       <Drawer.Screen
         name="CreateListing"
-        options={{
-          drawerItemStyle: { display: "none" },
-        }}
-      />
-      <Drawer.Screen
-        name="SearchPage"
         options={{
           drawerItemStyle: { display: "none" },
         }}

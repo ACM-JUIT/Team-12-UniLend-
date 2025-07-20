@@ -67,7 +67,7 @@ const TopActions = ({ userId, itemId }: { userId: string; itemId: string }) => {
 
   return (
     <View style={styles.topactions}>
-      <TouchableOpacity onPress={router.back}>
+      <TouchableOpacity onPress={() => router.back()}>
         <Image
           style={styles.backimage}
           source={require("../../../../assets/images/ProductInfo/prod-back.png")}

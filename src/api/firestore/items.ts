@@ -123,7 +123,8 @@ export async function updateViewCount(
 // for search
 
 export async function fetchItemByQuery(
-  searchQuery: string
+  searchQuery: string,
+  categoryType: string
 ): Promise<{ success: boolean; data?: Item[]; error?: string }> {
   try {
     const firestore = getFirestore();
@@ -134,7 +135,23 @@ export async function fetchItemByQuery(
 
     const searchTerm = searchQuery.trim();
 
-    const q = query(collection(firestore, "Items"),orderBy("title"), startAt(searchTerm));
+    let q;
+
+    if (categoryType) {
+      q = query(
+        collection(firestore, "Items"),
+        orderBy("title"),
+        where("category", "==", categoryType),
+        startAt(searchTerm)
+      );
+    } else {
+      q = query(
+        collection(firestore, "Items"),
+        orderBy("title"),
+        startAt(searchTerm)
+      );
+    }
+
     const querySnapshot = await getDocs(q);
     const items: Item[] = [];
     querySnapshot.forEach((item) => {
@@ -143,7 +160,7 @@ export async function fetchItemByQuery(
         ...(item.data() as Omit<Item, "id">),
       });
     });
-    console.log(items)
+    console.log(items);
     return { success: true, data: items };
   } catch (error) {
     console.error("Error in fetchItemsByQuery ", error);

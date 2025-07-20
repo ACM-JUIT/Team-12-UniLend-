@@ -1,31 +1,38 @@
+import TypeDropDown from "@/src/(frontend)/components/listing/TypeDropDown";
 import Filtering from "@/src/(frontend)/components/searchpage/Filtering";
 import SearchBar from "@/src/(frontend)/components/searchpage/SearchBar";
 import Line from "@/src/(frontend)/components/standard/Line";
 import SmallPreview from "@/src/(frontend)/components/standard/SmallPreview";
 import { fetchItemByQuery } from "@/src/api/firestore/items";
 import { Item } from "@/src/api/firestore/post";
-import { useFocusEffect } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, SafeAreaView, StyleSheet, Text, View } from "react-native";
+
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Item[]>([]);
 
-  useFocusEffect(
-    useCallback(() => {
-      const resetStates = () => {
-        setSearchQuery("");
-        setSearchResults([]);
-      };
-      resetStates();
-    }, [])
-  );
+  const [showTypeDropdown, setShowTypeDropdown] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<string>("");
+
+  useEffect(() => {
+    const resetStates = () => {
+      setSearchQuery("");
+      setSearchResults([]);
+      setShowTypeDropdown(false);
+      setFilterType("");
+    };
+    resetStates();
+  }, []);
 
   const handleSearch = async () => {
     if (!searchQuery) return;
 
     try {
-      const { success, data, error } = await fetchItemByQuery(searchQuery);
+      const { success, data, error } = await fetchItemByQuery(
+        searchQuery,
+        filterType
+      );
 
       if (success === false) {
         throw error;
@@ -49,7 +56,28 @@ const SearchPage = () => {
         handleSearchSubmit={handleSearch}
       />
       <Line />
-      <Filtering />
+      <Filtering
+        handleTypeDropDown={() => {
+          if (!showTypeDropdown === false) {
+            setFilterType("");
+          }
+          setShowTypeDropdown(!showTypeDropdown);
+        }}
+      />
+      <View
+        style={{
+          maxHeight: 40,
+        }}
+      >
+        {showTypeDropdown && (
+          <TypeDropDown
+            handleClick={(categoryType: string) => {
+              setFilterType(categoryType);
+            }}
+            selectedId={filterType}
+          />
+        )}
+      </View>
       <Line />
       <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap" }}>
         {searchResults.length > 0 ? (
