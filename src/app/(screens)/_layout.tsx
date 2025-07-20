@@ -47,12 +47,6 @@ export default function RootLayout() {
         }}
       />
       <Drawer.Screen
-        name="index"
-        options={{
-          drawerItemStyle: { display: "none" },
-        }}
-      />
-      <Drawer.Screen
         name="splashScreen"
         options={{
           drawerItemStyle: { display: "none" },

@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-const SearchBar = () => {
+const SearchBar = ({searchQuery, handleSearchQuery, handleSearchSubmit} : {searchQuery: string; handleSearchQuery: ((arg0: string) => void); handleSearchSubmit: () => void}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => router.back}>
@@ -15,8 +15,11 @@ const SearchBar = () => {
           style={styles.srchinput}
           placeholder="Search items.."
           placeholderTextColor={"#F5F5DC"}
+          value={searchQuery}
+          onChangeText={handleSearchQuery}
+          onSubmitEditing={handleSearchSubmit}
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleSearchSubmit}>
           <Image source={srch} style={styles.srchimg} />
         </TouchableOpacity>
       </View>

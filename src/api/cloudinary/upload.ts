@@ -9,7 +9,7 @@ export async function uploadImage(file: File| string, authToken: string): Promis
   try {
     console.log("image uploading function started")
     // the signatureResponse contains other things apart from signature necessary for image upload, so change the parameters in backend
-    const signatureResponse = await fetch("http://192.168.1.2:5000/get-signature", {
+    const signatureResponse = await fetch("http://192.168.2.39:5000/get-signature", {
       method: "GET", 
       headers: {
         Authorization: `Bearer ${authToken}`

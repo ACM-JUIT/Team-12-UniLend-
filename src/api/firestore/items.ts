@@ -9,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  startAt,
   updateDoc,
   where,
 } from "@react-native-firebase/firestore";
@@ -79,40 +80,73 @@ export const fetchItem = async (itemId: string): Promise<Item | null> => {
   }
 };
 
-export  async function deleteItem(itemId: string): Promise<{success: boolean; error?: string}> {
-  try {;
-    
+export async function deleteItem(
+  itemId: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
     const db = getFirestore();
     const itemRef = doc(db, "Items", itemId);
-    
+
     const itemSnap = await getDoc(itemRef);
     if (!itemSnap.exists()) {
       console.log(`Item ${itemId} does not exist`);
-      return {success: false, error: "Item not found"};
+      return { success: false, error: "Item not found" };
     }
-    
+
     await deleteDoc(itemRef);
     console.log(`Item ${itemId} successfully deleted`);
-    return {success: true};
+    return { success: true };
   } catch (error) {
     console.error("Error deleting Item in deleteItem: ", error);
-    return {success: false, error: String(error)};
+    return { success: false, error: String(error) };
   }
 }
 
-export async function updateViewCount(itemId: string): Promise<{success: boolean, error?: string}> {
+export async function updateViewCount(
+  itemId: string
+): Promise<{ success: boolean; error?: string }> {
   try {
     const db = getFirestore();
     const itemRef = doc(db, "Items", itemId);
 
     await updateDoc(itemRef, {
-      viewcount: increment(1)
-    })
+      viewcount: increment(1),
+    });
 
-    return {success: true}
-
+    return { success: true };
   } catch (error) {
-    console.error("ERror updating viewCount", error);
-    return {success: false, error: String(error)}
+    console.error("Error updating viewCount", error);
+    return { success: false, error: String(error) };
+  }
+}
+
+// for search
+
+export async function fetchItemByQuery(
+  searchQuery: string
+): Promise<{ success: boolean; data?: Item[]; error?: string }> {
+  try {
+    const firestore = getFirestore();
+
+    if (!searchQuery || searchQuery.trim() === "") {
+      return { success: false, error: "Search query is empty" };
+    }
+
+    const searchTerm = searchQuery.trim();
+
+    const q = query(collection(firestore, "Items"),orderBy("title"), startAt(searchTerm));
+    const querySnapshot = await getDocs(q);
+    const items: Item[] = [];
+    querySnapshot.forEach((item) => {
+      items.push({
+        id: item.id,
+        ...(item.data() as Omit<Item, "id">),
+      });
+    });
+    console.log(items)
+    return { success: true, data: items };
+  } catch (error) {
+    console.error("Error in fetchItemsByQuery ", error);
+    return { success: false, error: String(error) };
   }
 }
