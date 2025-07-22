@@ -64,6 +64,7 @@ const SearchPage = () => {
           setShowTypeDropdown(!showTypeDropdown);
         }}
       />
+
       <View
         style={{
           maxHeight: 40,
@@ -95,11 +96,12 @@ const SearchPage = () => {
         ) : (
           <Text
             style={{
-              fontSize: 38,
-              color: "coral",
-              borderColor: "coral",
-              borderWidth: 2,
+              fontSize: 20,
+              color: "rgba(255, 255, 255, 0.2)",
               padding: 10,
+              textAlign: "center",
+              fontFamily: "Rosarivo",
+              alignSelf: "center",
             }}
           >
             No items found :(

@@ -93,7 +93,8 @@ export default function RootLayout() {
       <Drawer.Screen
         name="editProfile"
         options={{
-          drawerItemStyle: { display: "none" },
+          drawerLabel: "Profile Settings",
+          title: "Profile",
         }}
       />
     </Drawer>

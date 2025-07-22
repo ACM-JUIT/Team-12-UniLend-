@@ -20,18 +20,20 @@ export const CatScrollText = ({
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    const selectedIndex = categories.findIndex((category) => category.slug === selectedCategory);
+    const selectedIndex = categories.findIndex(
+      (category) => category.slug === selectedCategory
+    );
 
     if (selectedIndex !== -1 || selectedCategory === "home") {
       const itemWidth = 100;
       const offset = selectedIndex * itemWidth;
       scrollViewRef.current?.scrollTo({
-        x: offset, 
+        x: offset,
         y: 0,
-        animated: true
-      })
+        animated: true,
+      });
     }
-  }, [selectedCategory, categories])
+  }, [selectedCategory, categories]);
 
   return (
     <ScrollView
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#F5F5DC",
     fontFamily: "Rosarivo",
+    textShadowRadius:2
   },
   boxUnClick: {
     padding: 3,

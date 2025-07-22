@@ -17,7 +17,6 @@ import {
 import NavBar from "../../(frontend)/components/standard/Navbar";
 
 export default function HomePage() {
-
   const [selectedCategory, setSelectedCategory] = useState<
     Tag["slug"] & "home"
   >("home");

@@ -82,17 +82,19 @@ export function HomePageCategory({
             );
           })
         ) : (
-          <Text
-            style={{
-              fontSize: 38,
-              color: "coral",
-              borderColor: "coral",
-              borderWidth: 2,
-              padding: 10,
-            }}
-          >
-            No items found :(
-          </Text>
+          <View style={{ justifyContent: "center", width: "100%" }}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "beige",
+                textAlign: "center",
+                fontFamily: "Rosarivo",
+                fontWeight: "semibold",
+              }}
+            >
+              No items found :(
+            </Text>
+          </View>
         )}
       </View>
     </View>
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     color: "#F5F5DC",
-    width: "100%",
-    height: 180,
+    width: 309,
+    height: 150,
     resizeMode: "cover",
     marginRight: 10,
   },

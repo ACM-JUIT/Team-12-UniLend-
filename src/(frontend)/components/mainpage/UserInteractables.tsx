@@ -14,7 +14,7 @@ import libStar from "../../../../assets/images/lib-star.png";
 const icons = [libStar, libHistory, libAdd];
 
 export const UserInteractables = () => {
-  const router = useRouter()
+  const router = useRouter();
   const cards = [
     {
       id: 1,

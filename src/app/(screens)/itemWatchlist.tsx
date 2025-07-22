@@ -1,3 +1,4 @@
+import BackButton from "@/src/(frontend)/components/standard/BackButton";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import WidePreview from "@/src/(frontend)/components/standard/WidePreview";
 import { fetchItem } from "@/src/api/firestore/items";
@@ -7,7 +8,6 @@ import { useAuth } from "@/src/context/AuthContext";
 import { RelativePathString, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-
 const ItemWatchlist = () => {
   const { user } = useAuth();
 
@@ -53,6 +53,8 @@ const ItemWatchlist = () => {
   return (
     <SafeAreaView style={styles.container}>
       <NavBar title={"Watchlist"} />
+      <BackButton />
+
       {loading ? (
         <Text style={{ color: "white", textAlign: "center" }}>Loading...</Text>
       ) : (

@@ -1,6 +1,7 @@
-
+import Line from "@/src/(frontend)/components/standard/Line";
 import { getActiveTags, Tag } from "@/src/api/firestore/tags";
 import React, { useEffect, useState } from "react";
+
 import {
   ScrollView,
   StyleSheet,
@@ -9,23 +10,34 @@ import {
   View,
 } from "react-native";
 
-const TypeDropDown = ({ handleClick, selectedId = null }: { handleClick: any, selectedId?: string | null }) => {
+const TypeDropDown = ({
+  handleClick,
+  selectedId = null,
+}: {
+  handleClick: any;
+  selectedId?: string | null;
+}) => {
   const [categories, setCategories] = useState<Tag[]>([]);
   useEffect(() => {
-      const fetchTags = async () => {
-        try {
-          const tags = await getActiveTags();
-          setCategories(tags);
-        } catch (err) {
-          console.error("Error fetching tags:", err);
-        }
-      };
-  
-      fetchTags();
-    }, []);
+    const fetchTags = async () => {
+      try {
+        const tags = await getActiveTags();
+        setCategories(tags);
+      } catch (err) {
+        console.error("Error fetching tags:", err);
+      }
+    };
+
+    fetchTags();
+  }, []);
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View style={styles.container}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.container}
+    >
+      <View style={styles.box}>
+        <Line />
         {categories.map((category) => {
           return (
             <TouchableWithoutFeedback
@@ -35,7 +47,11 @@ const TypeDropDown = ({ handleClick, selectedId = null }: { handleClick: any, se
               key={category.id}
             >
               <Text
-                style={category.slug === selectedId ? styles.boxClicked : styles.boxUnClick}
+                style={
+                  category.slug === selectedId
+                    ? styles.boxClicked
+                    : styles.boxUnClick
+                }
               >
                 {category.name}
               </Text>
@@ -50,7 +66,8 @@ const TypeDropDown = ({ handleClick, selectedId = null }: { handleClick: any, se
 export default TypeDropDown;
 
 const styles = StyleSheet.create({
-  container: {
+  container: {},
+  box: {
     flexDirection: "row",
   },
   boxClicked: {

@@ -4,10 +4,10 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function PickImage({
   handleUpload,
-  ref
+  ref,
 }: {
   handleUpload: (arg0: File | string) => void;
-  ref? :React.RefObject<{clearImage: () => void} | null>
+  ref?: React.RefObject<{ clearImage: () => void } | null>;
 }) {
   const [image, setImage] = useState<string | null>(null);
 
@@ -15,15 +15,15 @@ export default function PickImage({
     return {
       clearImage() {
         setImage(null);
-      }
-    }
-  })
+      },
+    };
+  });
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
       allowsEditing: true,
-      aspect: [9, 16],
+      aspect: [1, 1],
       quality: 1,
     });
 

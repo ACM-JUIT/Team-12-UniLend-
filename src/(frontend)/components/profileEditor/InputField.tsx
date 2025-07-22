@@ -8,7 +8,12 @@ type Props = {
   callback: (text: string) => void;
   multil?: boolean;
 };
-const InputField: React.FC<Props> = ({placehldr,heading,callback,multil}) => {
+const InputField: React.FC<Props> = ({
+  placehldr,
+  heading,
+  callback,
+  multil,
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>{heading}</Text>

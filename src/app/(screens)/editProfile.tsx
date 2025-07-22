@@ -3,34 +3,33 @@ import ImgField from "@/src/(frontend)/components/profileEditor/ImageField";
 import InputField from "@/src/(frontend)/components/profileEditor/InputField";
 import BackButton from "@/src/(frontend)/components/standard/BackButton";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
-import React,{useEffect,useState} from "react";
-import { SafeAreaView, StyleSheet, View,Alert } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { getUserProfile, updateUserProfile } from "@/src/api/firestore/user";
 import { getAuth } from "@react-native-firebase/auth";
-import { getUserProfile,updateUserProfile } from "@/src/api/firestore/user";
-
+import React, { useEffect, useState } from "react";
+import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function EditProfile() {
   const user = getAuth().currentUser;
 
-  const [username,setUserName] = useState("");
-  const [email,setEmail] = useState("");
-  const [mobile,setMobile] = useState("");
-  const [hostel,setHostel] = useState("");
-  const [address,setAddress] = useState("");
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [hostel, setHostel] = useState("");
+  const [address, setAddress] = useState("");
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      if(!user) return;
-      try{
+      if (!user) return;  
+      try {
         const profile = await getUserProfile(user.uid);
         setUserName(profile.username || "");
         setEmail(profile.email || "");
         setMobile(profile.mobile || "");
         setHostel(profile.hostel || "");
         setAddress(profile.address || "");
-      } catch(error) {
-        console.error("Failed to fetch profile: ",error);
+      } catch (error) {
+        console.error("Failed to fetch profile: ", error);
       }
     };
 
@@ -38,8 +37,8 @@ export default function EditProfile() {
   });
 
   const handleSave = async () => {
-    if(!user) return;
-    try{
+    if (!user) return;
+    try {
       await updateUserProfile(user.uid, {
         username,
         email,
@@ -47,51 +46,48 @@ export default function EditProfile() {
         hostel,
         address,
       });
-      Alert.alert("Success","Profile updated successfully!");
-    } catch(error) {
-      console.error("Error updating profile: ",error);
-      Alert.alert("Error","Could not update profile");
+      Alert.alert("Success", "Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+      Alert.alert("Error", "Could not update profile");
     }
   };
 
-return (
+  return (
     <SafeAreaView style={styles.container}>
       <NavBar title={"Edit Profile"} />
+      <BackButton />
+
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollV}>
         <View style={styles.box}>
-          <BackButton />
           {/* {Make this imgField use the prop image to push original user image} */}
           <ImgField />
           {/* Make the placeholders pull current user's data. */}
           <InputField
-            placehldr= {username}
+            placehldr={username}
             heading="Username"
             callback={setUserName}
           />
-          <InputField
-            placehldr={email}
-            heading="Email"
-            callback={setEmail}
-          />
+          <InputField placehldr={email} heading="Email" callback={setEmail} />
           <InputField
             placehldr={mobile}
             heading="Mobile"
             callback={setMobile}
           />
           <InputField
-            placehldr= {hostel}
+            placehldr={hostel}
             heading="Hostel & Room No."
             callback={setHostel}
           />
           <InputField
-            placehldr= {address}
+            placehldr={address}
             heading="Address"
             callback={setAddress}
             multil={true}
           />
         </View>
       </ScrollView>
-      <ActionButton callback = {handleSave}/>
+      <ActionButton callback={handleSave} />
     </SafeAreaView>
   );
 }
