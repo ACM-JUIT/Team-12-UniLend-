@@ -5,6 +5,16 @@ import {
   updateDoc,
 } from "@react-native-firebase/firestore";
 
+export interface getUserProfile {
+  name?: string;
+  username?: string;
+  sales?: number;
+  hostel?: string;
+  mobile?: string;
+  email?: string;
+  photoURL?: string;
+}
+
 const db = getFirestore();
 
 export const getUserProfile = async (userId: string) => {
@@ -27,6 +37,7 @@ export const updateUserProfile = async (
     mobile?: string;
     hostel?: string;
     address?: string;
+    photoURL?: string;
   }
 ) => {
   const userRef = doc(db, "Users", userId);

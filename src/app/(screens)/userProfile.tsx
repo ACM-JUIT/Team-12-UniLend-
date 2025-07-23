@@ -20,7 +20,7 @@ export default function UserProfile() {
     hostel: "",
     mobile: "",
     email: "",
-    photoURL: "",
+    photoURL:"",
   });
 
   const [loading,setLoading] = useState(true);
@@ -30,14 +30,18 @@ export default function UserProfile() {
         if(!user) return;
         try{
           const data = await getUserProfile(user.uid);
+          if(!data) {
+            console.error("No user profile found");
+            return;
+          }
           setProfile({
-          name: typeof data.name === "string" ? data.name : "",
-          username: typeof data.username === "string" ? data.username : "",
-          sales: typeof data.sales === "number" ? data.sales : 0,
-          hostel: typeof data.hostel === "string" ? data.hostel : "",
-          mobile: typeof data.mobile === "string" ? data.mobile : "",
-          email: typeof data.email === "string" ? data.email : "",
-          photoURL: typeof data.photoURL === "string" ? data.photoURL : "",
+          name: typeof data?.name === "string" ? data?.name : "",
+          username: typeof data?.username === "string" ? data?.username : "",
+          sales: typeof data?.sales === "number" ? data?.sales : 0,
+          hostel: typeof data?.hostel === "string" ? data?.hostel : "",
+          mobile: typeof data?.mobile === "string" ? data?.mobile : "",
+          email: typeof data?.email === "string" ? data?.email : "",
+          photoURL: typeof data?.photoURL === "string" ? data?.photoURL : "",
           });
         } catch (error) {
           console.error("Failed to fetch profile:",error);
@@ -50,6 +54,11 @@ export default function UserProfile() {
     });
 
     const handeprofilepicture = async () => {
+      if(!user) {
+        console.error("User is null");
+        Alert.alert("Error","You must be logged in.");
+        return;
+      }
       try{
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if(permissionResult.status !=="granted") {
@@ -63,20 +72,20 @@ export default function UserProfile() {
           quality: 1,
         });
         
-        if(pickerResult.canceled) {
+        if(pickerResult.canceled || !pickerResult.assets?.length) {
           return;
         }
+        const authtoken = await user.getIdToken();
+        const uploadedurl = await uploadImage(pickerResult.assets[0].uri,authtoken);
 
-        const uploadedurl = await uploadImage(pickerResult);
-
-        if(!uploadedurl) {
+        if(!uploadedurl?.secure_url) {
           Alert.alert("Upload failed","could not upload image.");
           return;
         }
 
         if(user) {
-          await updateUserProfile(user.uid,{photoURL: uploadedurl});
-          setProfile({...profile,photoURL: uploadedurl});
+          await updateUserProfile(user.uid,{photoURL: uploadedurl.secure_url});
+          setProfile({...profile,photoURL: uploadedurl.secure_url});
           Alert.alert("Success","Profile picture updated!");
         }
       } catch(error) {
