@@ -5,7 +5,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { Redirect, Stack, useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { Text, View } from "react-native";
 
@@ -17,11 +17,6 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
       <Drawer
         initialRouteName="homeScreen"
         screenOptions={{
@@ -83,20 +78,6 @@ export default function RootLayout() {
         )}
       >
         <Drawer.Screen
-          name="userProfile"
-          options={{
-            drawerLabel: "Profile",
-            title: "Profile",
-          }}
-        />
-        <Drawer.Screen
-          name="editProfile"
-          options={{
-            drawerLabel: "Profile Settings",
-            title: "Profile",
-          }}
-        />
-        <Drawer.Screen
           name="homeScreen"
           options={{
             drawerLabel: "Home",
@@ -108,6 +89,20 @@ export default function RootLayout() {
           options={{
             drawerLabel: "Watchlist",
             title: "Watchlist",
+          }}
+        />
+        <Drawer.Screen
+          name="userProfile"
+          options={{
+            drawerLabel: "Profile",
+            title: "Profile",
+          }}
+        />
+        <Drawer.Screen
+          name="editProfile"
+          options={{
+            drawerLabel: "Profile Settings",
+            title: "Profile",
           }}
         />
         <Drawer.Screen
@@ -147,6 +142,5 @@ export default function RootLayout() {
           }}
         />
       </Drawer>
-    </Stack>
   );
 }
