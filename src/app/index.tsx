@@ -1,4 +1,5 @@
-import SplashScreen from "./(screens)/splashScreen";
+import OnBoarding from "./(auth)/onBoarding";
+
 export default function RootLayout() {
-  return SplashScreen();
+  return <OnBoarding />;
 }

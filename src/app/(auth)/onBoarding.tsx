@@ -1,22 +1,20 @@
 import { router, Stack } from "expo-router";
 import React from "react";
 import {
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-export default function SplashScreen() {
+export default function OnBoarding() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <ImageBackground
-        source={{
-          uri: "https://drive.google.com/uc?export=view&id=1mrJ_KZrZBTLFk0gkrgvQwhxqOLg2r-DK",
-        }}
+        source={require("../../../assets/images/splash-bg.png")}
         resizeMode="cover"
         style={styles.background}
       >
@@ -32,13 +30,13 @@ export default function SplashScreen() {
             Because Lending is the new mending
           </Text>
           <TouchableOpacity
-            onPress={() => router.push("/(auth)/signup_page")}
+            onPress={() => router.push("../(auth)/signup_page")}
             style={styles.button1}
           >
             <Text style={styles.buttontxt1}>New in vibe? Sign Up!</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => router.push("/(auth)/login_page")}
+            onPress={() => router.push("../(auth)/login_page")}
             style={styles.button2}
           >
             <Text style={styles.buttontxt2}>Been here? Login</Text>
