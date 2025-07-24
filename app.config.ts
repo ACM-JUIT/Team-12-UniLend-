@@ -6,7 +6,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: "UniLend",
   version: "1.0.0",
   orientation: "portrait",
-  icon: "./assets/images/splash-icon.jpg",
+  icon: "./assets/images/logo.png",
   scheme: "unilend",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
@@ -15,8 +15,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/images/splash-icon.jpg",
-      backgroundColor: "#ffffff",
+      foregroundImage: "./assets/images/logo.png",
+      backgroundColor: " #1C161E",
+      backgroundImage: "./assets/images/splash-bg.png"
     },
     edgeToEdgeEnabled: true,
     package: "com.team12.UniLend",
@@ -26,7 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     bundler: "metro",
     output: "static",
-    favicon: "./assets/images/splash-icon.jpg",
+    favicon: "./assets/images/logo.png",
   },
   plugins: [[
         "expo-image-picker",
@@ -38,10 +39,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-splash-screen",
       {
-        image: "./assets/images/splash-icon.jpg",
+        image: "./assets/images/logo.png",
         imageWidth: 200,
         resizeMode: "contain",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#1C161E",
+        backgroundImage: "./assets/images/splash-bg.png"
       },
     ],
     "@react-native-firebase/app",
