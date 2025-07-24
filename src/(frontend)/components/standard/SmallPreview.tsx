@@ -33,8 +33,8 @@ const SmallPreview = ({
         </Text>
       </Pressable>
       <View style={styles.box2}>
-        <Text style={styles.text2}>{price}/m</Text>
-        <Pressable onPress={() => alert("Watchlist")}>
+        <Text style={styles.text2}>₹{price}</Text>
+        {/* <Pressable onPress={() => alert("Watchlist")}>
           <Image
             source={require("../../../../assets/images/watchlist.png")}
             style={{
@@ -45,7 +45,7 @@ const SmallPreview = ({
               borderRadius: 5,
             }}
           ></Image>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );

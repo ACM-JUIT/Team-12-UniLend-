@@ -56,12 +56,15 @@ const TopActions = ({ userId, itemId }: { userId: string; itemId: string }) => {
       if (isSaved) {
         await removeFromWatchlist(userId, itemId as string);
         setIsSaved(false);
+        setModal({title: "Removed", desc: "Item removed from watchlist", active: true});
       } else {
         await addToWatchlist(userId, itemId as string);
         setIsSaved(true);
+        setModal({title: "Added", desc: "Item added from watchlist", active: true});
       }
     } catch (error) {
       console.error("Failed to toggle watchlist: ", error);
+      
     }
   };
 
