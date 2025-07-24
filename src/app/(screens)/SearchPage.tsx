@@ -94,18 +94,21 @@ const SearchPage = () => {
             );
           })
         ) : (
-          <Text
-            style={{
-              fontSize: 20,
-              color: "rgba(255, 255, 255, 0.2)",
-              padding: 10,
-              textAlign: "center",
-              fontFamily: "Rosarivo",
-              alignSelf: "center",
-            }}
+          <View
+            style={{ justifyContent: "center", width: "100%", marginTop: 30 }}
           >
-            No items found :(
-          </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "beige",
+                textAlign: "center",
+                fontFamily: "Rosarivo",
+                fontWeight: "semibold",
+              }}
+            >
+              No items found :(
+            </Text>
+          </View>
         )}
       </View>
     </SafeAreaView>
