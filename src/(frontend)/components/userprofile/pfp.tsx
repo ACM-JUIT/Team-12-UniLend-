@@ -1,16 +1,17 @@
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
+
 type iFProps = {
   image?: any;
 };
-
-import defaultImg from "@/assets/images/profileDefault.png";
 const ProfileImg = (props: iFProps) => {
   return (
     <View>
       <View style={styles.container}>
-        <Image style={styles.pfp} source={props.image ?? defaultImg} />
+        <Image style={styles.pfp} source={{
+          uri: props.image
+        }} />
       </View>
     </View>
   );
@@ -28,10 +29,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: "center",
     justifyContent: "center",
+    overflow: "hidden"
   },
   pfp: {
-    height: 64,
-    width: 64,
+    height: "100%",
+    width: "100%",
     alignSelf: "center",
+    objectFit: "cover",
   },
 });

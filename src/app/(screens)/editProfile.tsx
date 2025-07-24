@@ -22,7 +22,7 @@ export default function EditProfile() {
     const fetchUserProfile = async () => {
       if (!user) return;  
       try {
-        const profile = await getUserProfile(user.uid);
+        const profile: object = await getUserProfile(user.uid);
         setUserName(profile.username || "");
         setEmail(profile.email || "");
         setMobile(profile.mobile || "");

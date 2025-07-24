@@ -4,13 +4,16 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 type iFProps = {
   image?: any;
 };
-
-import defaultImg from "@/assets/images/profileDefault.png";
 const ImgField = (props: iFProps) => {
   return (
-    <TouchableOpacity onPress={()=>alert("hey")}>
+    <TouchableOpacity onPress={() => alert("hey")}>
       <View style={styles.container}>
-        <Image style={styles.pfp} source={props.image ?? defaultImg} />
+        <Image
+          style={styles.pfp}
+          source={{
+            uri: "https://cdn.wallpapersafari.com/34/0/NrOWJ1.jpg",
+          }}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -28,10 +31,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: "center",
     justifyContent: "center",
+    overflow: "hidden"
   },
   pfp: {
-    height: 64,
-    width: 64,
+    height: "100%",
+    width: "100%",
     alignSelf: "center",
+    objectFit: "cover",
   },
 });

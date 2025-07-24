@@ -3,102 +3,62 @@ import NavBar from "@/src/(frontend)/components/standard/Navbar";
 import Browse from "@/src/(frontend)/components/userprofile/Browse";
 import ProfileImg from "@/src/(frontend)/components/userprofile/pfp";
 import UserInfo from "@/src/(frontend)/components/userprofile/userinfo";
-import React,{useEffect,useState} from "react";
-import { StyleSheet, View,Alert,Button } from "react-native";
-import { getUserProfile, updateUserProfile } from "@/src/api/firestore/user";
+import { getUserProfile } from "@/src/api/firestore/user";
 import { getAuth } from "@react-native-firebase/auth";
-import { uploadImage } from "@/src/api/cloudinary";
-import * as ImagePicker from "expo-image-picker";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
+import { StyleSheet, View } from "react-native";
 
 export default function UserProfile() {
   const user = getAuth().currentUser;
 
-  const [profile,setProfile] = useState({
+  const [profile, setProfile] = useState({
     name: "",
     username: "",
     sales: 0,
     hostel: "",
     mobile: "",
     email: "",
-    photoURL:"",
+    photoURL: "",
   });
 
-  const [loading,setLoading] = useState(true);
-
-    useEffect(() => {
+  useFocusEffect(
+    useCallback(() => {
       const fetchprofile = async () => {
-        if(!user) return;
-        try{
+        if (!user) return;
+        try {
           const data = await getUserProfile(user.uid);
-          if(!data) {
+          if (!data) {
             console.error("No user profile found");
             return;
           }
+          console.log(data);
           setProfile({
-          name: typeof data?.name === "string" ? data?.name : "",
-          username: typeof data?.username === "string" ? data?.username : "",
-          sales: typeof data?.sales === "number" ? data?.sales : 0,
-          hostel: typeof data?.hostel === "string" ? data?.hostel : "",
-          mobile: typeof data?.mobile === "string" ? data?.mobile : "",
-          email: typeof data?.email === "string" ? data?.email : "",
-          photoURL: typeof data?.photoURL === "string" ? data?.photoURL : "",
+            name: typeof data?.name === "string" ? data?.name : "",
+            username: typeof data?.username === "string" ? data?.username : "",
+            sales: typeof data?.sales === "number" ? data?.sales : 0,
+            hostel: typeof data?.hostel === "string" ? data?.hostel : "Not added",
+            mobile: typeof data?.mobile === "string" ? data?.mobile : "Not added",
+            email: typeof data?.email === "string" ? data?.email : "",
+            photoURL:
+              typeof data?.photoURL === "string" && data?.photoURL
+                ? data?.photoURL
+                : "https://cdn.wallpapersafari.com/34/0/NrOWJ1.jpg",
           });
         } catch (error) {
-          console.error("Failed to fetch profile:",error);
-        } finally {
-          setLoading(false);
+          console.error("Failed to fetch profile:", error);
         }
       };
 
       fetchprofile();
-    });
-
-    const handeprofilepicture = async () => {
-      if(!user) {
-        console.error("User is null");
-        Alert.alert("Error","You must be logged in.");
-        return;
-      }
-      try{
-        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if(permissionResult.status !=="granted") {
-          Alert.alert("permission denied","We need permission to access your photos.");
-          return;
-        }
-
-        const pickerResult = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          quality: 1,
-        });
-        
-        if(pickerResult.canceled || !pickerResult.assets?.length) {
-          return;
-        }
-        const authtoken = await user.getIdToken();
-        const uploadedurl = await uploadImage(pickerResult.assets[0].uri,authtoken);
-
-        if(!uploadedurl?.secure_url) {
-          Alert.alert("Upload failed","could not upload image.");
-          return;
-        }
-
-        if(user) {
-          await updateUserProfile(user.uid,{photoURL: uploadedurl.secure_url});
-          setProfile({...profile,photoURL: uploadedurl.secure_url});
-          Alert.alert("Success","Profile picture updated!");
-        }
-      } catch(error) {
-        console.error("Failed to upload profile picture:",error);
-        Alert.alert("Error","Something went wrong while uploading.");
-      }
-    };
+    }, [])
+  );
   return (
     <View style={styles.container}>
       <NavBar title={profile.name || "Your profile"} />
       <BackButton />
       {/* Use the image prop below to push the user image, it has a default image */}
-      <ProfileImg image = {profile.photoURL}/>
+      <ProfileImg image={profile.photoURL} />
       <UserInfo data={profile} />
       <Browse />
     </View>

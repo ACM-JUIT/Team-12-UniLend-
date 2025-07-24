@@ -5,7 +5,7 @@ import {
   updateDoc,
 } from "@react-native-firebase/firestore";
 
-export interface getUserProfile {
+export interface GetUserProfile {
   name?: string;
   username?: string;
   sales?: number;
