@@ -61,10 +61,10 @@ export function HomePageDefault({
       <Text style={styles.heading1}>Popular Stuff</Text>
       <BrowseItems items={popularPosts} />
 
-      <Text style={styles.heading1}>Electronics ⚡</Text>
+      <Text style={styles.heading1}>Electronics</Text>
       <BrowseItems items={electronicsPosts} />
 
-      <Text style={styles.heading1}>Books 📕</Text>
+      <Text style={styles.heading1}>Books</Text>
       <BrowseItems items={booksPosts} />
     </>
   );
