@@ -65,11 +65,35 @@ export const fetchItem = async (itemId: string): Promise<Item | null> => {
   try {
     const firestore = getFirestore();
 
-    const itemSnap = await getDoc(doc(firestore, "Items", itemId));
+    const itemSnap = await getDoc(doc(firestore, "Orders", itemId));
     if (itemSnap.exists()) {
       return {
         id: itemSnap.id,
         ...(itemSnap.data() as Omit<Item, "id">),
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching single item: ", error);
+    throw error;
+  }
+};
+export const fetchOrderItem = async (itemId: string): Promise<Item | null> => {
+  try {
+    const firestore = getFirestore();
+
+    const q = query(
+      collection(firestore, "Orders"),
+      where("itemId", "==", itemId)
+    );
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const docSnap = querySnapshot.docs[0];
+      return {
+        id: docSnap.id,
+        ...(docSnap.data().item as Omit<Item, "id">),
       };
     } else {
       return null;

@@ -58,6 +58,7 @@ export default function TradeHistory() {
           data={orderHistory}
           renderItem={({ item }) => {
             const orderItem = item.item;
+            console.log("test")
             return (
               <WidePreview
                 title={orderItem.title}
@@ -68,7 +69,7 @@ export default function TradeHistory() {
                 }
                 bottomText={`Seller name(temp): ${item.sellerId}`}
                 imageId={orderItem.images as string}
-                buttonLink={`/inventory/${orderItem.id}` as RelativePathString}
+                buttonLink={`/orderHistory/${orderItem.id}` as RelativePathString}
               />
             );
           }}
