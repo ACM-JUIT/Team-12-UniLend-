@@ -22,6 +22,9 @@ export default function TradeHistory() {
         try {
           setLoading(true);
           const orderHistory = await getOrderHistory(user.uid);
+          if (orderHistory.length === 0) {
+            return;
+          }
           setOrderHistory(orderHistory);
           setLoading(false);
         } catch (error) {
@@ -48,6 +51,19 @@ export default function TradeHistory() {
       <NavBar title={"Trade History"} />
       {loading ? (
         <Text style={{ color: "white", textAlign: "center" }}>Loading...</Text>
+      ) : orderHistory.length === 0 ? (
+        <Text
+          style={{
+            fontSize: 18,
+            color: "beige",
+            textAlign: "center",
+            fontFamily: "Rosarivo",
+            fontWeight: "semibold",
+            marginTop: 100
+          }}
+        >
+          No items traded yet -_-
+        </Text>
       ) : (
         <FlatList
           ItemSeparatorComponent={() => {
@@ -58,7 +74,7 @@ export default function TradeHistory() {
           data={orderHistory}
           renderItem={({ item }) => {
             const orderItem = item.item;
-            console.log("test")
+            console.log("test");
             return (
               <WidePreview
                 title={orderItem.title}
@@ -69,7 +85,9 @@ export default function TradeHistory() {
                 }
                 bottomText={`Seller name(temp): ${item.sellerId}`}
                 imageId={orderItem.images as string}
-                buttonLink={`/orderHistory/${orderItem.id}` as RelativePathString}
+                buttonLink={
+                  `/orderHistory/${orderItem.id}` as RelativePathString
+                }
               />
             );
           }}

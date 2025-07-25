@@ -13,7 +13,6 @@ const ItemWatchlist = () => {
 
   const [watchListItems, setWatchListItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
   useFocusEffect(
     useCallback(() => {
       const fetchWatchList = async () => {
@@ -28,12 +27,13 @@ const ItemWatchlist = () => {
 
           const validItems = items.filter((item) => item !== null); // the backend sends null for items that doesn't exist
           if (validItems.length === 0) {
-            throw new Error("No watchlist exist!");
+            return;
           }
           setWatchListItems(validItems);
-          setLoading(false);
         } catch (error) {
           console.error("Error fetching watchLists", error);
+        } finally {
+          setLoading(false);
         }
       };
       fetchWatchList();
@@ -57,6 +57,19 @@ const ItemWatchlist = () => {
 
       {loading ? (
         <Text style={{ color: "white", textAlign: "center" }}>Loading...</Text>
+      ) : watchListItems.length === 0 ? (
+        <Text
+          style={{
+            fontSize: 18,
+            color: "beige",
+            textAlign: "center",
+            fontFamily: "Rosarivo",
+            fontWeight: "semibold",
+            marginTop: 100
+          }}
+        >
+          No items watchlisted ;-;
+        </Text>
       ) : (
         <FlatList
           ItemSeparatorComponent={() => {
