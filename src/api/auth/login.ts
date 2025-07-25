@@ -1,17 +1,22 @@
 import {
   getAuth,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from "@react-native-firebase/auth";
 
 import {
   doc,
   getFirestore,
   serverTimestamp,
-  updateDoc
+  updateDoc,
 } from "@react-native-firebase/firestore";
 
-
-export default async function logIn({email, password}: {email: string, password: string}) {
+export default async function logIn({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<{ success: boolean; error?: any }> {
   try {
     const userCredential = await signInWithEmailAndPassword(
       getAuth(),
@@ -25,7 +30,9 @@ export default async function logIn({email, password}: {email: string, password:
     await updateDoc(userDocRef, {
       lastLoggedIn: serverTimestamp(),
     });
+    return { success: true };
   } catch (error) {
-    throw error
+    console.dir(error)
+    return { success: false, error: String(error) };
   }
 }
