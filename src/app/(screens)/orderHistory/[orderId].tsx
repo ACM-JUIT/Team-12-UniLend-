@@ -1,88 +1,85 @@
+// to open specific book page using bookid
+import ItemDetails from "@/src/(frontend)/components/detailspage/ItemDetails";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
-import WidePreview from "@/src/(frontend)/components/standard/WidePreview";
-import { getOrderHistory, Order } from "@/src/api/firestore/order";
+import {
+  fetchOrderItem,
+} from "@/src/api/firestore/items";
+import { addOrder } from "@/src/api/firestore/order";
+import { Item } from "@/src/api/firestore/post";
 import { useAuth } from "@/src/context/AuthContext";
-import { RelativePathString } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function TradeHistory() {
+const buyItem = async (item: Item, userId: string) => {
+  try {
+    await addOrder(item, userId);
+    Alert.alert(
+      "Success",
+      "Order successfully added. You can view the orders page"
+    );
+  } catch (error) {
+    Alert.alert("Error", String(error));
+  }
+};
+
+export default function OrderPage() {
+  const { orderId } = useLocalSearchParams();
+  const [item, setItem] = useState<Item | null>(null);
+
   const { user } = useAuth();
 
-  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
   useEffect(() => {
-    const fetchWatchList = async () => {
+    const handleFetch = async () => {
+      console.log("testing")
       if (!user) {
-        console.error("User not authenticated in fetchWatchList function");
+        console.error("User isn't signed up");
         return;
       }
       try {
-        setLoading(true);
-        const orderHistory = await getOrderHistory(user.uid);
-        setOrderHistory(orderHistory);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching watchLists", error);
+        const itemDetails = await fetchOrderItem(orderId as string);
+        console.log(itemDetails)
+        setItem(itemDetails);
+      } catch (e) {
+        console.error("Error getting item details", e);
       }
     };
-    fetchWatchList();
-  }, [user]);
+    handleFetch();
+  }, [orderId, user]);
 
-  if (!user) {
+
+  if (!item || !user) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={{ color: "white", textAlign: "center", marginTop: 50 }}>
-          User not authenticated
-        </Text>
+        <Text className="text-white text-2xl text-center">Loading...</Text>
       </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBar title={"Trade History"} />
-      {loading ? (
-        <Text style={{ color: "white", textAlign: "center" }}>Loading...</Text>
-      ) : (
-        <FlatList
-          ItemSeparatorComponent={() => {
-            return <View style={{ height: 10 }} />;
-          }}
-          showsVerticalScrollIndicator={false}
-          style={styles.scroll}
-          data={orderHistory}
-          renderItem={({ item }) => {
-            const orderItem = item.item;
-            return (
-              <WidePreview
-                title={orderItem.title}
-                middleText={
-                  orderItem.type === "sell"
-                    ? orderItem.price + "/-"
-                    : orderItem.price + "/m"
-                }
-                bottomText={`Seller name(temp): ${item.sellerId}`}
-                imageId={orderItem.images as string}
-                buttonLink={`/inventory/${orderItem.id}` as RelativePathString}
-              />
-            );
-          }}
-        />
-      )}
+      <View style={styles.box}>
+        <NavBar title="Like It?" />
+        <ItemDetails item={item} />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: "100%",
+  box: {
     backgroundColor: "#1C161E",
-    padding: 10,
+    height: "100%",
+    width: "100%",
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    alignItems: "center",
   },
-  scroll: {
-    gap: 10,
+  container: {
+    backgroundColor: "#1C161E",
+    height: "100%",
+    width: "100%",
   },
 });

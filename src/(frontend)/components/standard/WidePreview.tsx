@@ -35,6 +35,7 @@ const WidePreview = ({
       <TouchableOpacity
         style={styles.morebut}
         onPress={() => {
+          console.log(buttonLink)
           router.push(buttonLink);
         }}
       >
