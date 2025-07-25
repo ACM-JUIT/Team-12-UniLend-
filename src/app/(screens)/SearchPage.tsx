@@ -80,7 +80,14 @@ const SearchPage = () => {
         )}
       </View>
       <Line />
-      <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          gap: 10,
+          flexWrap: "wrap",
+          marginTop: 10,
+        }}
+      >
         {searchResults.length > 0 ? (
           searchResults.map((item) => {
             return (
