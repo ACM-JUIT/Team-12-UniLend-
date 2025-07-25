@@ -42,6 +42,7 @@ export default function Productpage() {
       }
       try {
         const itemDetails = await fetchItem(itemId as string);
+        console.log(itemDetails)
         setItem(itemDetails);
       } catch (e) {
         console.error("Error getting item details", e);

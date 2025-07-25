@@ -1,5 +1,4 @@
 import filterimg from "@/assets/images/search-page/filter-icon.png";
-import sortimg from "@/assets/images/search-page/sort-icon.png";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -10,10 +9,10 @@ const Filtering = ({
 }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
+      {/* <TouchableOpacity style={styles.button}>
         <Image source={sortimg} style={styles.img} />
         <Text style={styles.txt}>Sort by</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button} onPress={handleTypeDropDown}>
         <Image source={filterimg} style={styles.img} />
         <Text style={styles.txt}>Filters</Text>
