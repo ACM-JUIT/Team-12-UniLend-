@@ -93,5 +93,6 @@ const styles = StyleSheet.create({
   },
   scroll: {
     gap: 10,
+    marginTop: 10,
   },
 });
