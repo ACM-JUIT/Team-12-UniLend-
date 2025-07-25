@@ -71,7 +71,7 @@ const ItemWatchlist = () => {
               middleText={
                 item.type === "sell" ? item.price + "/-" : item.price + "/m"
               }
-              bottomText=""
+              bottomText={item.description}
               imageId={item.images as string}
               buttonLink={`/inventory/${item.id}` as RelativePathString}
             />
