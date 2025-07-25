@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 10,
     borderWidth: 1.5,
-    borderColor: "black",
+    borderColor: "#00000039",
     alignSelf: "center",
     marginBottom: 6,
   },
