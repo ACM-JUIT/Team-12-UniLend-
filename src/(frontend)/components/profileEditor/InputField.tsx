@@ -4,13 +4,15 @@ import { TextInput } from "react-native-gesture-handler";
 
 type Props = {
   heading: string;
-  placehldr: string;
+  placehldr?: string;
+  currentVal: string;
   callback: (text: string) => void;
   multil?: boolean;
 };
 const InputField: React.FC<Props> = ({
+    heading,
   placehldr,
-  heading,
+  currentVal,
   callback,
   multil,
 }) => {
@@ -20,9 +22,10 @@ const InputField: React.FC<Props> = ({
       <TextInput
         multiline={multil ?? false}
         style={styles.textbox}
-        placeholder={placehldr}
+        placeholder={placehldr || ""}
         placeholderTextColor="rgba(255, 255, 255, 0.4)"
-        onChangeText={callback}
+        value={currentVal}
+        onChangeText={(text) => callback(text)}
       ></TextInput>
     </View>
   );
@@ -46,5 +49,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#F5F5DC",
     paddingLeft: 10,
+    color: "white"
   },
 });
