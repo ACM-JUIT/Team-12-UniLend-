@@ -120,6 +120,33 @@ export async function updateViewCount(
   }
 }
 
+export async function fetchItemsByUser(
+  userId: string
+): Promise<{ success: boolean; data?: Item[]; error?: string }> {
+  try {
+    const firestore = getFirestore();
+
+    const q = query(
+      collection(firestore, "Items"),
+      where("ownerId", "==", userId)
+    );
+
+    const querySnapshot = await getDocs(q);
+    const items: Item[] = [];
+    querySnapshot.forEach((doc) => {
+      items.push({
+        id: doc.id,
+        ...(doc.data() as Omit<Item, "id">),
+      });
+    });
+
+    return { success: true, data: items };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: String(error) };
+  }
+}
+
 // for search
 
 export async function fetchItemByQuery(

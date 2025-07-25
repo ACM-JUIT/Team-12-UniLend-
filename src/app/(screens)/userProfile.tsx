@@ -7,7 +7,7 @@ import { getUserProfile } from "@/src/api/firestore/user";
 import { getAuth } from "@react-native-firebase/auth";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function UserProfile() {
   const user = getAuth().currentUser;
@@ -32,13 +32,14 @@ export default function UserProfile() {
             console.error("No user profile found");
             return;
           }
-          console.log(data);
           setProfile({
             name: typeof data?.name === "string" ? data?.name : "",
             username: typeof data?.username === "string" ? data?.username : "",
             sales: typeof data?.sales === "number" ? data?.sales : 0,
-            hostel: typeof data?.hostel === "string" ? data?.hostel : "Not added",
-            mobile: typeof data?.mobile === "string" ? data?.mobile : "Not added",
+            hostel:
+              typeof data?.hostel === "string" ? data?.hostel : "Not added",
+            mobile:
+              typeof data?.mobile === "string" ? data?.mobile : "Not added",
             email: typeof data?.email === "string" ? data?.email : "",
             photoURL:
               typeof data?.photoURL === "string" && data?.photoURL
@@ -53,6 +54,12 @@ export default function UserProfile() {
       fetchprofile();
     }, [])
   );
+  if (!user)
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
   return (
     <View style={styles.container}>
       <NavBar title={profile.name || "Your profile"} />
@@ -60,7 +67,7 @@ export default function UserProfile() {
       {/* Use the image prop below to push the user image, it has a default image */}
       <ProfileImg image={profile.photoURL} />
       <UserInfo data={profile} />
-      <Browse />
+      <Browse userId={user?.uid} />
     </View>
   );
 }
@@ -74,12 +81,3 @@ const styles = StyleSheet.create({
     gap: 10,
   },
 });
-
-let datatest = {
-  name: "Lakshya Walia",
-  username: "lakshyawalia01",
-  sales: 4,
-  hostel: "H10-R4",
-  mobile: "+46465455X",
-  email: "lakshya2332@juitsolan.in",
-};
