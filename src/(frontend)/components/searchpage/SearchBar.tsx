@@ -15,7 +15,7 @@ const SearchBar = ({
 }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.back}>
+      <TouchableOpacity onPress={() => router.back()}>
         <Image source={back} style={styles.backimg} />
       </TouchableOpacity>
       <View style={styles.srchbox}>
