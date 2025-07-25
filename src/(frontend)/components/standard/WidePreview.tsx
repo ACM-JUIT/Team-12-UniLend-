@@ -29,8 +29,12 @@ const WidePreview = ({
       />
       <View style={styles.infobox}>
         <Text style={styles.texttitle}>{title}</Text>
-        <Text style={styles.textmiddle}>{middleText}</Text>
-        <Text style={styles.textbottom}>{bottomText}</Text>
+        <Text style={styles.textmiddle} numberOfLines={2}>
+          {middleText}
+        </Text>
+        <Text style={styles.textbottom} numberOfLines={2}>
+          {bottomText}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.morebut}
@@ -54,7 +58,7 @@ const styles = StyleSheet.create({
     borderColor: "#FAF3DD",
     borderWidth: 1,
     borderRadius: 17,
-    backgroundColor: "#1C161E",
+    backgroundColor: "#251d28a1",
     gap: 20,
   },
   image: {
@@ -100,7 +104,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 2,
   },
   morebut: {
-    alignItems: "center",
+    alignContent: "flex-end",
     justifyContent: "center",
     transform: [{ rotate: "180deg" }],
   },
