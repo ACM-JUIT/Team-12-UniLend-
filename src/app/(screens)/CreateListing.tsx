@@ -54,6 +54,7 @@ export default function CreateListing() {
   const companyRef = useRef<TextInput>(null);
   const descriptionRef = useRef<TextInput>(null);
   const picImageRef = useRef<{ clearImage: () => void }>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [formAlert, setFormAlert] = useState<{
     title: string;
@@ -113,6 +114,7 @@ export default function CreateListing() {
     try {
       const idToken = await getAuth().currentUser?.getIdToken();
       if (!idToken) throw new Error("User not authenticated");
+      setLoading(true)
       await createItemPost(
         { ...formState, ownerId: user.uid, location: null },
         idToken
@@ -137,6 +139,8 @@ export default function CreateListing() {
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -238,12 +242,13 @@ export default function CreateListing() {
             console.log("submitted");
             handleSubmit(formState);
           }}
+          disabled={loading}
         >
           <View style={styles.button}>
             <Text
               style={{ color: "#4A2B29", fontSize: 16, textAlign: "center" }}
             >
-              Submit item
+              {loading ? "Adding item...": "Submit item"}
             </Text>
           </View>
         </TouchableOpacity>
