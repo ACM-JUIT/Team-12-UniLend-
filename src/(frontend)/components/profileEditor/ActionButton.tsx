@@ -19,7 +19,7 @@ const ActionButton: React.FC<props> = ({callback}) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.DeleteBut}
-        onPress={() => alert("Cannot be Undone or done yet too")}
+        onPress={() => alert("Under Construction U_U")}
       >
         <Image source={cross} style={styles.imgdelete} />
         <Text style={styles.txtdlt}>Delete Account</Text>

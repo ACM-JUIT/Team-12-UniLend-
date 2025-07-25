@@ -3,9 +3,14 @@ import ImgField from "@/src/(frontend)/components/profileEditor/ImageField";
 import InputField from "@/src/(frontend)/components/profileEditor/InputField";
 import BackButton from "@/src/(frontend)/components/standard/BackButton";
 import NavBar from "@/src/(frontend)/components/standard/Navbar";
-import { getUserProfile, updateUserProfile } from "@/src/api/firestore/user";
+import {
+  getUserProfile,
+  updateUserProfile,
+  UserProfile,
+} from "@/src/api/firestore/user";
 import { getAuth } from "@react-native-firebase/auth";
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useState } from "react";
 import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -18,23 +23,25 @@ export default function EditProfile() {
   const [hostel, setHostel] = useState("");
   const [address, setAddress] = useState("");
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (!user) return;  
-      try {
-        const profile: object = await getUserProfile(user.uid);
-        setUserName(profile.username || "");
-        setEmail(profile.email || "");
-        setMobile(profile.mobile || "");
-        setHostel(profile.hostel || "");
-        setAddress(profile.address || "");
-      } catch (error) {
-        console.error("Failed to fetch profile: ", error);
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchUserProfile = async () => {
+        if (!user) return;
+        try {
+          const profile: UserProfile = await getUserProfile(user.uid);
+          setUserName(profile.username || "");
+          setEmail(profile.email || "");
+          setMobile(profile.mobile || "");
+          setHostel(profile.hostel || "");
+          setAddress(profile.address || "");
+        } catch (error) {
+          console.error("Failed to fetch profile: ", error);
+        }
+      };
 
-    fetchUserProfile();
-  });
+      fetchUserProfile();
+    }, [])
+  );
 
   const handleSave = async () => {
     if (!user) return;
@@ -64,23 +71,23 @@ export default function EditProfile() {
           <ImgField />
           {/* Make the placeholders pull current user's data. */}
           <InputField
-            placehldr={username}
+            currentVal={username}
             heading="Username"
             callback={setUserName}
           />
-          <InputField placehldr={email} heading="Email" callback={setEmail} />
+          <InputField currentVal={email} heading="Email" callback={setEmail} />
           <InputField
-            placehldr={mobile}
+            currentVal={mobile}
             heading="Mobile"
             callback={setMobile}
           />
           <InputField
-            placehldr={hostel}
+            currentVal={hostel}
             heading="Hostel & Room No."
             callback={setHostel}
           />
           <InputField
-            placehldr={address}
+            currentVal={address}
             heading="Address"
             callback={setAddress}
             multil={true}
