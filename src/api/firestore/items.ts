@@ -192,8 +192,8 @@ export async function fetchItemByQuery(
       q = query(
         collection(firestore, "Items"),
         orderBy("title"),
-        where("category", "==", categoryType),
-        startAt(searchTerm)
+        startAt(searchTerm),
+        where("category", "==", categoryType)
       );
     } else {
       q = query(

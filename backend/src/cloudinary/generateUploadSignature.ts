@@ -13,6 +13,7 @@ export default function generateUploadSignature(): {
   }
 
   const timestamp = Math.round(Date.now() / 1000);
+  // not used
   const eager = [
     {
       width: 1000,

@@ -93,7 +93,7 @@ export default function Login() {
       const { success, error } = await logIn({ email, password });
       if (!success || error && error.code === "auth/invalid-credentials") {
         setFormError({ title: "Error", desc: "The password is incorrect", active: true });
-        return
+        throw error;
       }
 
       router.replace("/(screens)/homeScreen");

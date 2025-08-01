@@ -79,7 +79,7 @@ const SearchPage = () => {
           />
         )}
       </View>
-      <Line />
+      {/* <Line /> */}
       <View
         style={{
           flexDirection: "row",
