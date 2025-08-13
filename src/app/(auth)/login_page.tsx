@@ -90,13 +90,19 @@ export default function Login() {
 
     try {
       setLoading(true);
-      await logIn({ email, password });
+      const { success, error } = await logIn({ email, password });
+      if (!success || error && error.code === "auth/invalid-credentials") {
+        setFormError({ title: "Error", desc: "The password is incorrect", active: true });
+        throw error;
+      }
+
       router.replace("/(screens)/homeScreen");
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       console.error(error);
-      Alert.alert("Login Error", "An error occured");
+      setFormError({ title: "Error", desc: String(error), active: true });
+    } finally {
+      setLoading(false);
     }
   };
 

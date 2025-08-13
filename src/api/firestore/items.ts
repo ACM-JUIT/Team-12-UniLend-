@@ -65,7 +65,7 @@ export const fetchItem = async (itemId: string): Promise<Item | null> => {
   try {
     const firestore = getFirestore();
 
-    const itemSnap = await getDoc(doc(firestore, "Orders", itemId));
+    const itemSnap = await getDoc(doc(firestore, "Items", itemId));
     if (itemSnap.exists()) {
       return {
         id: itemSnap.id,
@@ -192,8 +192,8 @@ export async function fetchItemByQuery(
       q = query(
         collection(firestore, "Items"),
         orderBy("title"),
-        where("category", "==", categoryType),
-        startAt(searchTerm)
+        startAt(searchTerm),
+        where("category", "==", categoryType)
       );
     } else {
       q = query(
